@@ -1,10 +1,12 @@
-package nohe.nohe_android;
+package nohe.nohe_android.activity.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-public class login extends AppCompatActivity {
+import nohe.nohe_android.R;
 
+
+public class StartShipmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
