@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameTb;
     private EditText passwordTb;
     private LoginService loginService;
-    private ProgressDialogService progresDialog;
+    private ProgressDialogService progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +43,11 @@ public class LoginActivity extends AppCompatActivity {
         passwordTb = (EditText) findViewById(R.id.passwordTb);
         loginBtn = (Button) findViewById(R.id.loginBtn);
         loginService = new LoginService(getApplicationContext());
-        progresDialog = new ProgressDialogService(this);
+        progressDialog = new ProgressDialogService(this);
 
         checkIsUserLogged();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View view) {
                 String username = usernameTb.getText().toString().trim();
                 String password = passwordTb.getText().toString().trim();
@@ -86,19 +85,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(final String username, final String password) {
-        progresDialog.showDialog(getString(R.string.loading));
+        progressDialog.showDialog(getString(R.string.loading));
 
         RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.LOGIN, new VolleyStringResponseListener() {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
                         message.toString(), Toast.LENGTH_LONG).show();
-                progresDialog.hideDialog();
+                progressDialog.hideDialog();
             }
 
             @Override
             public void onResponse(String response) {
-                progresDialog.hideDialog();
+                progressDialog.hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);

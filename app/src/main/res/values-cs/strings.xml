@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Nohe</string>
     <string name="login_btn">Přihlásit se</string>
+    <string name="logout_btn">Odhlásit se</string>
     <string name="username_tb">Přihlašovací jméno</string>
     <string name="password_tb">Heslo</string>
     <string name="loading">Načítání</string>

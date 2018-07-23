@@ -27,7 +27,6 @@ public class RequestService {
                         listener.onResponse(response);
                     }
                 }, new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         listener.onError(error);
