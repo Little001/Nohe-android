@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/test_icon"
+            android:title="yyyyyxx" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/test_icon"
+            android:title="ccccc" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/test_icon"
+            android:title="aaaa" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/test_icon"
+            android:title="@string/logout_btn" />
+    </group>
+</menu>
