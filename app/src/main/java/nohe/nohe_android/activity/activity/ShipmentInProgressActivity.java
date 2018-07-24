@@ -34,6 +34,7 @@ import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
 import nohe.nohe_android.activity.models.ShipmentModel;
 import nohe.nohe_android.activity.models.UserModel;
+import nohe.nohe_android.activity.services.LocationService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.PagerService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
@@ -41,15 +42,14 @@ import nohe.nohe_android.activity.services.RequestService;
 import nohe.nohe_android.activity.services.ShipmentService;
 
 
-public class StartShipmentActivity extends AppCompatActivity {
+public class ShipmentInProgressActivity extends AppCompatActivity {
     private Button logoutBtn;
-    private Button startShipmentBtn;
+    private Button finishShipmentBtn;
     private Button takePhotoBtn;
     private Button btnRemovePhoto;
     private ProgressDialogService progressDialog;
     private LoginService loginService;
     private DrawerLayout mDrawerLayout;
-    private EditText id_shipment_tb;
     private EditText code_tb;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ArrayList<Bitmap> photoCollection;
@@ -58,12 +58,11 @@ public class StartShipmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_shipment);
+        setContentView(R.layout.activity_shipment_in_progress);
 
-        startShipmentBtn = (Button) findViewById(R.id.start_shipment_btn);
+        finishShipmentBtn = (Button) findViewById(R.id.finish_shipment_btn);
         takePhotoBtn = (Button) findViewById(R.id.take_photo_btn);
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
-        id_shipment_tb = (EditText) findViewById(R.id.id_shipment_tb);
         code_tb = (EditText) findViewById(R.id.code_tb);
 
 
@@ -72,12 +71,11 @@ public class StartShipmentActivity extends AppCompatActivity {
 
         photoCollection = new ArrayList<Bitmap>();
 
-        startShipmentBtn.setOnClickListener(new View.OnClickListener() {
+        finishShipmentBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String id = id_shipment_tb.getText().toString().trim();
                 String code = code_tb.getText().toString().trim();
 
-                startShipment(id, code, getPhotosInBase64());
+                finishShipment(code, getPhotosInBase64());
             }
         });
 
@@ -111,6 +109,11 @@ public class StartShipmentActivity extends AppCompatActivity {
                     }
                 });
         pagerService = new PagerService(getApplicationContext(), photoCollection);
+        startGpsService();
+    }
+
+    private void startGpsService() {
+        startService(new Intent(getApplicationContext(), LocationService.class).putExtra("id_shipment", AppConfig.ShipmentData.shipment.ID.toString()));
     }
 
     @Override
@@ -129,7 +132,7 @@ public class StartShipmentActivity extends AppCompatActivity {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             photoCollection.get(i).compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream .toByteArray();
-            photos[i] = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+            photos[i] = Base64.encodeToString(byteArray, Base64.DEFAULT);
         }
 
         return photos;
@@ -163,12 +166,18 @@ public class StartShipmentActivity extends AppCompatActivity {
     }
 
     private void openLoginActivity(){
-        Intent intent = new Intent(StartShipmentActivity.this, LoginActivity.class);
+        Intent intent = new Intent(ShipmentInProgressActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void startShipment(final String id_shipment, final String code, final String[] photos) {
+    private void openStartShipmentActivity(){
+        Intent intent = new Intent(ShipmentInProgressActivity.this, StartShipmentActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void finishShipment(final String code, final String[] photos) {
         progressDialog.showDialog(getString(R.string.loading));
 
         RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.SHIPMENT_CODE, new VolleyStringResponseListener() {
@@ -182,10 +191,10 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 progressDialog.hideDialog();
-
                 Toast.makeText(getApplicationContext(),
                         "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
-                startShipment();
+                stopService(new Intent(getApplicationContext(), LocationService.class));
+                openStartShipmentActivity();
             }
 
             @Override
@@ -198,7 +207,7 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("id_shipment", id_shipment);
+                params.put("id_shipment", AppConfig.ShipmentData.shipment.ID.toString());
                 params.put("code", code);
                 params.put("photos",  Arrays.deepToString(photos));
 
@@ -239,29 +248,5 @@ public class StartShipmentActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void openInProgressShipmentActivity() {
-        Intent intent = new Intent(StartShipmentActivity.this, ShipmentInProgressActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void startShipment() {
-        progressDialog.showDialog(getString(R.string.loading));
-
-        ShipmentService.getCurrentService(new GetCurrentShipment() {
-            @Override
-            public void onResponse() {
-                progressDialog.hideDialog();
-                openInProgressShipmentActivity();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
-                return header;
-            }
-        });
-    }
 }
+

@@ -1,6 +1,11 @@
 package nohe.nohe_android.activity.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +26,14 @@ import java.util.regex.Pattern;
 
 import nohe.nohe_android.R;
 import nohe.nohe_android.activity.app.AppConfig;
+import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
 import nohe.nohe_android.activity.models.UserModel;
+import nohe.nohe_android.activity.services.LocationService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
 import nohe.nohe_android.activity.services.RequestService;
+import nohe.nohe_android.activity.services.ShipmentService;
 
 public class LoginActivity extends AppCompatActivity {
     private Button loginBtn;
@@ -45,8 +53,6 @@ public class LoginActivity extends AppCompatActivity {
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
 
-        checkIsUserLogged();
-
         loginBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String username = usernameTb.getText().toString().trim();
@@ -62,22 +68,19 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+
+        runtimePermissions();
+        checkIsUserLogged();
     }
 
     private void checkIsUserLogged() {
         try {
             if (loginService.isLoggedIn()) {
-                openActivity();
-                this.finish();
+                checkShipment();
             }
         } catch (Exception ex) {
             loginService.logout();
         }
-    }
-
-    private void openActivity(){
-        Intent intent = new Intent(LoginActivity.this, StartShipmentActivity.class);
-        startActivity(intent);
     }
 
     private boolean checkPassword(String password) {
@@ -112,8 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                         loginService.login(token, AppConfig.UserData.user);
 
                         // Launch main activity
-                        openActivity();
-                        finish();
+                        checkShipment();
                     } else {
                         // Error in login. Get the error message
                         String errorMsg = jObj.getString("Auth error");
@@ -141,5 +143,59 @@ public class LoginActivity extends AppCompatActivity {
                 return params;
             }
         });
+    }
+
+    private void checkShipment() {
+        progressDialog.showDialog(getString(R.string.loading));
+
+        ShipmentService.getCurrentService(new GetCurrentShipment() {
+            @Override
+            public void onResponse() {
+                progressDialog.hideDialog();
+                openShipmentActivity();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<String, String>();
+                header.put("Token", loginService.getToken());
+                return header;
+            }
+        });
+    }
+
+    private void openShipmentActivity() {
+        Intent intent;
+
+        if (AppConfig.ShipmentData.shipment == null) {
+            intent = new Intent(LoginActivity.this, StartShipmentActivity.class);
+        } else {
+            intent = new Intent(LoginActivity.this, ShipmentInProgressActivity.class);
+        }
+
+        startActivity(intent);
+        finish();
+    }
+
+    private boolean runtimePermissions() {
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission_group.LOCATION) == PackageManager.PERMISSION_DENIED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA}, 100);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                Toast.makeText(this, "You must allow location permissions", Toast.LENGTH_LONG).show();
+                runtimePermissions();
+            }
+        }
     }
 }

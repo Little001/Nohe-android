@@ -9,6 +9,7 @@
     <string name="id_shipment">Shipment ID</string>
     <string name="code_tb">Code</string>
     <string name="start_shipment_btn">Start shipment</string>
+    <string name="finish_shipment_btn">Finish shipment</string>
     <string name="take_photo_btn">Take photo</string>
     <string name="remove_photo_btn">Remove photo</string>
 </resources>
