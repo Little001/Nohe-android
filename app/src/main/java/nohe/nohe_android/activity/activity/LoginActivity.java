@@ -20,6 +20,8 @@ import java.util.Map;
 import nohe.nohe_android.R;
 import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.controllers.ActivityController;
+import nohe.nohe_android.activity.controllers.ErrorController;
+import nohe.nohe_android.activity.controllers.LocaleController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
 import nohe.nohe_android.activity.models.UserModel;
@@ -30,11 +32,15 @@ import nohe.nohe_android.activity.services.ShipmentService;
 
 public class LoginActivity extends AppCompatActivity {
     private Button loginBtn;
+    private Button czBtn;
+    private Button enBtn;
     private EditText usernameTb;
     private EditText passwordTb;
     private LoginService loginService;
     private ProgressDialogService progressDialog;
     private ActivityController activityController;
+    private ErrorController errorController;
+    private LocaleController localeController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +50,15 @@ public class LoginActivity extends AppCompatActivity {
         usernameTb = (EditText) findViewById(R.id.userNameTb);
         passwordTb = (EditText) findViewById(R.id.passwordTb);
         loginBtn = (Button) findViewById(R.id.loginBtn);
+        czBtn = (Button) findViewById(R.id.czLngBtn);
+        enBtn = (Button) findViewById(R.id.enLngBtn);
+
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
 
         activityController = new ActivityController(this);
+        errorController =  new ErrorController(this);
+        localeController =  new LocaleController(this);
 
         runtimePermissions();
         checkIsUserLogged();
@@ -73,6 +84,18 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+
+        czBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                localeController.setCzechLocale();
+            }
+        });
+
+        enBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                localeController.setEnglishLocale();
+            }
+        });
     }
 
     private void checkIsUserLogged() {
@@ -92,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        message.toString(), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 

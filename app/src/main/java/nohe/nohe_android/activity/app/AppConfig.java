@@ -20,4 +20,6 @@ public class AppConfig {
     public static class ShipmentData {
         public static ShipmentModel shipment;
     }
+
+    public static String CURRENT_LANGUAGE = "cz";
 }

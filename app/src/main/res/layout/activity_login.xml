@@ -48,5 +48,21 @@
             android:text="@string/login_btn"
             android:textAlignment="gravity"
             android:gravity="center" />
+
+        <Button
+            android:id="@+id/czLngBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="CZ"
+            android:textAlignment="gravity"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/enLngBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="EN"
+            android:textAlignment="gravity"
+            android:gravity="center" />
     </LinearLayout>
 </ScrollView>

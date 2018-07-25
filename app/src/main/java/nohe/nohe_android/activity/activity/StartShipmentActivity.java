@@ -21,6 +21,7 @@ import java.util.Map;
 import nohe.nohe_android.R;
 import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.controllers.ActivityController;
+import nohe.nohe_android.activity.controllers.ErrorController;
 import nohe.nohe_android.activity.controllers.PhotosController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
@@ -42,6 +43,7 @@ public class StartShipmentActivity extends AppCompatActivity {
     private EditText code_tb;
     private PhotosController photosController;
     private ActivityController activityController;
+    private ErrorController errorController;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ArrayList<Bitmap> photoCollection;
     PagerService pagerService;
@@ -66,6 +68,7 @@ public class StartShipmentActivity extends AppCompatActivity {
 
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn);
         activityController = new ActivityController(this);
+        errorController =  new ErrorController(this);
         setGuiEvents();
     }
 
@@ -119,7 +122,7 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        message.toString(), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 
@@ -207,7 +210,7 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        message.toString(), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 
