@@ -1,35 +1,28 @@
 package nohe.nohe_android.activity.activity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
-
 import nohe.nohe_android.R;
 import nohe.nohe_android.activity.app.AppConfig;
+import nohe.nohe_android.activity.controllers.ActivityController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
 import nohe.nohe_android.activity.models.UserModel;
-import nohe.nohe_android.activity.services.LocationService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
 import nohe.nohe_android.activity.services.RequestService;
@@ -41,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordTb;
     private LoginService loginService;
     private ProgressDialogService progressDialog;
+    private ActivityController activityController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +47,23 @@ public class LoginActivity extends AppCompatActivity {
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
 
+        activityController = new ActivityController(this);
+
+        runtimePermissions();
+        checkIsUserLogged();
+        setGuiEvents();
+    }
+
+    /**
+     * Set GUI event
+     */
+    private void setGuiEvents() {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String username = usernameTb.getText().toString().trim();
                 String password = passwordTb.getText().toString().trim();
 
-                if (!username.isEmpty() && checkPassword(password)) {
+                if (!username.isEmpty() && !password.isEmpty()) {
                     login(username, password);
                 } else {
                     Toast.makeText(getApplicationContext(),
@@ -68,9 +73,6 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
-
-        runtimePermissions();
-        checkIsUserLogged();
     }
 
     private void checkIsUserLogged() {
@@ -81,10 +83,6 @@ public class LoginActivity extends AppCompatActivity {
         } catch (Exception ex) {
             loginService.logout();
         }
-    }
-
-    private boolean checkPassword(String password) {
-        return password.length() >= 8 && Pattern.compile("[0-9]").matcher(password).find();
     }
 
     private void login(final String username, final String password) {
@@ -152,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse() {
                 progressDialog.hideDialog();
-                openShipmentActivity();
+                activityController.resolveAndOpenShipmentActivity();
             }
 
             @Override
@@ -162,19 +160,6 @@ public class LoginActivity extends AppCompatActivity {
                 return header;
             }
         });
-    }
-
-    private void openShipmentActivity() {
-        Intent intent;
-
-        if (AppConfig.ShipmentData.shipment == null) {
-            intent = new Intent(LoginActivity.this, StartShipmentActivity.class);
-        } else {
-            intent = new Intent(LoginActivity.this, ShipmentInProgressActivity.class);
-        }
-
-        startActivity(intent);
-        finish();
     }
 
     private boolean runtimePermissions() {

@@ -5,52 +5,43 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
 import nohe.nohe_android.R;
 import nohe.nohe_android.activity.app.AppConfig;
+import nohe.nohe_android.activity.controllers.ActivityController;
+import nohe.nohe_android.activity.controllers.PhotosController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
-import nohe.nohe_android.activity.models.ShipmentModel;
-import nohe.nohe_android.activity.models.UserModel;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.PagerService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
 import nohe.nohe_android.activity.services.RequestService;
 import nohe.nohe_android.activity.services.ShipmentService;
 
-
 public class StartShipmentActivity extends AppCompatActivity {
-    private Button logoutBtn;
     private Button startShipmentBtn;
     private Button takePhotoBtn;
     private Button btnRemovePhoto;
+    private NavigationView navigationView;
     private ProgressDialogService progressDialog;
     private LoginService loginService;
     private DrawerLayout mDrawerLayout;
     private EditText id_shipment_tb;
     private EditText code_tb;
+    private PhotosController photosController;
+    private ActivityController activityController;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ArrayList<Bitmap> photoCollection;
     PagerService pagerService;
@@ -65,19 +56,28 @@ public class StartShipmentActivity extends AppCompatActivity {
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
         id_shipment_tb = (EditText) findViewById(R.id.id_shipment_tb);
         code_tb = (EditText) findViewById(R.id.code_tb);
-
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
 
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
-
         photoCollection = new ArrayList<Bitmap>();
+        pagerService = new PagerService(getApplicationContext(), photoCollection);
 
+        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn);
+        activityController = new ActivityController(this);
+        setGuiEvents();
+    }
+
+    /**
+     * Set GUI event
+     */
+    private void setGuiEvents() {
         startShipmentBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String id = id_shipment_tb.getText().toString().trim();
                 String code = code_tb.getText().toString().trim();
-
-                startShipment(id, code, getPhotosInBase64());
+                startShipment(id, code, photosController.getPhotosInBase64(photoCollection));
             }
         });
 
@@ -93,81 +93,25 @@ public class StartShipmentActivity extends AppCompatActivity {
         btnRemovePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removePhoto();
+                photosController.removePhoto();
             }
         });
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-                        resolveMenuClick(menuItem);
-                        return true;
-                    }
-                });
-        pagerService = new PagerService(getApplicationContext(), photoCollection);
+            new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    menuItem.setChecked(true);
+                    mDrawerLayout.closeDrawers();
+                    resolveMenuClick(menuItem);
+                    return true;
+                }
+            });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            photoCollection.add((Bitmap) extras.get("data"));
-            updateImageSwitcher();
-        }
-    }
-
-    private String[] getPhotosInBase64() {
-        String[] photos = new String[photoCollection.size()];
-
-        for (int i = 0; i < photoCollection.size(); i++) {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            photoCollection.get(i).compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream .toByteArray();
-            photos[i] = Base64.encodeToString(byteArray, Base64.NO_WRAP);
-        }
-
-        return photos;
-    }
-
-    private void removePhoto() {
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.photo_show_pager);
-
-        if(photoCollection.size() > 0) {
-            this.photoCollection.remove(mViewPager.getCurrentItem());
-            updateImageSwitcher();
-        }
-    }
-
-    private void updateImageSwitcher() {
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.photo_show_pager);
-        mViewPager.setAdapter(pagerService);
-    }
-
-    private void resolveMenuClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.nav_camera:
-                Toast.makeText(getApplicationContext(),
-                        "nave_camera", Toast.LENGTH_LONG).show();
-            case R.id.nav_gallery:
-                Toast.makeText(getApplicationContext(),
-                        "nave_galery", Toast.LENGTH_LONG).show();
-            case R.id.nav_logout:
-                logout();
-        }
-    }
-
-    private void openLoginActivity(){
-        Intent intent = new Intent(StartShipmentActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
+    /**
+     * Shipment methods
+     */
     private void startShipment(final String id_shipment, final String code, final String[] photos) {
         progressDialog.showDialog(getString(R.string.loading));
 
@@ -185,7 +129,7 @@ public class StartShipmentActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(),
                         "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
-                startShipment();
+                getCurrentShipment();
             }
 
             @Override
@@ -207,6 +151,55 @@ public class StartShipmentActivity extends AppCompatActivity {
         });
     }
 
+    private void getCurrentShipment() {
+        progressDialog.showDialog(getString(R.string.loading));
+
+        ShipmentService.getCurrentService(new GetCurrentShipment() {
+            @Override
+            public void onResponse() {
+                progressDialog.hideDialog();
+                activityController.openInProgressShipmentActivity();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> header = new HashMap<String, String>();
+                header.put("Token", loginService.getToken());
+                return header;
+            }
+        });
+    }
+
+    /**
+     * Camera methods
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            this.photosController.addPhoto((Bitmap) extras.get("data"));
+        }
+    }
+
+    /**
+     * Menu
+     */
+    private void resolveMenuClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_camera:
+                Toast.makeText(getApplicationContext(),
+                        "nave_camera", Toast.LENGTH_LONG).show();
+            case R.id.nav_gallery:
+                Toast.makeText(getApplicationContext(),
+                        "nave_galery", Toast.LENGTH_LONG).show();
+            case R.id.nav_logout:
+                logout();
+        }
+    }
+
+    /**
+     * Logout
+     */
     private void logout() {
         progressDialog.showDialog(getString(R.string.loading));
 
@@ -222,8 +215,7 @@ public class StartShipmentActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 loginService.logout();
                 progressDialog.hideDialog();
-
-                openLoginActivity();
+                activityController.openLoginActivity();
             }
 
             @Override
@@ -236,31 +228,6 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getParams() {
                 return null;
-            }
-        });
-    }
-
-    private void openInProgressShipmentActivity() {
-        Intent intent = new Intent(StartShipmentActivity.this, ShipmentInProgressActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void startShipment() {
-        progressDialog.showDialog(getString(R.string.loading));
-
-        ShipmentService.getCurrentService(new GetCurrentShipment() {
-            @Override
-            public void onResponse() {
-                progressDialog.hideDialog();
-                openInProgressShipmentActivity();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
-                return header;
             }
         });
     }
