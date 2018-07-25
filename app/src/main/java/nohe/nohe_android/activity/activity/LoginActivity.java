@@ -177,6 +177,13 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onError(VolleyError message) {
+                Toast.makeText(getApplicationContext(),
+                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
+                progressDialog.hideDialog();
+            }
+
+            @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> header = new HashMap<String, String>();
                 header.put("Token", loginService.getToken());

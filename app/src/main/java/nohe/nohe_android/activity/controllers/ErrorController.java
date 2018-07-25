@@ -12,6 +12,9 @@ public class ErrorController {
         this.context = context;
     }
     public String getErrorKeyByCode(String response) {
+        if (response == null) {
+            return getStringFromResourcesByName(alternativeMessage());
+        }
         try {
             JSONObject jObj = new JSONObject(response);
             String code = jObj.getString("errorCode");
@@ -23,6 +26,10 @@ public class ErrorController {
         }
 
         return getStringFromResourcesByName("server_error_fatal");
+    }
+
+    private String alternativeMessage() {
+        return "server_error_fatal";
     }
 
     private String getStringFromResourcesByName(String resourceName){

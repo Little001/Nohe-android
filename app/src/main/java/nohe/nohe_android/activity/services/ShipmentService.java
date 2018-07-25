@@ -49,7 +49,9 @@ public class ShipmentService {
                     }
                 }, new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {}
+                    public void onErrorResponse(VolleyError error) {
+                        listener.onError(error);
+                    }
                 }) {
                         @Override
                         protected Map<String, String> getParams() {
