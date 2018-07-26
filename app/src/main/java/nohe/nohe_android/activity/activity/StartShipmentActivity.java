@@ -85,7 +85,13 @@ public class StartShipmentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String id = id_shipment_tb.getText().toString().trim();
                 String code = code_tb.getText().toString().trim();
-                startShipment(id, code, photosController.getPhotosInBase64(photoCollection));
+                if (!id.isEmpty() && !code.isEmpty()) {
+                    startShipment(id, code, photosController.getPhotosInBase64(photoCollection));
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter code and id!", Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
 

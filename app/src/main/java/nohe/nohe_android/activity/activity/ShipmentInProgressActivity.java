@@ -81,7 +81,13 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String code = code_tb.getText().toString().trim();
 
-                finishShipment(code, photosController.getPhotosInBase64(photoCollection));
+                if (!code.isEmpty()) {
+                    finishShipment(code, photosController.getPhotosInBase64(photoCollection));
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter code!", Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
 
