@@ -198,7 +198,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
 
     private void logout() {
         progressDialog.showDialog(getString(R.string.loading));
-
+        stopGpsService();
         RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.LOGOUT, new VolleyStringResponseListener() {
             @Override
             public void onError(VolleyError message) {
@@ -209,7 +209,6 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(String response) {
-                stopGpsService();
                 loginService.logout();
                 progressDialog.hideDialog();
                 activityController.openLoginActivity();
