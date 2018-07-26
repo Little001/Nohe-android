@@ -4,17 +4,13 @@
     android:layout_height="match_parent">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_name"
             android:icon="@drawable/test_icon"
-            android:title="yyyyyxx" />
+            android:title="Name" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_surname"
             android:icon="@drawable/test_icon"
-            android:title="ccccc" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/test_icon"
-            android:title="aaaa" />
+            android:title="Surname" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/test_icon"

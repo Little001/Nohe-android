@@ -22,6 +22,7 @@ import nohe.nohe_android.R;
 import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.controllers.ActivityController;
 import nohe.nohe_android.activity.controllers.ErrorController;
+import nohe.nohe_android.activity.controllers.MenuController;
 import nohe.nohe_android.activity.controllers.PhotosController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
@@ -44,6 +45,7 @@ public class StartShipmentActivity extends AppCompatActivity {
     private PhotosController photosController;
     private ActivityController activityController;
     private ErrorController errorController;
+    private MenuController menuController;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ArrayList<Bitmap> photoCollection;
     PagerService pagerService;
@@ -69,6 +71,9 @@ public class StartShipmentActivity extends AppCompatActivity {
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn);
         activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
+        menuController = new MenuController(navigationView, loginService);
+
+        menuController.setMenuTexts();
         setGuiEvents();
     }
 
@@ -196,12 +201,6 @@ public class StartShipmentActivity extends AppCompatActivity {
      */
     private void resolveMenuClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.nav_camera:
-                Toast.makeText(getApplicationContext(),
-                        "nave_camera", Toast.LENGTH_LONG).show();
-            case R.id.nav_gallery:
-                Toast.makeText(getApplicationContext(),
-                        "nave_galery", Toast.LENGTH_LONG).show();
             case R.id.nav_logout:
                 logout();
         }
