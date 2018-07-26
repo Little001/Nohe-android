@@ -1,30 +1,19 @@
 package nohe.nohe_android.activity.services;
 
-import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
-import org.apache.http.entity.mime.MultipartEntity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.app.AppController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
-import nohe.nohe_android.activity.interfaces.VolleyFormResponseListener;
-import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
 import nohe.nohe_android.activity.models.ShipmentModel;
 
 public class ShipmentService {

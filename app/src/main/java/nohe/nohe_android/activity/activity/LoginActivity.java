@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 
@@ -179,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 

@@ -58,15 +58,15 @@ public class StartShipmentActivity extends AppCompatActivity {
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
         id_shipment_tb = (EditText) findViewById(R.id.id_shipment_tb);
         code_tb = (EditText) findViewById(R.id.code_tb);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         photoCollection = new ArrayList<Bitmap>();
         pagerService = new PagerService(getApplicationContext(), photoCollection);
 
-        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn);
+        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn);
         activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
         setGuiEvents();
@@ -122,7 +122,7 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 
@@ -167,7 +167,7 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 
@@ -217,7 +217,7 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 

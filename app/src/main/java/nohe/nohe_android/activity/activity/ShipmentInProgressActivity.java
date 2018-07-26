@@ -55,14 +55,14 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         takePhotoBtn = (Button) findViewById(R.id.take_photo_btn);
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
         code_tb = (EditText) findViewById(R.id.code_tb);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         photoCollection = new ArrayList<Bitmap>();
         pagerService = new PagerService(getApplicationContext(), photoCollection);
-        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn);
+        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, finishShipmentBtn);
         activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
         setGuiEvents();
@@ -113,9 +113,13 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
      * GPS Service
      */
     private void startGpsService() {
-        startService(new Intent(getApplicationContext(), LocationService.class).putExtra("id_shipment", AppConfig.ShipmentData.shipment.ID.toString()));
+        if(!AppConfig.GPS_SERVICE_RUNNING) {
+            AppConfig.GPS_SERVICE_RUNNING = true;
+            startService(new Intent(getApplicationContext(), LocationService.class).putExtra("id_shipment", AppConfig.ShipmentData.shipment.ID.toString()));
+        }
     }
     private void stopGpsService() {
+        AppConfig.GPS_SERVICE_RUNNING = false;
         stopService(new Intent(getApplicationContext(), LocationService.class));
     }
 
@@ -140,7 +144,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 
@@ -195,7 +199,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message.getMessage()), Toast.LENGTH_LONG).show();
+                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
             }
 

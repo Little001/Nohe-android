@@ -14,19 +14,23 @@ public class PhotosController {
     private AppCompatActivity context;
     private PagerService pagerService;
     private Button button;
+    private Button dependButton;
     private ArrayList<Bitmap> photoCollection;
 
-    public PhotosController(AppCompatActivity context, PagerService pagerService, ArrayList<Bitmap> photoCollection, Button button) {
+    public PhotosController(AppCompatActivity context, PagerService pagerService, ArrayList<Bitmap> photoCollection, Button button, Button dependButton) {
         this.context = context;
         this.pagerService = pagerService;
         this.button = button;
+        this.dependButton = dependButton;
         this.photoCollection = photoCollection;
+        setDependButtonVisibility();
     }
 
     public void addPhoto(Bitmap photo) {
         photoCollection.add(photo);
         this.updateImageSwitcher();
-        this.setCameraButtonVisibility();
+        setCameraButtonVisibility();
+        setDependButtonVisibility();
     }
 
     public void removePhoto() {
@@ -37,6 +41,7 @@ public class PhotosController {
             updateImageSwitcher();
         }
         setCameraButtonVisibility();
+        setDependButtonVisibility();
     }
 
     public String[] getPhotosInBase64(ArrayList<Bitmap> photoCollection) {
@@ -62,6 +67,14 @@ public class PhotosController {
             this.button.setEnabled(false);
         } else {
             this.button.setEnabled(true);
+        }
+    }
+
+    private void setDependButtonVisibility() {
+        if (this.photoCollection.size() >= 1 && this.photoCollection.size() <= 3) {
+            this.dependButton.setEnabled(true);
+        } else {
+            this.dependButton.setEnabled(false);
         }
     }
 }
