@@ -26,6 +26,8 @@ import nohe.nohe_android.activity.controllers.MenuController;
 import nohe.nohe_android.activity.controllers.PhotosController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
+import nohe.nohe_android.activity.models.ShipmentModel;
+import nohe.nohe_android.activity.services.CurrentShipmentService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.PagerService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
@@ -39,6 +41,7 @@ public class StartShipmentActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ProgressDialogService progressDialog;
     private LoginService loginService;
+    private CurrentShipmentService currentShipmentService;
     private DrawerLayout mDrawerLayout;
     private EditText id_shipment_tb;
     private EditText code_tb;
@@ -62,14 +65,14 @@ public class StartShipmentActivity extends AppCompatActivity {
         code_tb = (EditText) findViewById(R.id.code_tb);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-
+        currentShipmentService = new CurrentShipmentService(getApplicationContext());
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         photoCollection = new ArrayList<Bitmap>();
         pagerService = new PagerService(getApplicationContext(), photoCollection);
 
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn);
-        activityController = new ActivityController(this);
+        activityController = new ActivityController(this, currentShipmentService);
         errorController =  new ErrorController(this);
         menuController = new MenuController(navigationView, loginService);
 
@@ -170,7 +173,11 @@ public class StartShipmentActivity extends AppCompatActivity {
 
         ShipmentService.getCurrentService(new GetCurrentShipment() {
             @Override
-            public void onResponse() {
+            public void onResponse(ShipmentModel shipment) {
+                currentShipmentService.unSetShipment();
+                if (shipment != null) {
+                    currentShipmentService.setShipment(shipment);
+                }
                 progressDialog.hideDialog();
                 activityController.openInProgressShipmentActivity();
             }

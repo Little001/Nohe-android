@@ -1,6 +1,5 @@
 package nohe.nohe_android.activity.app;
 
-import nohe.nohe_android.activity.models.ShipmentModel;
 import nohe.nohe_android.activity.models.UserModel;
 
 public class AppConfig {
@@ -15,10 +14,6 @@ public class AppConfig {
     }
     public static class UserData {
         public static UserModel user;
-    }
-
-    public static class ShipmentData {
-        public static ShipmentModel shipment;
     }
 
     public static String CURRENT_LANGUAGE = "cz";

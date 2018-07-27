@@ -24,7 +24,9 @@ import nohe.nohe_android.activity.controllers.ErrorController;
 import nohe.nohe_android.activity.controllers.LocaleController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
+import nohe.nohe_android.activity.models.ShipmentModel;
 import nohe.nohe_android.activity.models.UserModel;
+import nohe.nohe_android.activity.services.CurrentShipmentService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
 import nohe.nohe_android.activity.services.RequestService;
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordTb;
     private LoginService loginService;
     private ProgressDialogService progressDialog;
+    private CurrentShipmentService currentShipmentService;
     private ActivityController activityController;
     private ErrorController errorController;
     private LocaleController localeController;
@@ -55,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
 
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
-
-        activityController = new ActivityController(this);
+        currentShipmentService = new CurrentShipmentService(getApplicationContext());
+        activityController = new ActivityController(this, currentShipmentService);
         errorController =  new ErrorController(this);
         localeController =  new LocaleController(this);
 
@@ -171,7 +174,11 @@ public class LoginActivity extends AppCompatActivity {
 
         ShipmentService.getCurrentService(new GetCurrentShipment() {
             @Override
-            public void onResponse() {
+            public void onResponse(ShipmentModel shipment) {
+                currentShipmentService.unSetShipment();
+                if (shipment != null) {
+                    currentShipmentService.setShipment(shipment);
+                }
                 progressDialog.hideDialog();
                 activityController.resolveAndOpenShipmentActivity();
             }

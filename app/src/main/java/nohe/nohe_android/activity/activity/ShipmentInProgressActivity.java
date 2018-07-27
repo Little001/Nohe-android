@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -25,6 +26,7 @@ import nohe.nohe_android.activity.controllers.ErrorController;
 import nohe.nohe_android.activity.controllers.MenuController;
 import nohe.nohe_android.activity.controllers.PhotosController;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
+import nohe.nohe_android.activity.services.CurrentShipmentService;
 import nohe.nohe_android.activity.services.LocationService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.PagerService;
@@ -37,9 +39,15 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
     private Button btnRemovePhoto;
     private ProgressDialogService progressDialog;
     private LoginService loginService;
+    private CurrentShipmentService currentShipmentService;
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private EditText code_tb;
+    private TextView shipment_from_vw;
+    private TextView shipment_to_vw;
+    private TextView shipment_unload_note_vw;
+    private TextView shipment_load_note_vw;
+    private TextView shipment_price_vw;
     private PhotosController photosController;
     private ActivityController activityController;
     private ErrorController errorController;
@@ -53,6 +61,13 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipment_in_progress);
 
+        /*Text view about shipment*/
+        shipment_from_vw = (TextView) findViewById(R.id.shipment_from_vw);
+        shipment_to_vw = (TextView) findViewById(R.id.shipment_to_vw);
+        shipment_unload_note_vw = (TextView) findViewById(R.id.shipment_unload_note_vw);
+        shipment_load_note_vw = (TextView) findViewById(R.id.shipment_load_note_vw);
+        shipment_price_vw = (TextView) findViewById(R.id.shipment_price_vw);
+
         finishShipmentBtn = (Button) findViewById(R.id.finish_shipment_btn);
         takePhotoBtn = (Button) findViewById(R.id.take_photo_btn);
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
@@ -60,11 +75,12 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         loginService = new LoginService(getApplicationContext());
+        currentShipmentService = new CurrentShipmentService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         photoCollection = new ArrayList<Bitmap>();
         pagerService = new PagerService(getApplicationContext(), photoCollection);
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, finishShipmentBtn);
-        activityController = new ActivityController(this);
+        activityController = new ActivityController(this, currentShipmentService);
         errorController =  new ErrorController(this);
         menuController = new MenuController(navigationView, loginService);
 
@@ -117,6 +133,13 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        /*Text about shipment*/
+        shipment_from_vw.setText(currentShipmentService.getFrom());
+        shipment_to_vw.setText(currentShipmentService.getTo());
+        shipment_unload_note_vw.setText(currentShipmentService.getUnloadNote());
+        shipment_load_note_vw.setText(currentShipmentService.getLoadNote());
+        shipment_price_vw.setText(currentShipmentService.getPrice().toString());
     }
 
     /**
@@ -125,7 +148,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
     private void startGpsService() {
         if(!AppConfig.GPS_SERVICE_RUNNING) {
             AppConfig.GPS_SERVICE_RUNNING = true;
-            startService(new Intent(getApplicationContext(), LocationService.class).putExtra("id_shipment", AppConfig.ShipmentData.shipment.ID.toString()));
+            startService(new Intent(getApplicationContext(), LocationService.class).putExtra("id_shipment", currentShipmentService.getId().toString()));
         }
     }
     private void stopGpsService() {
@@ -161,6 +184,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 progressDialog.hideDialog();
+                currentShipmentService.unSetShipment();
                 Toast.makeText(getApplicationContext(),
                         "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
                 stopGpsService();
@@ -177,7 +201,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("id_shipment", AppConfig.ShipmentData.shipment.ID.toString());
+                params.put("id_shipment", currentShipmentService.getId().toString());
                 params.put("code", code);
                 params.put("photos",  Arrays.deepToString(photos));
 

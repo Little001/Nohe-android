@@ -28,6 +28,32 @@
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp">
 
+                <TextView
+                    android:id="@+id/shipment_from_vw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/shipment_to_vw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/shipment_unload_note_vw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/shipment_load_note_vw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/shipment_price_vw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+
                 <EditText
                     android:id="@+id/code_tb"
                     android:layout_width="match_parent"
