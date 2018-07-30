@@ -79,7 +79,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         progressDialog = new ProgressDialogService(this);
         photoCollection = new ArrayList<Bitmap>();
         pagerService = new PagerService(getApplicationContext(), photoCollection);
-        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, finishShipmentBtn);
+        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, finishShipmentBtn, btnRemovePhoto);
         activityController = new ActivityController(this, currentShipmentService);
         errorController =  new ErrorController(this);
         menuController = new MenuController(navigationView, loginService);
