@@ -88,6 +88,15 @@ public class LoginActivity extends AppCompatActivity {
 
         });
 
+        if (config.locale.equals("cs")) {
+            czBtn.setVisibility(View.INVISIBLE);
+            enBtn.setVisibility(View.VISIBLE);
+        } else {
+            enBtn.setVisibility(View.INVISIBLE);
+            czBtn.setVisibility(View.VISIBLE);
+        }
+        // todo: init lang state
+
         czBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 localeController.setCzechLocale();
