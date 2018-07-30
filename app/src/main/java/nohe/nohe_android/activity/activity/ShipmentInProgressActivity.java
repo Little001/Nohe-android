@@ -146,13 +146,9 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
      * GPS Service
      */
     private void startGpsService() {
-        if(!AppConfig.GPS_SERVICE_RUNNING) {
-            AppConfig.GPS_SERVICE_RUNNING = true;
-            startService(new Intent(getApplicationContext(), LocationService.class).putExtra("id_shipment", currentShipmentService.getId().toString()));
-        }
+        startService(new Intent(getApplicationContext(), LocationService.class).putExtra("id_shipment", currentShipmentService.getId().toString()));
     }
     private void stopGpsService() {
-        AppConfig.GPS_SERVICE_RUNNING = false;
         stopService(new Intent(getApplicationContext(), LocationService.class));
     }
 

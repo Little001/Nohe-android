@@ -21,7 +21,7 @@ import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
 public class LocationService extends Service {
     private static final String TAG = "GPS tracker";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 1000;
+    private static final int LOCATION_INTERVAL = 3000;
     private static final float LOCATION_DISTANCE = 0;
     LoginService loginService;
     String idShipment;
@@ -44,6 +44,8 @@ public class LocationService extends Service {
         @Override
         public void onProviderDisabled(String provider) {
             Log.e(TAG, "onProviderDisabled: " + provider);
+            Toast.makeText(getApplicationContext(),
+                    "on gps provider disabled", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
@@ -52,29 +54,29 @@ public class LocationService extends Service {
         @Override
         public void onProviderEnabled(String provider) {
             Log.e(TAG, "onProviderEnabled: " + provider);
+            Toast.makeText(getApplicationContext(),
+                    "on gps provider enabled", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
             Log.e(TAG, "onStatusChanged: " + provider);
+            Toast.makeText(getApplicationContext(),
+                    "on fps status changed", Toast.LENGTH_SHORT).show();
         }
 
         private void sendLocationData(final Location location) {
-            Toast.makeText(getApplicationContext(),
-                    "GPS->" + location.getLatitude()
-                            + ","
-                            + location.getLongitude(), Toast.LENGTH_LONG).show();
             RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.SHIPMENT_ROUTE, new VolleyStringResponseListener() {
                 @Override
                 public void onError(VolleyError message) {
                     Toast.makeText(getApplicationContext(),
-                            message.getMessage(), Toast.LENGTH_LONG).show();
+                            message.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onResponse(String response) {
                     Toast.makeText(getApplicationContext(),
-                            "location data sent to server", Toast.LENGTH_LONG).show();
+                            "location data sent to server", Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "location data sent to server");
                 }
 
@@ -127,8 +129,10 @@ public class LocationService extends Service {
                     mLocationListeners[1]);
         } catch (java.lang.SecurityException ex) {
             Log.i(TAG, "fail to request location update, ignore", ex);
+            Toast.makeText(getApplication(), "fail to request location update, ignore", Toast.LENGTH_SHORT).show();
         } catch (IllegalArgumentException ex) {
             Log.d(TAG, "network provider does not exist, " + ex.getMessage());
+            Toast.makeText(getApplication(), "network provider does not exist", Toast.LENGTH_SHORT).show();
         }
         try {
             mLocationManager.requestLocationUpdates(
@@ -136,7 +140,9 @@ public class LocationService extends Service {
                     mLocationListeners[0]);
         } catch (java.lang.SecurityException ex) {
             Log.i(TAG, "fail to request location update, ignore", ex);
+            Toast.makeText(getApplication(), "fail to request location update, ignore", Toast.LENGTH_SHORT).show();
         } catch (IllegalArgumentException ex) {
+            Toast.makeText(getApplication(), "gps provider does not exist", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "gps provider does not exist " + ex.getMessage());
         }
     }
