@@ -10,8 +10,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="12dp">
+        android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -19,7 +18,8 @@
             android:fitsSystemWindows="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:paddingBottom="50dp">
+            android:paddingBottom="50dp"
+            android:paddingTop="12dp">
             <requestFocus />
 
             <LinearLayout
