@@ -16,6 +16,5 @@ public class AppConfig {
         public static UserModel user;
     }
 
-    public static String CURRENT_LANGUAGE = "cz";
-    public static Boolean GPS_SERVICE_RUNNING = false;
+    public static String CURRENT_LANGUAGE = "cs";
 }

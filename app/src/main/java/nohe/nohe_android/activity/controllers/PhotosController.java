@@ -1,6 +1,7 @@
 package nohe.nohe_android.activity.controllers;
 
 import android.graphics.Bitmap;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -67,8 +68,11 @@ public class PhotosController {
         ViewPager mViewPager = (ViewPager) this.context.findViewById(R.id.photo_show_pager);
         mViewPager.setAdapter(pagerService);
 
-        // todo: make it work
-//        mViewPager.setBackground(this.photoCollection.size() < 1 ? R.drawable.images : null);
+        if (this.photoCollection.size() < 1 ) {
+            mViewPager.setBackground(ContextCompat.getDrawable(context, R.drawable.images));
+        } else {
+            mViewPager.setBackgroundResource(0);
+        }
     }
 
     private void setCameraButtonVisibility() {
