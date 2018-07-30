@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Button;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -15,15 +16,18 @@ public class PhotosController {
     private PagerService pagerService;
     private Button button;
     private Button dependButton;
+    private Button btnRemovePhoto;
     private ArrayList<Bitmap> photoCollection;
 
-    public PhotosController(AppCompatActivity context, PagerService pagerService, ArrayList<Bitmap> photoCollection, Button button, Button dependButton) {
+    public PhotosController(AppCompatActivity context, PagerService pagerService, ArrayList<Bitmap> photoCollection, Button button, Button dependButton, Button btnRemovePhoto) {
         this.context = context;
         this.pagerService = pagerService;
         this.button = button;
         this.dependButton = dependButton;
+        this.btnRemovePhoto = btnRemovePhoto;
         this.photoCollection = photoCollection;
         setDependButtonVisibility();
+        setRemovePhotoButtonVisibility();
     }
 
     public void addPhoto(Bitmap photo) {
@@ -31,6 +35,7 @@ public class PhotosController {
         this.updateImageSwitcher();
         setCameraButtonVisibility();
         setDependButtonVisibility();
+        setRemovePhotoButtonVisibility();
     }
 
     public void removePhoto() {
@@ -42,6 +47,7 @@ public class PhotosController {
         }
         setCameraButtonVisibility();
         setDependButtonVisibility();
+        setRemovePhotoButtonVisibility();
     }
 
     public String[] getPhotosInBase64(ArrayList<Bitmap> photoCollection) {
@@ -60,6 +66,9 @@ public class PhotosController {
     private void updateImageSwitcher() {
         ViewPager mViewPager = (ViewPager) this.context.findViewById(R.id.photo_show_pager);
         mViewPager.setAdapter(pagerService);
+
+        // todo: make it work
+//        mViewPager.setBackground(this.photoCollection.size() < 1 ? R.drawable.images : null);
     }
 
     private void setCameraButtonVisibility() {
@@ -75,6 +84,14 @@ public class PhotosController {
             this.dependButton.setEnabled(true);
         } else {
             this.dependButton.setEnabled(false);
+        }
+    }
+
+    private void setRemovePhotoButtonVisibility() {
+        if (this.photoCollection.size() >= 1) {
+            this.btnRemovePhoto.setVisibility(View.VISIBLE);
+        } else {
+            this.btnRemovePhoto.setVisibility(View.INVISIBLE);
         }
     }
 }

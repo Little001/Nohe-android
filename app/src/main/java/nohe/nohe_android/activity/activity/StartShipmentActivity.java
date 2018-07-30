@@ -71,7 +71,7 @@ public class StartShipmentActivity extends AppCompatActivity {
         photoCollection = new ArrayList<Bitmap>();
         pagerService = new PagerService(getApplicationContext(), photoCollection);
 
-        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn);
+        photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn, btnRemovePhoto);
         activityController = new ActivityController(this, currentShipmentService);
         errorController =  new ErrorController(this);
         menuController = new MenuController(navigationView, loginService);

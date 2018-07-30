@@ -9,9 +9,14 @@
     <string name="id_shipment">Číslo zásilky</string>
     <string name="code_tb">Kód</string>
     <string name="start_shipment_btn">Začít jízdu</string>
+    <string name="start_shipment">Vyzvednutí zásilky</string>
     <string name="finish_shipment_btn">Ukončit jízdu</string>
+    <string name="finish_shipment">Probíhající jízda</string>
     <string name="take_photo_btn">Pořídit fotku</string>
-    <string name="remove_photo_btn">Smazat fotku</string>
+    <string name="note">Poznámka: </string>
+    <string name="price">Cena: </string>
+    <string name="start">Start</string>
+    <string name="finish">Cíl</string>
     <!-- Error codes -->
     <string name="server_error_fatal">Neznámá chyba serveru, kontaktujte administratora</string>
     <string name="server_error_0">Neznámá chyba serveru, kontaktujte administratora</string>
