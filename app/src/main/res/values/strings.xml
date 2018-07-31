@@ -17,6 +17,8 @@
     <string name="price">Cena: </string>
     <string name="start">Start</string>
     <string name="finish">Cíl</string>
+    <string name="help">Nápověda</string>
+    <string name="info">O aplikaci</string>
     <!-- Error codes -->
     <string name="server_error_fatal">Neznámá chyba serveru, kontaktujte administratora</string>
     <string name="server_error_0">Neznámá chyba serveru, kontaktujte administratora</string>

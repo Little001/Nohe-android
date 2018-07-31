@@ -1,7 +1,11 @@
 package nohe.nohe_android.activity.controllers;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.support.design.widget.NavigationView;
-import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
+
 import nohe.nohe_android.R;
 import nohe.nohe_android.activity.services.LoginService;
 
@@ -12,14 +16,17 @@ public class MenuController {
     public MenuController(NavigationView navigationView, LoginService loginService) {
         this.navigationView = navigationView;
         this.loginService = loginService;
+        DialogFragment help = new FireMissilesDialogFragment();
+//        Dialog dialog = help.onCreateDialog(null);
+//        dialog.show();
     }
 
     public void setMenuTexts() {
         if (navigationView != null) {
-            Menu menu = navigationView.getMenu();
-            menu.findItem(R.id.nav_user_name).setTitle(loginService.getUserFirstName() + " " + loginService.getUserSurname());
-            menu.findItem(R.id.nav_name).setTitle(loginService.getUserFirstName());
-            menu.findItem(R.id.nav_surname).setTitle(loginService.getUserSurname());
+            String name = loginService.getUserFirstName() + " " + loginService.getUserSurname();
+            View header = navigationView.getHeaderView(0);
+            TextView header2 = header.findViewById(R.id.nav_user_name);
+            header2.setText(name);
         }
     }
 }

@@ -2,18 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent">
-    <item
-        android:id="@+id/nav_user_name"
-        android:icon="@drawable/user"/>
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_name"
-            android:icon="@drawable/info"
-            android:title="Name" />
+            android:icon="@drawable/question"
+            android:title="@string/help" />
         <item
-            android:id="@+id/nav_surname"
             android:icon="@drawable/info"
-            android:title="Surname" />
+            android:title="@string/info" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/exit"
