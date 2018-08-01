@@ -82,7 +82,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, finishShipmentBtn, btnRemovePhoto);
         activityController = new ActivityController(this, currentShipmentService);
         errorController =  new ErrorController(this);
-        menuController = new MenuController(navigationView, loginService);
+        menuController = new MenuController(this, navigationView, loginService);
 
         menuController.setMenuTexts();
         setGuiEvents();

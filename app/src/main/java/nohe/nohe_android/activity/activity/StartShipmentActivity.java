@@ -74,7 +74,7 @@ public class StartShipmentActivity extends AppCompatActivity {
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn, btnRemovePhoto);
         activityController = new ActivityController(this, currentShipmentService);
         errorController =  new ErrorController(this);
-        menuController = new MenuController(navigationView, loginService);
+        menuController = new MenuController(this, navigationView, loginService);
 
         menuController.setMenuTexts();
         setGuiEvents();
@@ -214,6 +214,8 @@ public class StartShipmentActivity extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case R.id.nav_logout:
                 logout();
+            case R.id.nav_question:
+                this.menuController.showDialog();
         }
     }
 
