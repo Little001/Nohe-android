@@ -1,19 +1,19 @@
 package nohe.nohe_android.activity.controllers;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import nohe.nohe_android.activity.activity.ListShipmentActivity;
 import nohe.nohe_android.activity.activity.LoginActivity;
 import nohe.nohe_android.activity.activity.ShipmentInProgressActivity;
 import nohe.nohe_android.activity.activity.StartShipmentActivity;
-import nohe.nohe_android.activity.services.CurrentShipmentService;
+import nohe.nohe_android.activity.models.ShipmentModel;
 
 public class ActivityController {
     private AppCompatActivity context;
-    private CurrentShipmentService currentShipmentService;
 
-    public ActivityController(AppCompatActivity context, CurrentShipmentService currentShipmentService) {
+    public ActivityController(AppCompatActivity context) {
         this.context = context;
-        this.currentShipmentService = currentShipmentService;
     }
 
     public void openLoginActivity(){
@@ -28,20 +28,23 @@ public class ActivityController {
         this.context.finish();
     }
 
-    public void openInProgressShipmentActivity() {
-        Intent intent = new Intent(this.context, ShipmentInProgressActivity.class);
+    public void openListShipmentActivity(){
+        Intent intent = new Intent(this.context, ListShipmentActivity.class);
         this.context.startActivity(intent);
         this.context.finish();
     }
 
-    public void resolveAndOpenShipmentActivity() {
-        Intent intent;
+    public void openInProgressShipmentActivity(ShipmentModel shipment) {
+        Intent intent = new Intent(this.context, ShipmentInProgressActivity.class);
+        Bundle b = new Bundle();
 
-        if (!this.currentShipmentService.isSet()) {
-            intent = new Intent(this.context, StartShipmentActivity.class);
-        } else {
-            intent = new Intent(this.context, ShipmentInProgressActivity.class);
-        }
+        b.putInt("id", shipment.ID);
+        b.putString("address_from", shipment.address_from);
+        b.putString("address_to", shipment.address_to);
+        b.putString("unload_note", shipment.unload_note);
+        b.putString("load_note", shipment.load_note);
+        b.putString("price", shipment.price.toString());
+        intent.putExtras(b);
 
         this.context.startActivity(intent);
         this.context.finish();

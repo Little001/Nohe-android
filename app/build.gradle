@@ -30,4 +30,5 @@ dependencies {
     implementation 'com.android.volley:volley:1.0.0'
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'org.apache.httpcomponents:httpmime:4.2.3'
+    implementation 'com.google.code.gson:gson:2.7'
 }

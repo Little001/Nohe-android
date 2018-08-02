@@ -31,9 +31,8 @@
     <string name="server_error_14">You cannot start shipment in progress</string>
     <string name="server_error_15">You can finish only shipment in progress</string>
     <string name="server_error_16">Code for this shipment is wrong</string>
-    <string name="server_error_19">This shipment has another driver</string>
-    <string name="server_error_20">This shipment must be in progress</string>
     <string name="server_error_22">No rights, contact administrator</string>
     <string name="server_error_24">Password is incorrect</string>
     <string name="server_error_30">This shipment not found</string>
+    <string name="server_error_31">This driver don´t have any shipments in progress</string>
 </resources>

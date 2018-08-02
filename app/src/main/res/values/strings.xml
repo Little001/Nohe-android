@@ -30,9 +30,8 @@
     <string name="server_error_14">Nemůžete začít odstartovanou jízdu</string>
     <string name="server_error_15">Můžete ukončit jizdu pouze která právě jede</string>
     <string name="server_error_16">Kód pro tuto jízdu nesouhlasí</string>
-    <string name="server_error_19">Tuto jízdu má jiný řidič</string>
-    <string name="server_error_20">Tato jízda musí být ve stavu in progress</string>
     <string name="server_error_22">Nemáte právo, obraťte se na administratora</string>
     <string name="server_error_24">Heslo není správné</string>
     <string name="server_error_30">Tato jízda neexistuje</string>
+    <string name="server_error_31">Tento řidič nemá žádné jízdy</string>
 </resources>

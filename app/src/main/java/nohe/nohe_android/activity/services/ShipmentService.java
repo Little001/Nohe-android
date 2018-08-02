@@ -6,12 +6,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
-
 import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.app.AppController;
 import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
@@ -27,12 +28,23 @@ public class ShipmentService {
                             if (response.equals("null")) {
                                 listener.onResponse(null);
                             } else {
-                                JSONObject jObj = new JSONObject(response);
-                                listener.onResponse(new ShipmentModel(jObj));
+                                JSONArray jsonarray = new JSONArray(response);
+
+                                Gson gson = new Gson();
+                                Type type = new TypeToken<List<ShipmentModel>>(){}.getType();
+
+                                gson.fromJson(jsonarray.toString(), type);
+                                List<ShipmentModel> shipments = gson.fromJson(jsonarray.toString(), type);
+
+                                listener.onResponse(shipments);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            listener.onResponse(null);
+                            try {
+                                listener.onResponse(null);
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
                         }
                     }
                 }, new Response.ErrorListener() {

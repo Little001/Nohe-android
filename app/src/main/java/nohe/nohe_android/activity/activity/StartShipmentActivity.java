@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,15 +25,12 @@ import nohe.nohe_android.activity.controllers.ActivityController;
 import nohe.nohe_android.activity.controllers.ErrorController;
 import nohe.nohe_android.activity.controllers.MenuController;
 import nohe.nohe_android.activity.controllers.PhotosController;
-import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
-import nohe.nohe_android.activity.models.ShipmentModel;
-import nohe.nohe_android.activity.services.CurrentShipmentService;
+import nohe.nohe_android.activity.services.LocationService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.PagerService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
 import nohe.nohe_android.activity.services.RequestService;
-import nohe.nohe_android.activity.services.ShipmentService;
 
 public class StartShipmentActivity extends AppCompatActivity {
     private Button startShipmentBtn;
@@ -41,7 +39,6 @@ public class StartShipmentActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ProgressDialogService progressDialog;
     private LoginService loginService;
-    private CurrentShipmentService currentShipmentService;
     private DrawerLayout mDrawerLayout;
     private EditText id_shipment_tb;
     private EditText code_tb;
@@ -65,14 +62,13 @@ public class StartShipmentActivity extends AppCompatActivity {
         code_tb = (EditText) findViewById(R.id.code_tb);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        currentShipmentService = new CurrentShipmentService(getApplicationContext());
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         photoCollection = new ArrayList<Bitmap>();
         pagerService = new PagerService(getApplicationContext(), photoCollection);
 
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn, btnRemovePhoto);
-        activityController = new ActivityController(this, currentShipmentService);
+        activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
         menuController = new MenuController(this, navigationView, loginService);
 
@@ -123,6 +119,21 @@ public class StartShipmentActivity extends AppCompatActivity {
             });
     }
 
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            activityController.openListShipmentActivity();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * GPS Service
+     */
+    private void stopGpsService() {
+        stopService(new Intent(getApplicationContext(), LocationService.class));
+    }
+
     /**
      * Shipment methods
      */
@@ -143,7 +154,7 @@ public class StartShipmentActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(),
                         "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
-                getCurrentShipment();
+                activityController.openListShipmentActivity();
             }
 
             @Override
@@ -161,36 +172,6 @@ public class StartShipmentActivity extends AppCompatActivity {
                 params.put("photos",  Arrays.deepToString(photos));
 
                 return params;
-            }
-        });
-    }
-
-    private void getCurrentShipment() {
-        progressDialog.showDialog(getString(R.string.loading));
-
-        ShipmentService.getCurrentService(new GetCurrentShipment() {
-            @Override
-            public void onResponse(ShipmentModel shipment) {
-                currentShipmentService.unSetShipment();
-                if (shipment != null) {
-                    currentShipmentService.setShipment(shipment);
-                }
-                progressDialog.hideDialog();
-                activityController.openInProgressShipmentActivity();
-            }
-
-            @Override
-            public void onError(VolleyError message) {
-                Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
-                progressDialog.hideDialog();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
-                return header;
             }
         });
     }
@@ -224,7 +205,7 @@ public class StartShipmentActivity extends AppCompatActivity {
      */
     private void logout() {
         progressDialog.showDialog(getString(R.string.loading));
-
+        stopGpsService();
         RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.LOGOUT, new VolleyStringResponseListener() {
             @Override
             public void onError(VolleyError message) {

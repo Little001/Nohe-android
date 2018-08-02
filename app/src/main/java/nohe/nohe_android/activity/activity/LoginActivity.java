@@ -22,15 +22,11 @@ import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.controllers.ActivityController;
 import nohe.nohe_android.activity.controllers.ErrorController;
 import nohe.nohe_android.activity.controllers.LocaleController;
-import nohe.nohe_android.activity.interfaces.GetCurrentShipment;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
-import nohe.nohe_android.activity.models.ShipmentModel;
 import nohe.nohe_android.activity.models.UserModel;
-import nohe.nohe_android.activity.services.CurrentShipmentService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
 import nohe.nohe_android.activity.services.RequestService;
-import nohe.nohe_android.activity.services.ShipmentService;
 
 public class LoginActivity extends AppCompatActivity {
     private Button loginBtn;
@@ -40,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordTb;
     private LoginService loginService;
     private ProgressDialogService progressDialog;
-    private CurrentShipmentService currentShipmentService;
     private ActivityController activityController;
     private ErrorController errorController;
     private LocaleController localeController;
@@ -58,8 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
-        currentShipmentService = new CurrentShipmentService(getApplicationContext());
-        activityController = new ActivityController(this, currentShipmentService);
+        activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
         localeController =  new LocaleController(this, czBtn, enBtn);
 
@@ -104,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
     private void checkIsUserLogged() {
         try {
             if (loginService.isLoggedIn()) {
-                checkShipment();
+                this.activityController.openListShipmentActivity();
             }
         } catch (Exception ex) {
             loginService.logout();
@@ -137,9 +131,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         // Create login session
                         loginService.login(token, AppConfig.UserData.user);
-
-                        // Launch main activity
-                        checkShipment();
+                        activityController.openListShipmentActivity();
                     } else {
                         // Error in login. Get the error message
                         String errorMsg = jObj.getString("Auth error");
@@ -165,36 +157,6 @@ public class LoginActivity extends AppCompatActivity {
                 params.put("Password", password);
 
                 return params;
-            }
-        });
-    }
-
-    private void checkShipment() {
-        progressDialog.showDialog(getString(R.string.loading));
-
-        ShipmentService.getCurrentService(new GetCurrentShipment() {
-            @Override
-            public void onResponse(ShipmentModel shipment) {
-                currentShipmentService.unSetShipment();
-                if (shipment != null) {
-                    currentShipmentService.setShipment(shipment);
-                }
-                progressDialog.hideDialog();
-                activityController.resolveAndOpenShipmentActivity();
-            }
-
-            @Override
-            public void onError(VolleyError message) {
-                Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
-                progressDialog.hideDialog();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
-                return header;
             }
         });
     }

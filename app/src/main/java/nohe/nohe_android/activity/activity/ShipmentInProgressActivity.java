@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -52,6 +53,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
     private ActivityController activityController;
     private ErrorController errorController;
     private MenuController menuController;
+    private Integer id_shipment;
     static final int REQUEST_TAKE_PHOTO = 2;
     ArrayList<Bitmap> photoCollection;
     PagerService pagerService;
@@ -80,13 +82,12 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         photoCollection = new ArrayList<Bitmap>();
         pagerService = new PagerService(getApplicationContext(), photoCollection);
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, finishShipmentBtn, btnRemovePhoto);
-        activityController = new ActivityController(this, currentShipmentService);
+        activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
         menuController = new MenuController(this, navigationView, loginService);
-
+        id_shipment = getIntent().getExtras().getInt("id");
         menuController.setMenuTexts();
         setGuiEvents();
-        startGpsService();
     }
 
     /**
@@ -131,20 +132,24 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
                     }
                 });
 
-        /*Text about shipment*/
-        shipment_from_vw.setText(currentShipmentService.getFrom());
-        shipment_to_vw.setText(currentShipmentService.getTo());
-        shipment_unload_note_vw.setText(currentShipmentService.getUnloadNote());
-        shipment_load_note_vw.setText(currentShipmentService.getLoadNote());
-        shipment_price_vw.setText(currentShipmentService.getPrice().toString());
+        shipment_from_vw.setText(getIntent().getExtras().getString("address_from"));
+        shipment_to_vw.setText(getIntent().getExtras().getString("address_to"));
+        shipment_unload_note_vw.setText(getIntent().getExtras().getString("unload_note"));
+        shipment_load_note_vw.setText(getIntent().getExtras().getString("load_note"));
+        shipment_price_vw.setText(getIntent().getExtras().getString("price"));
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            activityController.openListShipmentActivity();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
      * GPS Service
      */
-    private void startGpsService() {
-        startService(new Intent(getApplicationContext(), LocationService.class).putExtra("id_shipment", currentShipmentService.getId().toString()));
-    }
     private void stopGpsService() {
         stopService(new Intent(getApplicationContext(), LocationService.class));
     }
@@ -178,11 +183,10 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 progressDialog.hideDialog();
-                currentShipmentService.unSetShipment();
+                currentShipmentService.unSetShipments();
                 Toast.makeText(getApplicationContext(),
                         "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
-                stopGpsService();
-                activityController.openStartShipmentActivity();
+                activityController.openListShipmentActivity();
             }
 
             @Override
@@ -195,7 +199,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("id_shipment", currentShipmentService.getId().toString());
+                params.put("id_shipment", id_shipment.toString());
                 params.put("code", code);
                 params.put("photos",  Arrays.deepToString(photos));
 

@@ -14,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import java.util.HashMap;
 import java.util.Map;
-
 import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
 
@@ -24,7 +23,6 @@ public class LocationService extends Service {
     private static final int LOCATION_INTERVAL = 10000;
     private static final float LOCATION_DISTANCE = 0;
     LoginService loginService;
-    String idShipment;
 
     public class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
@@ -90,7 +88,6 @@ public class LocationService extends Service {
                 @Override
                 public Map<String, String> getParams() {
                     HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("id_shipment", idShipment);
                     params.put("route", location.getLatitude() + "," + location.getLongitude());
                     return params;
                 }
@@ -113,7 +110,6 @@ public class LocationService extends Service {
         Toast.makeText(getApplication(), "Location sending started", Toast.LENGTH_SHORT).show();
         Log.e(TAG, "onStartCommand");
         super.onStartCommand(intent, flags, startId);
-        idShipment = intent.getExtras().getString("id_shipment");
         return START_NOT_STICKY;
     }
 
