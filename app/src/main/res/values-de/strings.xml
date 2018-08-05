@@ -12,6 +12,7 @@
     <string name="start_shipment">Shipment onloading</string>
     <string name="finish_shipment_btn">Finish shipment</string>
     <string name="finish_shipment">Shipment in progress</string>
+    <string name="shipment_lish">Shipments</string>
     <string name="take_photo_btn">Take photo</string>
     <string name="remove_photo_btn">Remove photo</string>
     <string name="note">Note: </string>

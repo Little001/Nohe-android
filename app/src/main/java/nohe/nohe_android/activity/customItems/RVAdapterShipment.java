@@ -19,13 +19,13 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
     public static class ShipmentViewHolder extends RecyclerView.ViewHolder {
         TextView from_tv;
         TextView to_tv;
-        Button detail_btn;
+        View view;
 
         ShipmentViewHolder(View itemView) {
             super(itemView);
             from_tv = (TextView)itemView.findViewById(R.id.shipment_item_from);
             to_tv = (TextView)itemView.findViewById(R.id.shipment_item_to);
-            detail_btn = (Button)itemView.findViewById(R.id.shipment_item_detail_btn);
+            view = itemView;
         }
     }
 
@@ -54,7 +54,7 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
         auctionViewHolder.from_tv.setText(shipments.get(i).address_from);
         auctionViewHolder.to_tv.setText(shipments.get(i).address_to);
 
-        auctionViewHolder.detail_btn.setOnClickListener(new View.OnClickListener() {
+        auctionViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 activityController.openInProgressShipmentActivity(shipments.get(i));

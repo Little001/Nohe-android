@@ -16,10 +16,21 @@ public class MenuController {
     private Integer mStackLevel;
 
     public MenuController(AppCompatActivity context, NavigationView navigationView, LoginService loginService) {
+        View header = navigationView.getHeaderView(0);
+
         this.context = context;
         this.navigationView = navigationView;
         this.loginService = loginService;
         this.mStackLevel = 0;
+
+        showDialog();
+
+        header.findViewById(R.id.nav_question).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                showDialog();
+            }
+        });
+
     }
 
     public void setMenuTexts() {

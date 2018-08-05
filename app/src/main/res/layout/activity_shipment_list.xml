@@ -27,20 +27,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/start_shipment_btn"
-                    android:layout_width="fill_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginBottom="24dp"
-                    android:padding="12dp"
-                    android:text="Zacit jizdu"
-                    android:textAlignment="gravity"
-                    android:gravity="center" />
+                    android:text="@string/shipment_lish"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginBottom="20dp"
+                    />
 
                 <android.support.v7.widget.RecyclerView
-                    android:layout_marginTop="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:id="@+id/rv_shipment"
                     >
@@ -49,6 +47,19 @@
 
             </LinearLayout>
         </ScrollView>
+
+
+        <Button
+            android:id="@+id/start_shipment_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Zacit jizdu"
+            android:background="@color/colorAccent"
+            android:textColor="@drawable/button_text"
+            android:textAlignment="gravity" />
     </RelativeLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
