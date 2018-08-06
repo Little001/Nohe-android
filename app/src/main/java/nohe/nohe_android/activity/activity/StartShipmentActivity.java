@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +25,6 @@ import nohe.nohe_android.activity.controllers.ErrorController;
 import nohe.nohe_android.activity.controllers.MenuController;
 import nohe.nohe_android.activity.controllers.PhotosController;
 import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
-import nohe.nohe_android.activity.services.LocationService;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.PagerService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
@@ -70,7 +68,7 @@ public class StartShipmentActivity extends AppCompatActivity {
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn, btnRemovePhoto);
         activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
-        menuController = new MenuController(this, navigationView, loginService);
+        menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController);
 
         menuController.setMenuTexts();
         setGuiEvents();
@@ -106,17 +104,6 @@ public class StartShipmentActivity extends AppCompatActivity {
                 photosController.removePhoto();
             }
         });
-
-        navigationView.setNavigationItemSelectedListener(
-            new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(MenuItem menuItem) {
-                    menuItem.setChecked(true);
-                    mDrawerLayout.closeDrawers();
-                    resolveMenuClick(menuItem);
-                    return true;
-                }
-            });
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -125,13 +112,6 @@ public class StartShipmentActivity extends AppCompatActivity {
             return false;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    /**
-     * GPS Service
-     */
-    private void stopGpsService() {
-        stopService(new Intent(getApplicationContext(), LocationService.class));
     }
 
     /**
@@ -186,52 +166,5 @@ public class StartShipmentActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(this.photosController.mCurrentPhotoPath, bmOptions);
             this.photosController.addPhoto(bitmap);
         }
-    }
-
-    /**
-     * Menu
-     */
-    private void resolveMenuClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.nav_logout:
-                logout();
-            case R.id.nav_question:
-                this.menuController.showDialog();
-        }
-    }
-
-    /**
-     * Logout
-     */
-    private void logout() {
-        progressDialog.showDialog(getString(R.string.loading));
-        stopGpsService();
-        RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.LOGOUT, new VolleyStringResponseListener() {
-            @Override
-            public void onError(VolleyError message) {
-                Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
-                progressDialog.hideDialog();
-            }
-
-            @Override
-            public void onResponse(String response) {
-                loginService.logout();
-                progressDialog.hideDialog();
-                activityController.openLoginActivity();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
-                return header;
-            }
-
-            @Override
-            public Map<String, String> getParams() {
-                return null;
-            }
-        });
     }
 }
