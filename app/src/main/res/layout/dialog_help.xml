@@ -28,29 +28,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:text="@string/help1"/>
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:text="@string/help2"/>
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:paddingTop="20dp"
-                    android:textSize="20sp"
-                    android:text="@string/help3"/>
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:text="@string/help4"/>
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
                     android:paddingTop="20dp"
                     android:textSize="20sp"
                     android:text="@string/help5"/>
