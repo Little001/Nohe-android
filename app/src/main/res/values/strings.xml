@@ -20,6 +20,19 @@
     <string name="finish">Cíl</string>
     <string name="help">Nápověda</string>
     <string name="info">O aplikaci</string>
+    <string name="no_shipments">Žádné aktivní jízdy</string>
+    <string name="about1">Verze: 1.0.0</string>
+    <string name="about2">Copyright © 2018 Nohe</string>
+    <string name="about3">Tato aplikace slouží jako doplněk pro webovou službu nohe.cz</string>
+    <string name="about4">Kontakt: support@nohe.cz</string>
+    <string name="help1">Základní použití</string>
+    <string name="help2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
+    <string name="help3">Seznam jízd</string>
+    <string name="help4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
+    <string name="help5">Vyzvednutí zásilky</string>
+    <string name="help6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
+    <string name="help7">Doručení zásilky</string>
+    <string name="help8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
     <!-- Error codes -->
     <string name="server_error_fatal">Neznámá chyba serveru, kontaktujte administratora</string>
     <string name="server_error_0">Neznámá chyba serveru, kontaktujte administratora</string>

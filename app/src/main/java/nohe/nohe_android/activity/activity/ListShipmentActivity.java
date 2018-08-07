@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.VolleyError;
 import org.json.JSONException;
@@ -37,6 +38,7 @@ public class ListShipmentActivity extends AppCompatActivity {
     private LoginService loginService;
     private RecyclerView rv_shipment;
     private Button start_shipment_btn;
+    private TextView no_shipments;
     private NavigationView navigationView;
     private DrawerLayout mDrawerLayout;
     private MenuController menuController;
@@ -55,6 +57,7 @@ public class ListShipmentActivity extends AppCompatActivity {
         rv_shipment = (RecyclerView) findViewById(R.id.rv_shipment);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         start_shipment_btn = (Button) findViewById(R.id.start_shipment_btn);
+        no_shipments = (TextView) findViewById(R.id.no_shipments);
         this.getCurrentShipments();
         setGuiEvents();
         startGpsService();
@@ -90,6 +93,9 @@ public class ListShipmentActivity extends AppCompatActivity {
                 if (shipments != null) {
                     currentShipmentService.setShipments(shipments);
                     updateContent();
+                    if (shipments.size() < 1) {
+                        no_shipments.setVisibility(View.VISIBLE);
+                    }
                 }
                 progressDialog.hideDialog();
             }

@@ -1,5 +1,6 @@
 package nohe.nohe_android.activity.controllers;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,17 +79,29 @@ public class MenuController {
                 logout();
                 break;
             case R.id.nav_question:
-                showDialog();
+                showDialog(R.layout.dialog_help);
+                break;
+            case R.id.nav_info:
+                showDialog(R.layout.dialog_about);
                 break;
         }
     }
 
-    private void showDialog() {
+    private void showDialog(int i) {
         mStackLevel++;
 
-        FragmentTransaction ft = this.context.getFragmentManager().beginTransaction();
-        DialogFragment newFragment = FireMissilesDialogFragment.newInstance(mStackLevel);
-        newFragment.show(ft, "dialog");
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(i);
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
     /**
