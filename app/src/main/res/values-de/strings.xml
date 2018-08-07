@@ -12,7 +12,7 @@
     <string name="start_shipment">Shipment onloading</string>
     <string name="finish_shipment_btn">Finish shipment</string>
     <string name="finish_shipment">Shipment in progress</string>
-    <string name="shipment_lish">Shipments</string>
+    <string name="shipment_list">Shipments</string>
     <string name="take_photo_btn">Take photo</string>
     <string name="remove_photo_btn">Remove photo</string>
     <string name="note">Note: </string>
@@ -24,7 +24,7 @@
     <!-- Error codes -->
     <string name="server_error_fatal">Unknown error, contact administrator</string>
     <string name="server_error_0">Unknown error, please contact administrator</string>
-    <string name="server_error_7">Passwords is not correct</string>
+    <string name="server_error_7">Password is not correct</string>
     <string name="server_error_8">User not found</string>
     <string name="server_error_11">This shipment is not for your company</string>
     <string name="server_error_12">This shipment is finished</string>

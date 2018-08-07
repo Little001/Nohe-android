@@ -12,7 +12,7 @@
     <string name="start_shipment">Vyzvednutí zásilky</string>
     <string name="finish_shipment_btn">Ukončit jízdu</string>
     <string name="finish_shipment">Probíhající jízda</string>
-    <string name="shipment_lish">Seznam jízd</string>
+    <string name="shipment_list">Seznam jízd</string>
     <string name="take_photo_btn">Pořídit fotku</string>
     <string name="note">Poznámka: </string>
     <string name="price">Cena: </string>

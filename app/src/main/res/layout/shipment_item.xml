@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginBottom="5dp"
-            android:text="From:"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="124dp" />
 
@@ -27,7 +26,6 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@android:color/black"
-            android:text="To:"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp" />
 
