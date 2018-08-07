@@ -93,9 +93,8 @@ public class ListShipmentActivity extends AppCompatActivity {
                 if (shipments != null) {
                     currentShipmentService.setShipments(shipments);
                     updateContent();
-                    if (shipments.size() < 1) {
-                        no_shipments.setVisibility(View.VISIBLE);
-                    }
+                } else {
+                    no_shipments.setVisibility(View.VISIBLE);
                 }
                 progressDialog.hideDialog();
             }
