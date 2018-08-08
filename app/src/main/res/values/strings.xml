@@ -13,6 +13,7 @@
     <string name="finish_shipment_btn">Ukončit jízdu</string>
     <string name="finish_shipment">Probíhající jízda</string>
     <string name="shipment_list">Seznam právě probíhajících jízd</string>
+    <string name="shipment_list_menu">Seznam jízd</string>
     <string name="take_photo_btn">Pořídit fotografii</string>
     <string name="note">Poznámka: </string>
     <string name="price">Cena: </string>

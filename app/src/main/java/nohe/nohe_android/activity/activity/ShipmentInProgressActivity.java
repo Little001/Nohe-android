@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -36,7 +37,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
     private Button finishShipmentBtn;
     private Button takePhotoBtn;
     private Button btnRemovePhoto;
-    private Button opener_menu_btn;
+    private ImageView opener_menu_btn;
     private ProgressDialogService progressDialog;
     private LoginService loginService;
     private CurrentShipmentService currentShipmentService;
@@ -72,7 +73,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         finishShipmentBtn = (Button) findViewById(R.id.finish_shipment_btn);
         takePhotoBtn = (Button) findViewById(R.id.take_photo_btn);
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
-        opener_menu_btn = (Button) findViewById(R.id.opener_menu_btn);
+        opener_menu_btn = (ImageView) findViewById(R.id.opener_menu_btn);
         code_tb = (EditText) findViewById(R.id.code_tb);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);

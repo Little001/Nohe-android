@@ -12,6 +12,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorAccent"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <ImageView
+                android:id="@+id/opener_menu_btn"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/menu_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/shipment_list"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+
+        </android.support.v7.widget.Toolbar>
+
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -19,7 +44,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:paddingBottom="50dp"
-            android:paddingTop="12dp">
+            android:paddingTop="60dp">
             <requestFocus />
 
             <LinearLayout
@@ -27,21 +52,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/shipment_list"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginBottom="20dp"
-                    />
-
                 <android.support.v7.widget.RecyclerView
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:id="@+id/rv_shipment"
-                    >
+                    android:id="@+id/rv_shipment">
 
                 </android.support.v7.widget.RecyclerView>
 
@@ -57,19 +71,6 @@
 
             </LinearLayout>
         </ScrollView>
-
-        <Button
-            android:id="@+id/opener_menu_btn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="Search"
-            android:drawableStart="@drawable/exit"
-            android:background="@color/colorAccent"
-            android:textColor="@drawable/button_text"
-            android:textAlignment="gravity" />
-
 
         <Button
             android:id="@+id/start_shipment_btn"

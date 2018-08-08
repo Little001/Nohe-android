@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,14 +34,14 @@ public class MenuController {
     private LoginService loginService;
     private Integer mStackLevel;
     private DrawerLayout mDrawerLayout;
-    private Button opener_menu_btn;
+    private ImageView opener_menu_btn;
     private ProgressDialogService progressDialog;
     private ActivityController activityController;
     private ErrorController errorController;
 
     public MenuController(AppCompatActivity context, NavigationView navigationView, DrawerLayout mDrawerLayout,
                           ProgressDialogService progressDialog, LoginService loginService, ActivityController activityController,
-                          ErrorController errorController, Button opener_menu_btn) {
+                          ErrorController errorController, ImageView opener_menu_btn) {
         this.context = context;
         this.navigationView = navigationView;
         this.loginService = loginService;
@@ -86,6 +87,9 @@ public class MenuController {
         switch (menuItem.getItemId()) {
             case R.id.nav_logout:
                 logout();
+                break;
+            case R.id.nav_list_shipment:
+                activityController.openListShipmentActivity();
                 break;
             case R.id.nav_question:
                 showDialog(R.layout.dialog_help);

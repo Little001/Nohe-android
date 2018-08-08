@@ -12,6 +12,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorAccent"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <ImageView
+                android:id="@+id/opener_menu_btn"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/menu_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/finish_shipment"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+        </android.support.v7.widget.Toolbar>
+
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -19,7 +44,7 @@
             android:fitsSystemWindows="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:paddingTop="12dp"
+            android:paddingTop="70dp"
             android:paddingBottom="50dp">
 
             <requestFocus />
@@ -28,16 +53,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="18dp"
-                    android:text="@string/finish_shipment"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -219,18 +234,6 @@
 
             </LinearLayout>
         </ScrollView>
-
-        <Button
-            android:id="@+id/opener_menu_btn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="Search"
-            android:drawableStart="@drawable/exit"
-            android:background="@color/colorAccent"
-            android:textColor="@drawable/button_text"
-            android:textAlignment="gravity" />
 
         <Button
             android:id="@+id/finish_shipment_btn"
