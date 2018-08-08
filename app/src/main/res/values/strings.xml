@@ -2,15 +2,20 @@
 <resources>
     <string name="app_name">Nohe</string>
     <string name="login_btn">Přihlásit se</string>
+    <string name="login_error">Zadejte přihlašovací jméno a heslo.</string>
     <string name="logout_btn">Odhlásit se</string>
+    <string name="auth_error">Došlo k chybě při autorizaci. Zkuste se prosím se přihlásit znovu.</string>
+    <string name="location_permissions_fail">Musíte povolit přístup k poloze vašeho zařízení.</string>
     <string name="username_tb">Přihlašovací jméno</string>
     <string name="password_tb">Heslo</string>
     <string name="loading">Načítání</string>
     <string name="id_shipment">Číslo zásilky</string>
     <string name="code_tb">Kód</string>
     <string name="start_shipment_btn">Začít jízdu</string>
+    <string name="start_shipment_error">Musíte zadat číslo zásilky a kód.</string>
     <string name="start_shipment">Vyzvednutí zásilky</string>
     <string name="finish_shipment_btn">Ukončit jízdu</string>
+    <string name="finish_shipment_error">Musíte zadat kód.</string>
     <string name="finish_shipment">Probíhající jízda</string>
     <string name="shipment_list">Seznam právě probíhajících jízd</string>
     <string name="shipment_list_menu">Seznam jízd</string>

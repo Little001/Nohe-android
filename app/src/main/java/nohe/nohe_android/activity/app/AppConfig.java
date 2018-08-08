@@ -3,8 +3,8 @@ package nohe.nohe_android.activity.app;
 import nohe.nohe_android.activity.models.UserModel;
 
 public class AppConfig {
-   //private static String url = "http://10.0.2.2:51246/api/";
-    private static final String url = "http://www.nohe.cz/api/";
+    public static final boolean IS_PRODUCTION = true;
+    private static String url = AppConfig.IS_PRODUCTION ? "https://www.nohe.cz/api/" : "http://10.0.2.2:51246/api/";
     public static class Urls {
         public static final String LOGIN = url + "login";
         public static final String LOGOUT = url + "logout";

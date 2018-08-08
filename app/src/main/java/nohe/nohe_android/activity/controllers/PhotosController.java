@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import nohe.nohe_android.R;
+import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.services.PagerService;
 
 public class PhotosController {
@@ -120,9 +121,11 @@ public class PhotosController {
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                Toast.makeText(this.context.getApplicationContext(),
-                        ex.getMessage(), Toast.LENGTH_LONG)
-                        .show();
+                if (!AppConfig.IS_PRODUCTION) {
+                    Toast.makeText(this.context.getApplicationContext(),
+                            ex.getMessage(), Toast.LENGTH_LONG)
+                            .show();
+                }
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {

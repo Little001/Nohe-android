@@ -102,7 +102,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
                     finishShipment(code, photosController.getPhotosInBase64(photoCollection));
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Please enter code!", Toast.LENGTH_LONG)
+                            errorController.getStringFromResourcesByName("finish_shipment_error"), Toast.LENGTH_LONG)
                             .show();
                 }
             }
@@ -166,8 +166,10 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 progressDialog.hideDialog();
                 currentShipmentService.unSetShipments();
-                Toast.makeText(getApplicationContext(),
-                        "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
+                if (!AppConfig.IS_PRODUCTION) {
+                    Toast.makeText(getApplicationContext(),
+                            "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
+                }
                 activityController.openListShipmentActivity();
             }
 

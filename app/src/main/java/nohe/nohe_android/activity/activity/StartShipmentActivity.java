@@ -88,7 +88,7 @@ public class StartShipmentActivity extends AppCompatActivity {
                     startShipment(id, code, photosController.getPhotosInBase64(photoCollection));
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Please enter code and id!", Toast.LENGTH_LONG)
+                            errorController.getStringFromResourcesByName("start_shipment_error"), Toast.LENGTH_LONG)
                             .show();
                 }
             }
@@ -133,9 +133,11 @@ public class StartShipmentActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 progressDialog.hideDialog();
+                if (!AppConfig.IS_PRODUCTION) {
+                    Toast.makeText(getApplicationContext(),
+                            "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
+                }
 
-                Toast.makeText(getApplicationContext(),
-                        "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
                 activityController.openListShipmentActivity();
             }
 

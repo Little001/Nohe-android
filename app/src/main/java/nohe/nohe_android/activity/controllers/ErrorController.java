@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
+import nohe.nohe_android.activity.app.AppConfig;
 
 public class ErrorController {
     private AppCompatActivity context;
@@ -29,7 +30,9 @@ public class ErrorController {
         } catch (JSONException e) {
             // JSON error
             e.printStackTrace();
-            Toast.makeText(this.context, "Json error: in ErrorController " + e.getMessage(), Toast.LENGTH_LONG).show();
+            if (!AppConfig.IS_PRODUCTION) {
+                Toast.makeText(this.context, "Json error: in ErrorController " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
 
         return getStringFromResourcesByName("server_error_fatal");
@@ -39,7 +42,7 @@ public class ErrorController {
         return "server_error_fatal";
     }
 
-    private String getStringFromResourcesByName(String resourceName){
+    public String getStringFromResourcesByName(String resourceName){
         String packageName = this.context.getPackageName();
 
         int resourceId = this.context.getResources().getIdentifier(resourceName,"string",packageName);

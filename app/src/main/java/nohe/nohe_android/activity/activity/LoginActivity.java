@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                     login(username, password);
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Please enter the credentials!", Toast.LENGTH_LONG)
+                            errorController.getStringFromResourcesByName("login_error"), Toast.LENGTH_LONG)
                             .show();
                 }
             }
@@ -134,14 +134,15 @@ public class LoginActivity extends AppCompatActivity {
                         activityController.openListShipmentActivity();
                     } else {
                         // Error in login. Get the error message
-                        String errorMsg = jObj.getString("Auth error");
                         Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                                errorController.getStringFromResourcesByName("auth_error"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    if (!AppConfig.IS_PRODUCTION) {
+                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
@@ -177,7 +178,8 @@ public class LoginActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
             } else {
-                Toast.makeText(this, "You must allow location permissions", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, errorController.getStringFromResourcesByName("location_permissions_fail"),
+                        Toast.LENGTH_LONG).show();
                 runtimePermissions();
             }
         }
