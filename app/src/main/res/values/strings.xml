@@ -29,7 +29,7 @@
     <string name="no_shipments">Žádné probíhající jízdy</string>
     <string name="about1">Verze: 1.0.0</string>
     <string name="about2">Copyright © 2018 Nohe</string>
-    <string name="about3">Tato aplikace slouží jako doplněk pro webový portal nohe.cz</string>
+    <string name="about3">Tato aplikace slouží jako doplněk pro webový system nohe.cz</string>
     <string name="about4">Kontakt: info@nohe.cz</string>
     <string name="help5">Vyzvednutí zásilky</string>
     <string name="help6">Před zahájením každé nové jizdy je nutné, zadat číslo zásilky, vygenerovaný kód pro odstartování jízdy a pořídit alespoň jednu fotografii vyzvedávané zásilky.</string>
