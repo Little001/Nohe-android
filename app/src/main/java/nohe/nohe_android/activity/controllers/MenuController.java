@@ -1,12 +1,11 @@
 package nohe.nohe_android.activity.controllers;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,13 +33,14 @@ public class MenuController {
     private LoginService loginService;
     private Integer mStackLevel;
     private DrawerLayout mDrawerLayout;
+    private Button opener_menu_btn;
     private ProgressDialogService progressDialog;
     private ActivityController activityController;
     private ErrorController errorController;
 
     public MenuController(AppCompatActivity context, NavigationView navigationView, DrawerLayout mDrawerLayout,
                           ProgressDialogService progressDialog, LoginService loginService, ActivityController activityController,
-                          ErrorController errorController) {
+                          ErrorController errorController, Button opener_menu_btn) {
         this.context = context;
         this.navigationView = navigationView;
         this.loginService = loginService;
@@ -48,10 +48,12 @@ public class MenuController {
         this.progressDialog = progressDialog;
         this.activityController = activityController;
         this.errorController = errorController;
+        this.opener_menu_btn = opener_menu_btn;
         this.mStackLevel = 0;
+        prepareMenu();
     }
 
-    public void setMenuTexts() {
+    private void prepareMenu() {
         if (navigationView != null) {
             String name = loginService.getUserFirstName() + " " + loginService.getUserSurname();
             View header = navigationView.getHeaderView(0);
@@ -69,6 +71,12 @@ public class MenuController {
                         }
                     });
         }
+
+        opener_menu_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                mDrawerLayout.openDrawer(Gravity.START);
+            }
+        });
     }
 
     /**

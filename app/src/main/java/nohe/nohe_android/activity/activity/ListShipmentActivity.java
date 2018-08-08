@@ -38,6 +38,7 @@ public class ListShipmentActivity extends AppCompatActivity {
     private LoginService loginService;
     private RecyclerView rv_shipment;
     private Button start_shipment_btn;
+    private Button opener_menu_btn;
     private TextView no_shipments;
     private NavigationView navigationView;
     private DrawerLayout mDrawerLayout;
@@ -57,12 +58,12 @@ public class ListShipmentActivity extends AppCompatActivity {
         rv_shipment = (RecyclerView) findViewById(R.id.rv_shipment);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         start_shipment_btn = (Button) findViewById(R.id.start_shipment_btn);
+        opener_menu_btn = (Button) findViewById(R.id.opener_menu_btn);
         no_shipments = (TextView) findViewById(R.id.no_shipments);
         this.getCurrentShipments();
         setGuiEvents();
         startGpsService();
-        menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController);
-        menuController.setMenuTexts();
+        menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController, opener_menu_btn);
     }
 
     /**

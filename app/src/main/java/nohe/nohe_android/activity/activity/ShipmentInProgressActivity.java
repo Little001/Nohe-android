@@ -36,6 +36,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
     private Button finishShipmentBtn;
     private Button takePhotoBtn;
     private Button btnRemovePhoto;
+    private Button opener_menu_btn;
     private ProgressDialogService progressDialog;
     private LoginService loginService;
     private CurrentShipmentService currentShipmentService;
@@ -71,6 +72,7 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         finishShipmentBtn = (Button) findViewById(R.id.finish_shipment_btn);
         takePhotoBtn = (Button) findViewById(R.id.take_photo_btn);
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
+        opener_menu_btn = (Button) findViewById(R.id.opener_menu_btn);
         code_tb = (EditText) findViewById(R.id.code_tb);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -82,9 +84,8 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, finishShipmentBtn, btnRemovePhoto);
         activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
-        menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController);
+        menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController, opener_menu_btn);
         id_shipment = getIntent().getExtras().getInt("id");
-        menuController.setMenuTexts();
         setGuiEvents();
     }
 

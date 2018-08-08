@@ -34,6 +34,7 @@ public class StartShipmentActivity extends AppCompatActivity {
     private Button startShipmentBtn;
     private Button takePhotoBtn;
     private Button btnRemovePhoto;
+    private Button opener_menu_btn;
     private NavigationView navigationView;
     private ProgressDialogService progressDialog;
     private LoginService loginService;
@@ -56,6 +57,7 @@ public class StartShipmentActivity extends AppCompatActivity {
         startShipmentBtn = (Button) findViewById(R.id.start_shipment_btn);
         takePhotoBtn = (Button) findViewById(R.id.take_photo_btn);
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
+        opener_menu_btn = (Button) findViewById(R.id.opener_menu_btn);
         id_shipment_tb = (EditText) findViewById(R.id.id_shipment_tb);
         code_tb = (EditText) findViewById(R.id.code_tb);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -68,9 +70,8 @@ public class StartShipmentActivity extends AppCompatActivity {
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn, btnRemovePhoto);
         activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
-        menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController);
+        menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController, opener_menu_btn);
 
-        menuController.setMenuTexts();
         setGuiEvents();
     }
 
