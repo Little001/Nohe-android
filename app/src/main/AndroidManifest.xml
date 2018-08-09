@@ -31,17 +31,17 @@
         android:roundIcon="@drawable/launcher_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.activity.LoginActivity">
+        <activity android:name=".activity.activity.LoginActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.activity.ListShipmentActivity">
+        <activity android:name=".activity.activity.ListShipmentActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.activity.StartShipmentActivity">
+        <activity android:name=".activity.activity.StartShipmentActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.activity.ShipmentInProgressActivity">
+        <activity android:name=".activity.activity.ShipmentInProgressActivity" android:screenOrientation="portrait">
         </activity>
         <service
             android:name=".activity.services.LocationService"
