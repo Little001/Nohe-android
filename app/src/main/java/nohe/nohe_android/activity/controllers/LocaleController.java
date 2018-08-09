@@ -13,11 +13,11 @@ public class LocaleController {
     private Button czBtn;
     private Button enBtn;
 
-    public LocaleController(AppCompatActivity activity, Button czBtn, Button enBtn) {
+    public LocaleController(AppCompatActivity activity) {
         this.context = activity;
-        this.czBtn = czBtn;
-        this.enBtn = enBtn;
-        initLocale();
+        /*this.czBtn = czBtn;
+        this.enBtn = enBtn;*/
+        // initLocale();
     }
 
     public void setEnglishLocale() {

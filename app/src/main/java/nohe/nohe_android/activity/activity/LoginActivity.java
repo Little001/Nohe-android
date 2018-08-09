@@ -48,14 +48,14 @@ public class LoginActivity extends AppCompatActivity {
         usernameTb = (EditText) findViewById(R.id.userNameTb);
         passwordTb = (EditText) findViewById(R.id.passwordTb);
         loginBtn = (Button) findViewById(R.id.loginBtn);
-        czBtn = (Button) findViewById(R.id.czLngBtn);
-        enBtn = (Button) findViewById(R.id.enLngBtn);
+       /* czBtn = (Button) findViewById(R.id.czLngBtn);
+        enBtn = (Button) findViewById(R.id.enLngBtn);*/
 
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         activityController = new ActivityController(this);
         errorController =  new ErrorController(this);
-        localeController =  new LocaleController(this, czBtn, enBtn);
+        localeController =  new LocaleController(this);
 
         runtimePermissions();
         checkIsUserLogged();
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
         });
 
-        czBtn.setOnClickListener(new View.OnClickListener() {
+        /*czBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 localeController.setCzechLocale();
             }
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 localeController.setEnglishLocale();
             }
-        });
+        });*/
     }
 
     private void checkIsUserLogged() {

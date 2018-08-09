@@ -3,7 +3,7 @@ package nohe.nohe_android.activity.app;
 import nohe.nohe_android.activity.models.UserModel;
 
 public class AppConfig {
-    public static final boolean IS_PRODUCTION = true;
+    public static final boolean IS_PRODUCTION = false;
     private static String url = AppConfig.IS_PRODUCTION ? "https://www.nohe.cz/api/" : "http://10.0.2.2:51246/api/";
     public static class Urls {
         public static final String LOGIN = url + "login";
