@@ -21,7 +21,7 @@ public class LocationService extends Service {
     private static final String TAG = "GPS tracker";
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 10000;
-    private static final float LOCATION_DISTANCE = 0;
+    private static final float LOCATION_DISTANCE = 300;
     LoginService loginService;
 
     public class LocationListener implements android.location.LocationListener {
