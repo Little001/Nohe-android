@@ -67,7 +67,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:hint="@string/id_shipment"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:padding="10dp"
                         android:singleLine="true" />
 
