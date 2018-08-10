@@ -50,4 +50,5 @@
     <string name="server_error_24">Nesprávné heslo</string>
     <string name="server_error_30">Tato jízda neexistuje</string>
     <string name="server_error_31">Tomuto řidiči není přidělena žádná jízda</string>
+    <string name="server_error_32">Chyba připojení k internetu</string>
 </resources>

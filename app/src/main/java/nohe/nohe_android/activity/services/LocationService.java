@@ -8,8 +8,10 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import java.util.HashMap;
@@ -21,8 +23,9 @@ public class LocationService extends Service {
     private static final String TAG = "GPS tracker";
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 10000;
-    private static final float LOCATION_DISTANCE = 300;
+    private static final float LOCATION_DISTANCE = 100;
     LoginService loginService;
+    GpsListService gpsListService;
 
     public class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
@@ -35,6 +38,11 @@ public class LocationService extends Service {
         @Override
         public void onLocationChanged(Location location) {
             sendLocationData(location);
+            if (!AppConfig.IS_PRODUCTION) {
+                Toast.makeText(getApplicationContext(),
+                    "onLocationChanged: " + location, Toast.LENGTH_SHORT).show();
+            }
+
             Log.e(TAG, "onLocationChanged: " + location);
             mLastLocation.set(location);
         }
@@ -70,12 +78,18 @@ public class LocationService extends Service {
         }
 
         private void sendLocationData(final Location location) {
+            String gps = location.getLatitude() + "," + location.getLongitude();
+            gpsListService.add(gps);
             RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.SHIPMENT_ROUTE, new VolleyStringResponseListener() {
                 @Override
-                public void onError(VolleyError message) {
+                public void onError(VolleyError response) {
+                    if (response instanceof NoConnectionError) {
+                        Toast.makeText(getApplicationContext(),
+                                "Chyba připojení k internetu", Toast.LENGTH_SHORT).show();
+                    }
                     if (!AppConfig.IS_PRODUCTION) {
                         Toast.makeText(getApplicationContext(),
-                                message.getMessage(), Toast.LENGTH_SHORT).show();
+                                response.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -86,6 +100,7 @@ public class LocationService extends Service {
                                 "location data sent to server", Toast.LENGTH_SHORT).show();
                     }
                     Log.i(TAG, "location data sent to server");
+                    gpsListService.clear();
                 }
 
                 @Override
@@ -98,7 +113,7 @@ public class LocationService extends Service {
                 @Override
                 public Map<String, String> getParams() {
                     HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("route", location.getLatitude() + "," + location.getLongitude());
+                    params.put("route", TextUtils.join("|", gpsListService.getList()));
                     return params;
                 }
             });
@@ -128,6 +143,7 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         loginService = new LoginService(this);
+        gpsListService = new GpsListService(this);
 
         Log.e(TAG, "onCreate");
         initializeLocationManager();

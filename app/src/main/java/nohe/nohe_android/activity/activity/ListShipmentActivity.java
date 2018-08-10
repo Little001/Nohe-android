@@ -12,9 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.VolleyError;
 import org.json.JSONException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +54,7 @@ public class ListShipmentActivity extends AppCompatActivity {
         loginService = new LoginService(getApplicationContext());
         currentShipmentService = new CurrentShipmentService(getApplicationContext());
         activityController = new ActivityController(this);
-        errorController =  new ErrorController(this);
+        errorController =  new ErrorController(this, activityController);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         rv_shipment = (RecyclerView) findViewById(R.id.rv_shipment);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -103,9 +103,10 @@ public class ListShipmentActivity extends AppCompatActivity {
 
             @Override
             public void onError(VolleyError message) {
-                Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
                 progressDialog.hideDialog();
+                currentShipmentService.unSetShipments();
+                currentShipmentService.setShipments(new ArrayList<ShipmentModel>());
+                no_shipments.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -117,7 +118,7 @@ public class ListShipmentActivity extends AppCompatActivity {
         });
     }
 
-    private void updateContent() throws JSONException {
+    private void updateContent() {
         rv_shipment.setClickable(true);
 
         RecyclerView.Adapter adapter;

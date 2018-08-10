@@ -2,14 +2,18 @@ package nohe.nohe_android.activity.services;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +57,26 @@ public class ShipmentService {
                         listener.onError(error);
                     }
                 }) {
+                        @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            try {
+                                String jsonString = new String(response.data,
+                                        HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                                return Response.success(jsonString,
+                                        HttpHeaderParser.parseCacheHeaders(response));
+                            } catch (UnsupportedEncodingException e) {
+                                return Response.error(new ParseError(e));
+                            }
+                        }
+                        @Override
+                        protected VolleyError parseNetworkError(VolleyError volleyError) {
+                            if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+                                VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                                return error;
+                            }
+
+                            return volleyError;
+                        }
                         @Override
                         protected Map<String, String> getParams() {
                             return null;

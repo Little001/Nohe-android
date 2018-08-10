@@ -132,7 +132,9 @@ public class MenuController {
             public void onError(VolleyError message) {
                 Toast.makeText(context.getApplicationContext(),
                         errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
+                loginService.logout();
                 progressDialog.hideDialog();
+                activityController.openLoginActivity();
             }
 
             @Override

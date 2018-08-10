@@ -56,4 +56,5 @@
     <string name="server_error_24">Password is incorrect</string>
     <string name="server_error_30">This shipment not found</string>
     <string name="server_error_31">This driver don´t have any shipments in progress</string>
+    <string name="server_error_32">No internet connection</string>
 </resources>

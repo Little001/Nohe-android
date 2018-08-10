@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         activityController = new ActivityController(this);
-        errorController =  new ErrorController(this);
+        errorController =  new ErrorController(this, activityController);
         localeController =  new LocaleController(this);
 
         runtimePermissions();
