@@ -1,7 +1,5 @@
 package nohe.nohe_android.activity.models;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

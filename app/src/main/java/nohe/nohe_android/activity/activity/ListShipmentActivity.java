@@ -54,7 +54,7 @@ public class ListShipmentActivity extends AppCompatActivity {
         loginService = new LoginService(getApplicationContext());
         currentShipmentService = new CurrentShipmentService(getApplicationContext());
         activityController = new ActivityController(this);
-        errorController =  new ErrorController(this, activityController);
+        errorController =  new ErrorController(this);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         rv_shipment = (RecyclerView) findViewById(R.id.rv_shipment);
         navigationView = (NavigationView) findViewById(R.id.nav_view);

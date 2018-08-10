@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         activityController = new ActivityController(this);
-        errorController =  new ErrorController(this, activityController);
+        errorController =  new ErrorController(this);
         localeController =  new LocaleController(this);
 
         runtimePermissions();
@@ -126,12 +126,20 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Check for error node in json
                     if (!token.equals("")) {
-                        // user successfully logged in
-                        AppConfig.UserData.user = new UserModel(jObj.getJSONObject("User"));
+                        UserModel user = new UserModel(jObj.getJSONObject("User"));
+                        if (user.role == 3) {
+                            AppConfig.UserData.user = new UserModel(jObj.getJSONObject("User"));
 
-                        // Create login session
-                        loginService.login(token, AppConfig.UserData.user);
-                        activityController.openListShipmentActivity();
+                            // Create login session
+                            loginService.login(token, AppConfig.UserData.user);
+                            activityController.openListShipmentActivity();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    errorController.getStringFromResourcesByName("no_driver_error"), Toast.LENGTH_LONG).show();
+                            loginService.logout();
+                            activityController.openLoginActivity();
+                        }
+
                     } else {
                         // Error in login. Get the error message
                         Toast.makeText(getApplicationContext(),

@@ -5,6 +5,7 @@
     <string name="login_error">Zadejte přihlašovací jméno a heslo.</string>
     <string name="logout_btn">Odhlásit se</string>
     <string name="auth_error">Došlo k chybě při autorizaci. Zkuste se prosím se přihlásit znovu.</string>
+    <string name="no_driver_error">Přihlásit se můžete pouze jako řidič.</string>
     <string name="location_permissions_fail">Musíte povolit přístup k poloze vašeho zařízení.</string>
     <string name="username_tb">Přihlašovací jméno</string>
     <string name="password_tb">Heslo</string>
