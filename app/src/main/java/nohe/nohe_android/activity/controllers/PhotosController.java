@@ -69,12 +69,30 @@ public class PhotosController {
 
         for (int i = 0; i < photoCollection.size(); i++) {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            photoCollection.get(i).compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            Bitmap resizedBitmap = getResizedBitmap(photoCollection.get(i));
+
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream .toByteArray();
             photos[i] = Base64.encodeToString(byteArray, Base64.NO_WRAP);
         }
 
         return photos;
+    }
+
+    private Bitmap getResizedBitmap(Bitmap image) {
+        int maxSize = 1280;
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
     private void updateImageSwitcher() {
