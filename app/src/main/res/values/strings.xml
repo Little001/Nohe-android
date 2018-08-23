@@ -45,11 +45,11 @@
     <string name="server_error_12">Tato jízda již skončila</string>
     <string name="server_error_13">Je potřeba minimálně jedna fotografie</string>
     <string name="server_error_14">Tato jízda již probíhá</string>
-    <string name="server_error_15">Můžete ukončit pouze probíhající jízdu</string>
-    <string name="server_error_16">Kód pro tuto jízdu nesouhlasí</string>
+    <string name="server_error_15">Můžete ukončit pouze novou jizdu která není ukončená</string>
     <string name="server_error_22">Nemáte přístupové právo, obraťte se na administrátora</string>
     <string name="server_error_24">Nesprávné heslo</string>
     <string name="server_error_30">Tato jízda neexistuje</string>
     <string name="server_error_31">Tomuto řidiči není přidělena žádná jízda</string>
     <string name="server_error_32">Chyba připojení k internetu</string>
+    <string name="server_error_35">Tato jízda není přiřazená na tohoto řiriče</string>
 </resources>

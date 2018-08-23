@@ -9,11 +9,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -32,7 +31,8 @@ public class PhotosController {
     private ArrayList<Bitmap> photoCollection;
     public String mCurrentPhotoPath;
 
-    public PhotosController(AppCompatActivity context, PagerService pagerService, ArrayList<Bitmap> photoCollection, Button button, Button dependButton, Button btnRemovePhoto) {
+    public PhotosController(AppCompatActivity context, PagerService pagerService, ArrayList<Bitmap> photoCollection, Button button, Button dependButton,
+                            Button btnRemovePhoto) {
         this.context = context;
         this.pagerService = pagerService;
         this.button = button;
@@ -62,37 +62,6 @@ public class PhotosController {
         setCameraButtonVisibility();
         setDependButtonVisibility();
         setRemovePhotoButtonVisibility();
-    }
-
-    public String[] getPhotosInBase64(ArrayList<Bitmap> photoCollection) {
-        String[] photos = new String[photoCollection.size()];
-
-        for (int i = 0; i < photoCollection.size(); i++) {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            Bitmap resizedBitmap = getResizedBitmap(photoCollection.get(i));
-
-            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream .toByteArray();
-            photos[i] = Base64.encodeToString(byteArray, Base64.NO_WRAP);
-        }
-
-        return photos;
-    }
-
-    private Bitmap getResizedBitmap(Bitmap image) {
-        int maxSize = 1280;
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float)width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
     private void updateImageSwitcher() {

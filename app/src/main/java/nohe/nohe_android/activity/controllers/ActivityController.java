@@ -22,8 +22,10 @@ public class ActivityController {
         this.context.finish();
     }
 
-    public void openStartShipmentActivity(){
+    public void openStartShipmentActivity(ShipmentModel shipment){
         Intent intent = new Intent(this.context, StartShipmentActivity.class);
+        intent.putExtras(createShipmentBundle(shipment));
+
         this.context.startActivity(intent);
         this.context.finish();
     }
@@ -36,6 +38,13 @@ public class ActivityController {
 
     public void openInProgressShipmentActivity(ShipmentModel shipment) {
         Intent intent = new Intent(this.context, ShipmentInProgressActivity.class);
+        intent.putExtras(createShipmentBundle(shipment));
+
+        this.context.startActivity(intent);
+        this.context.finish();
+    }
+
+    private Bundle createShipmentBundle(ShipmentModel shipment) {
         Bundle b = new Bundle();
 
         b.putInt("id", shipment.ID);
@@ -43,10 +52,12 @@ public class ActivityController {
         b.putString("address_to", shipment.address_to);
         b.putString("unload_note", shipment.unload_note);
         b.putString("load_note", shipment.load_note);
-        b.putString("price", shipment.price.toString());
-        intent.putExtras(b);
+        b.putInt("price", shipment.price);
+        b.putInt("state", shipment.state.getValue());
+        b.putString("photos_before", shipment.photos_before);
+        b.putString("photos_after", shipment.photos_after);
+        b.putInt("error_code", shipment.error_code);
 
-        this.context.startActivity(intent);
-        this.context.finish();
+        return b;
     }
 }

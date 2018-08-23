@@ -8,7 +8,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 import com.android.volley.NoConnectionError;
@@ -22,10 +21,9 @@ import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
 public class LocationService extends Service {
     private static final String TAG = "GPS tracker";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 10000;
-    private static final float LOCATION_DISTANCE = 100;
+    private static final int LOCATION_INTERVAL = 5000;
+    private static final float LOCATION_DISTANCE = 20;
     LoginService loginService;
-    GpsListService gpsListService;
 
     public class LocationListener implements android.location.LocationListener {
         Location mLastLocation;
@@ -78,9 +76,8 @@ public class LocationService extends Service {
         }
 
         private void sendLocationData(final Location location) {
-            String gps = location.getLatitude() + "," + location.getLongitude();
-            gpsListService.add(gps);
-            RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.SHIPMENT_ROUTE, new VolleyStringResponseListener() {
+            final String gps = location.getLatitude() + "," + location.getLongitude();
+            RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.CURRENT_POSITION, new VolleyStringResponseListener() {
                 @Override
                 public void onError(VolleyError response) {
                     if (response instanceof NoConnectionError) {
@@ -100,7 +97,6 @@ public class LocationService extends Service {
                                 "location data sent to server", Toast.LENGTH_SHORT).show();
                     }
                     Log.i(TAG, "location data sent to server");
-                    gpsListService.clear();
                 }
 
                 @Override
@@ -113,7 +109,7 @@ public class LocationService extends Service {
                 @Override
                 public Map<String, String> getParams() {
                     HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("route", TextUtils.join("|", gpsListService.getList()));
+                    params.put("position", gps);
                     return params;
                 }
             });
@@ -143,7 +139,6 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         loginService = new LoginService(this);
-        gpsListService = new GpsListService(this);
 
         Log.e(TAG, "onCreate");
         initializeLocationManager();

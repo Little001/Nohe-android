@@ -57,7 +57,12 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
         auctionViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activityController.openInProgressShipmentActivity(shipments.get(i));
+                if (shipments.get(i).state == ShipmentModel.State.NEW) {
+                    activityController.openStartShipmentActivity(shipments.get(i));
+                } else {
+                    activityController.openInProgressShipmentActivity(shipments.get(i));
+                }
+
             }
         });
     }

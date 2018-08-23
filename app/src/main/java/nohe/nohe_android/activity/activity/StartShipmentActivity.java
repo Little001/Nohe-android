@@ -7,29 +7,25 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
+import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import nohe.nohe_android.R;
 import nohe.nohe_android.activity.app.AppConfig;
 import nohe.nohe_android.activity.controllers.ActivityController;
 import nohe.nohe_android.activity.controllers.ErrorController;
 import nohe.nohe_android.activity.controllers.MenuController;
+import nohe.nohe_android.activity.controllers.PhotoConverter;
 import nohe.nohe_android.activity.controllers.PhotosController;
-import nohe.nohe_android.activity.interfaces.VolleyStringResponseListener;
+import nohe.nohe_android.activity.database.DatabaseHelper;
+import nohe.nohe_android.activity.models.ShipmentModel;
 import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.PagerService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
-import nohe.nohe_android.activity.services.RequestService;
 
 public class StartShipmentActivity extends AppCompatActivity {
     private Button startShipmentBtn;
@@ -40,8 +36,11 @@ public class StartShipmentActivity extends AppCompatActivity {
     private ProgressDialogService progressDialog;
     private LoginService loginService;
     private DrawerLayout mDrawerLayout;
-    private EditText id_shipment_tb;
-    private EditText code_tb;
+    private TextView shipment_from_vw;
+    private TextView shipment_to_vw;
+    private TextView shipment_unload_note_vw;
+    private TextView shipment_load_note_vw;
+    private TextView shipment_price_vw;
     private PhotosController photosController;
     private ActivityController activityController;
     private ErrorController errorController;
@@ -49,18 +48,30 @@ public class StartShipmentActivity extends AppCompatActivity {
     static final int REQUEST_TAKE_PHOTO = 2;
     ArrayList<Bitmap> photoCollection;
     PagerService pagerService;
+    private PhotoConverter photoConverter;
+
+    private DatabaseHelper database;
+    private ShipmentModel shipment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_shipment);
+        database = new DatabaseHelper(this);
+        shipment = getShipment();
+        photoConverter = new PhotoConverter(this);
+
+        /*Text view about shipment*/
+        shipment_from_vw = (TextView) findViewById(R.id.shipment_from_vw);
+        shipment_to_vw = (TextView) findViewById(R.id.shipment_to_vw);
+        shipment_unload_note_vw = (TextView) findViewById(R.id.shipment_unload_note_vw);
+        shipment_load_note_vw = (TextView) findViewById(R.id.shipment_load_note_vw);
+        shipment_price_vw = (TextView) findViewById(R.id.shipment_price_vw);
 
         startShipmentBtn = (Button) findViewById(R.id.start_shipment_btn);
         takePhotoBtn = (Button) findViewById(R.id.take_photo_btn);
         btnRemovePhoto = (Button) findViewById(R.id.btnRemovePhoto);
         opener_menu_btn = (ImageView) findViewById(R.id.opener_menu_btn);
-        id_shipment_tb = (EditText) findViewById(R.id.id_shipment_tb);
-        code_tb = (EditText) findViewById(R.id.code_tb);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         loginService = new LoginService(getApplicationContext());
@@ -74,6 +85,7 @@ public class StartShipmentActivity extends AppCompatActivity {
         menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController, opener_menu_btn);
 
         setGuiEvents();
+        setTextsAndPhotos();
     }
 
     /**
@@ -82,15 +94,7 @@ public class StartShipmentActivity extends AppCompatActivity {
     private void setGuiEvents() {
         startShipmentBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String id = id_shipment_tb.getText().toString().trim();
-                String code = code_tb.getText().toString().trim();
-                if (!id.isEmpty() && !code.isEmpty()) {
-                    startShipment(id, code, photosController.getPhotosInBase64(photoCollection));
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            errorController.getStringFromResourcesByName("start_shipment_error"), Toast.LENGTH_LONG)
-                            .show();
-                }
+                startShipment(photoCollection);
             }
         });
 
@@ -108,56 +112,35 @@ public class StartShipmentActivity extends AppCompatActivity {
         });
     }
 
+    private void setTextsAndPhotos() {
+        shipment_from_vw.setText(shipment.address_from);
+        shipment_to_vw.setText(shipment.address_to);
+        shipment_unload_note_vw.setText(shipment.unload_note);
+        shipment_load_note_vw.setText(shipment.load_note);
+        shipment_price_vw.setText(shipment.price);
+    }
+
+    private ShipmentModel getShipment() {
+        Bundle bundle = getIntent().getExtras();
+
+        return new ShipmentModel(bundle.getInt("id"),
+                bundle.getString("address_from"),
+                bundle.getString("address_to"),
+                bundle.getString("load_note"),
+                bundle.getString("unload_note"),
+                bundle.getInt("price"),
+                ShipmentModel.State.values()[bundle.getInt("state")],
+                bundle.getString("photos_before"),
+                bundle.getString("photos_after"),
+                bundle.getInt("error_code"));
+    }
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             activityController.openListShipmentActivity();
             return false;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    /**
-     * Shipment methods
-     */
-    private void startShipment(final String id_shipment, final String code, final String[] photos) {
-        progressDialog.showDialog(getString(R.string.loading));
-
-        RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.SHIPMENT_CODE, new VolleyStringResponseListener() {
-            @Override
-            public void onError(VolleyError message) {
-                Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
-                progressDialog.hideDialog();
-            }
-
-            @Override
-            public void onResponse(String response) {
-                progressDialog.hideDialog();
-                if (!AppConfig.IS_PRODUCTION) {
-                    Toast.makeText(getApplicationContext(),
-                            "stav shipmenut je zmenen", Toast.LENGTH_LONG).show();
-                }
-
-                activityController.openListShipmentActivity();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
-                return header;
-            }
-
-            @Override
-            public Map<String, String> getParams() {
-                Map<String, String> params = new HashMap();
-                params.put("id_shipment", id_shipment);
-                params.put("code", code);
-                params.put("photos",  Arrays.deepToString(photos));
-
-                return params;
-            }
-        });
     }
 
     /**
@@ -170,5 +153,26 @@ public class StartShipmentActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(this.photosController.mCurrentPhotoPath, bmOptions);
             this.photosController.addPhoto(bitmap);
         }
+    }
+
+    /**
+     * Shipment methods
+     */
+    private void startShipment(ArrayList<Bitmap> bitmaps) {
+        ArrayList<String> paths = new ArrayList<>();
+
+        progressDialog.showDialog(getString(R.string.loading));
+
+        shipment.state = ShipmentModel.State.IN_PROGRESS;
+        for(Integer i = 0; i < bitmaps.size(); i++) {
+            paths.add(photoConverter.saveImageToInternalStorage(bitmaps.get(i),
+                    ShipmentModel.State.IN_PROGRESS.toString() + i.toString()));
+        }
+
+        shipment.photos_before = TextUtils.join(AppConfig.PHOTOS_DIVIDER, paths);
+        database.updateShipment(shipment);
+
+        progressDialog.hideDialog();
+        activityController.openListShipmentActivity();
     }
 }

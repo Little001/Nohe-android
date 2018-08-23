@@ -51,11 +51,11 @@
     <string name="server_error_12">This shipment is finished</string>
     <string name="server_error_13">Minimal photos for shipment is 1</string>
     <string name="server_error_14">You cannot start shipment in progress</string>
-    <string name="server_error_15">You can finish only shipment in progress</string>
-    <string name="server_error_16">Code for this shipment is wrong</string>
+    <string name="server_error_15">You can finish only new shipment where is not done</string>
     <string name="server_error_22">No rights, contact administrator</string>
     <string name="server_error_24">Password is incorrect</string>
     <string name="server_error_30">This shipment not found</string>
     <string name="server_error_31">This driver don´t have any shipments in progress</string>
     <string name="server_error_32">No internet connection</string>
+    <string name="server_error_35">This shipment is not assigned to this driver</string>
 </resources>
