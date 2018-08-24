@@ -117,7 +117,7 @@ public class StartShipmentActivity extends AppCompatActivity {
         shipment_to_vw.setText(shipment.address_to);
         shipment_unload_note_vw.setText(shipment.unload_note);
         shipment_load_note_vw.setText(shipment.load_note);
-        shipment_price_vw.setText(shipment.price);
+        shipment_price_vw.setText(shipment.price.toString());
     }
 
     private ShipmentModel getShipment() {
@@ -129,10 +129,11 @@ public class StartShipmentActivity extends AppCompatActivity {
                 bundle.getString("load_note"),
                 bundle.getString("unload_note"),
                 bundle.getInt("price"),
-                ShipmentModel.State.values()[bundle.getInt("state")],
+                ShipmentModel.State.fromValue(bundle.getInt("state")),
                 bundle.getString("photos_before"),
                 bundle.getString("photos_after"),
-                bundle.getInt("error_code"));
+                bundle.getInt("error_code"),
+                bundle.getInt("local") == 1);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

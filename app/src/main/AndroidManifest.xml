@@ -37,6 +37,8 @@
         </activity>
         <activity android:name=".activity.activity.ListShipmentActivity" android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".activity.activity.AddShipmentActivity" android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".activity.activity.StartShipmentActivity" android:screenOrientation="portrait">
         </activity>
         <activity android:name=".activity.activity.ShipmentInProgressActivity" android:screenOrientation="portrait">

@@ -15,6 +15,7 @@ public class Shipment {
     public static final String COLUMN_PHOTOS_BEFORE = "photos_before";
     public static final String COLUMN_PHOTOS_AFTER = "photos_after";
     public static final String COLUMN_ERROR_CODE = "error_code";
+    public static final String COLUMN_LOCAL = "local";
 
     private int id;
     private String address_from;
@@ -26,6 +27,7 @@ public class Shipment {
     private String photos_before;
     private String photos_after;
     private int error_code;
+    private boolean local;
 
 
     // Create table SQL query
@@ -40,7 +42,8 @@ public class Shipment {
                     + COLUMN_STATE + " INTEGER,"
                     + COLUMN_PHOTOS_BEFORE + " TEXT,"
                     + COLUMN_PHOTOS_AFTER + " TEXT,"
-                    + COLUMN_ERROR_CODE + " INTEGER"
+                    + COLUMN_ERROR_CODE + " INTEGER,"
+                    + COLUMN_LOCAL + " INTEGER"
                     + ")";
 
     public Shipment() {
@@ -57,6 +60,7 @@ public class Shipment {
         this.photos_before = shipment.photos_before;
         this.photos_after = shipment.photos_after;
         this.error_code = shipment.error_code;
+        this.local = shipment.local;
     }
 
     public int getId() {
@@ -127,5 +131,12 @@ public class Shipment {
     }
     public void setErrorCode(int code) {
         this.error_code = code;
+    }
+
+    public boolean isLocal() {
+        return this.local;
+    }
+    public void setLocal(boolean isLocal) {
+        this.local = isLocal;
     }
 }

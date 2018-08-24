@@ -20,11 +20,13 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
         TextView from_tv;
         TextView to_tv;
         View view;
+        Button edit_shipment_btn;
 
         ShipmentViewHolder(View itemView) {
             super(itemView);
             from_tv = (TextView)itemView.findViewById(R.id.shipment_item_from);
             to_tv = (TextView)itemView.findViewById(R.id.shipment_item_to);
+            edit_shipment_btn = (Button)itemView.findViewById(R.id.edit_shipment_btn);
             view = itemView;
         }
     }
@@ -53,6 +55,12 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
     public void onBindViewHolder(final ShipmentViewHolder auctionViewHolder, final int i) {
         auctionViewHolder.from_tv.setText(shipments.get(i).address_from);
         auctionViewHolder.to_tv.setText(shipments.get(i).address_to);
+
+        auctionViewHolder.edit_shipment_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                activityController.openAddShipmentActivity(shipments.get(i).ID);
+            }
+        });
 
         auctionViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override

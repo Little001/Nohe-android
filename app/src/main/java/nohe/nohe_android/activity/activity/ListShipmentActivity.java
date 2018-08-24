@@ -43,7 +43,6 @@ public class ListShipmentActivity extends AppCompatActivity {
     private ErrorController errorController;
     private LoginService loginService;
     private RecyclerView rv_shipment;
-    private Button get_shipments;
     private Button finish_shipments;
     private Button add_shipment;
     private ImageView opener_menu_btn;
@@ -53,6 +52,8 @@ public class ListShipmentActivity extends AppCompatActivity {
     private MenuController menuController;
     private PhotoConverter photoConverter;
     private DatabaseHelper database;
+    private Integer counter;
+    private Integer countOfFinishingShipments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,6 @@ public class ListShipmentActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         rv_shipment = (RecyclerView) findViewById(R.id.rv_shipment);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        get_shipments = (Button) findViewById(R.id.get_shipments);
         add_shipment = (Button) findViewById(R.id.add_shipment);
         finish_shipments = (Button) findViewById(R.id.finish_shipments);
         opener_menu_btn = (ImageView) findViewById(R.id.opener_menu_btn);
@@ -84,19 +84,13 @@ public class ListShipmentActivity extends AppCompatActivity {
     private void setGuiEvents() {
         finish_shipments.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                finishShipments();
-            }
-        });
-
-        get_shipments.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                getCurrentShipments();
+                synchronization();
             }
         });
 
         add_shipment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                addShipment();
+                activityController.openAddShipmentActivity(null);
             }
         });
     }
@@ -108,19 +102,24 @@ public class ListShipmentActivity extends AppCompatActivity {
         startService(new Intent(getApplicationContext(), LocationService.class));
     }
 
-    private void addShipment() {
-        Integer ID = 5;
-        String to = "Olomouc";
+    private void synchronization() {
+        progressDialog.showDialog(getString(R.string.loading));
+        finishShipments();
+    }
 
-        ShipmentModel shipment = new ShipmentModel(5, "Olomouc",
-                "Prerov", "naklad", "vyklad",
-                800, ShipmentModel.State.NEW, "", "", 0);
+    private void afterSynchronization() {
+        showShipments();
+        progressDialog.hideDialog();
+    }
 
-        database.insertShipment(shipment);
+    private boolean finishingShipmentsIsDone() {
+        return countOfFinishingShipments.equals(counter);
     }
 
     private void getCurrentShipments() {
-        progressDialog.showDialog(getString(R.string.loading));
+        if (!finishingShipmentsIsDone()) {
+            return;
+        }
 
         ShipmentService.getCurrentService(new GetCurrentShipment() {
             @Override
@@ -128,16 +127,15 @@ public class ListShipmentActivity extends AppCompatActivity {
                 database.deleteAllShipments();
                 if (shipments != null) {
                     database.insertShipments(shipments);
-                    showShipments();
                 } else {
                     no_shipments.setVisibility(View.VISIBLE);
                 }
-                progressDialog.hideDialog();
+                afterSynchronization();
             }
 
             @Override
             public void onError(VolleyError message) {
-                progressDialog.hideDialog();
+                afterSynchronization();
             }
 
             @Override
@@ -150,15 +148,16 @@ public class ListShipmentActivity extends AppCompatActivity {
     }
 
     private void finishShipments() {
-        progressDialog.showDialog(getString(R.string.loading));
-
         List<ShipmentModel> finishedShipments = database.getFinishedShipments();
+        counter = 0;
+        countOfFinishingShipments = finishedShipments.size();
 
         for (ShipmentModel shipment : finishedShipments) {
             finishShipment(shipment);
         }
-
-        progressDialog.hideDialog();
+        if (countOfFinishingShipments == 0) {
+            getCurrentShipments();
+        }
     }
 
     private void finishShipment(final ShipmentModel shipment) {
@@ -178,13 +177,17 @@ public class ListShipmentActivity extends AppCompatActivity {
         ShipmentService.finishShipmentService(new FinishShipment() {
             @Override
             public void onResponse() {
+                counter++;
                 deleteShipmentWithPhotos(shipment);
+                getCurrentShipments();
             }
 
             @Override
             public void onError(VolleyError message) {
+                counter++;
                 shipment.error_code = 5;
                 database.updateShipment(shipment);
+                getCurrentShipments();
             }
 
             @Override

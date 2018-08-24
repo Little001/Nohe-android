@@ -16,10 +16,11 @@ public class ShipmentModel implements Serializable {
     public String photos_before;
     public String photos_after;
     public Integer error_code;
+    public boolean local;
 
     public ShipmentModel(Integer id_shipment, String address_from, String address_to,
                          String load_note, String unload_note, Integer price, State state,
-                         String photos_before, String photos_after, Integer errorCode) {
+                         String photos_before, String photos_after, Integer errorCode, boolean local) {
         this.ID = id_shipment;
         this.address_from = address_from;
         this.address_to = address_to;
@@ -30,6 +31,7 @@ public class ShipmentModel implements Serializable {
         this.photos_before = photos_before;
         this.photos_after = photos_after;
         this.error_code = errorCode;
+        this.local = local;
     }
 
     public ShipmentModel(JSONObject data) {
@@ -49,6 +51,16 @@ public class ShipmentModel implements Serializable {
 
         public int getValue() {
             return state;
+        }
+
+        public static State fromValue(int value) {
+            for (State my: State.values()) {
+                if (my.state == value) {
+                    return my;
+                }
+            }
+
+            return null;
         }
     }
 

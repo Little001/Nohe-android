@@ -4,7 +4,9 @@
     <string name="login_btn">Přihlásit se</string>
     <string name="login_error">Zadejte přihlašovací jméno a heslo.</string>
     <string name="logout_btn">Odhlásit se</string>
+    <string name="edit_shipment_btn">Upravit</string>
     <string name="auth_error">Došlo k chybě při autorizaci. Zkuste se prosím se přihlásit znovu.</string>
+    <string name="add_shipment_error">Musíte zadat všechny údaje</string>
     <string name="no_driver_error">Přihlásit se můžete pouze jako řidič.</string>
     <string name="location_permissions_fail">Musíte povolit přístup k poloze vašeho zařízení.</string>
     <string name="username_tb">Přihlašovací jméno</string>
@@ -13,11 +15,15 @@
     <string name="id_shipment">Číslo zásilky</string>
     <string name="code_tb">Kód</string>
     <string name="start_shipment_btn">Začít jízdu</string>
+    <string name="sync_shipment_btn">Synchronizovat</string>
+    <string name="add_user_shipment_btn">Přidat vlastní jízdu</string>
     <string name="start_shipment_error">Musíte zadat číslo zásilky a kód.</string>
     <string name="start_shipment">Vyzvednutí zásilky</string>
     <string name="finish_shipment_btn">Ukončit jízdu</string>
+    <string name="add_shipment_btn">Uložit</string>
     <string name="finish_shipment_error">Musíte zadat kód.</string>
     <string name="finish_shipment">Probíhající jízda</string>
+    <string name="add_shipment">Uživatelsky vytvořená jízda</string>
     <string name="shipment_list">Seznam právě probíhajících jízd</string>
     <string name="shipment_list_menu">Seznam jízd</string>
     <string name="take_photo_btn">Pořídit fotografii</string>
@@ -28,6 +34,7 @@
     <string name="help">Nápověda</string>
     <string name="info">O aplikaci</string>
     <string name="no_shipments">Žádné probíhající jízdy</string>
+    <string name="insert_shipment_error">Jízda s tímto číslem již existuje</string>
     <string name="about1">Verze: 2.1.0</string>
     <string name="about2">Copyright © 2018 Nohe</string>
     <string name="about3">Tato aplikace slouží jako doplněk pro webový system nohe.cz</string>

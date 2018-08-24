@@ -4,8 +4,10 @@
     <string name="login_btn">Login</string>
     <string name="login_error">Enter login and password.</string>
     <string name="logout_btn">Logout</string>
+    <string name="edit_shipment_btn">Edit</string>
     <string name="username_tb">Username</string>
     <string name="auth_error">Authorization failed. Please try log in again.</string>
+    <string name="add_shipment_error">All filds are requied</string>
     <string name="no_driver_error">Only driver can log in.</string>
     <string name="location_permissions_fail">You must allow location permissions</string>
     <string name="password_tb">Password</string>
@@ -13,10 +15,14 @@
     <string name="id_shipment">Shipment ID</string>
     <string name="code_tb">Code</string>
     <string name="start_shipment_btn">Start shipment</string>
+    <string name="sync_shipment_btn">Synchronization</string>
+    <string name="add_user_shipment_btn">Add own shipment</string>
     <string name="start_shipment">Shipment onloading</string>
     <string name="finish_shipment_btn">Finish shipment</string>
+    <string name="add_shipment_btn">Save</string>
     <string name="finish_shipment_error">You must enter code.</string>
     <string name="finish_shipment">Shipment in progress</string>
+    <string name="add_shipment">Shipment created by user</string>
     <string name="shipment_list">Shipments</string>
     <string name="start_shipment_error">You must enter shipment id and code.</string>
     <string name="shipment_list_menu">Shipments</string>
@@ -29,6 +35,7 @@
     <string name="help">Help</string>
     <string name="info">About application</string>
     <string name="no_shipments">No active shipments</string>
+    <string name="insert_shipment_error">Shipment with this ID exists</string>
     <string name="about1">Version: 2.1.0</string>
     <string name="about2">Copyright © 2018 Nohe</string>
     <string name="about3">This application is a addition for web system nohe.cz</string>
