@@ -13,7 +13,7 @@ import nohe.nohe_android.activity.models.ShipmentModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
 
     // Database Name
     private static final String DATABASE_NAME = "shipments_db";
@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertShipment(ShipmentModel shipment) {
-        ShipmentModel existingShipment = getShipment(shipment.ID);
+        ShipmentModel existingShipment = getShipmentByIdShipment(shipment.ID);
 
         if (existingShipment != null) {
             return false;
@@ -74,18 +74,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public ShipmentModel getShipment(long id) {
+    public ShipmentModel getShipmentById(long id) {
         // get readable database as we are not inserting anything
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(Shipment.TABLE_NAME,
-                new String[]{Shipment.COLUMN_ID, Shipment.COLUMN_ADDRESS_FROM,
+                new String[]{Shipment.COLUMN_ID, Shipment.COLUMN_ID_SHIPMENT,
+                        Shipment.COLUMN_ADDRESS_FROM,
                         Shipment.COLUMN_ADDRESS_TO, Shipment.COLUMN_LOAD_NOTE,
                         Shipment.COLUMN_UNLOAD_NOTE, Shipment.COLUMN_PRICE,
                         Shipment.COLUMN_STATE, Shipment.COLUMN_PHOTOS_BEFORE,
                         Shipment.COLUMN_PHOTOS_AFTER, Shipment.COLUMN_ERROR_CODE,
                         Shipment.COLUMN_LOCAL},
                 Shipment.COLUMN_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        // prepare shipment object
+
+        ShipmentModel shipment = null;
+        if (cursor.moveToFirst()) {
+            shipment = getShipmentModelFromDB(cursor);
+        }
+
+        // close the db connection
+        cursor.close();
+
+        return shipment;
+    }
+
+    public ShipmentModel getShipmentByIdShipment(long id) {
+        // get readable database as we are not inserting anything
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(Shipment.TABLE_NAME,
+                new String[]{Shipment.COLUMN_ID, Shipment.COLUMN_ID_SHIPMENT, Shipment.COLUMN_ADDRESS_FROM,
+                        Shipment.COLUMN_ADDRESS_TO, Shipment.COLUMN_LOAD_NOTE,
+                        Shipment.COLUMN_UNLOAD_NOTE, Shipment.COLUMN_PRICE,
+                        Shipment.COLUMN_STATE, Shipment.COLUMN_PHOTOS_BEFORE,
+                        Shipment.COLUMN_PHOTOS_AFTER, Shipment.COLUMN_ERROR_CODE,
+                        Shipment.COLUMN_LOCAL},
+                Shipment.COLUMN_ID_SHIPMENT + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         if (cursor != null)
@@ -173,39 +204,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Shipment.COLUMN_ERROR_CODE, shipment.error_code);
 
         // updating row
-        return db.update(Shipment.TABLE_NAME, values, Shipment.COLUMN_ID + " = ?",
+        return db.update(Shipment.TABLE_NAME, values, Shipment.COLUMN_ID_SHIPMENT + " = ?",
                 new String[]{String.valueOf(shipment.ID)});
     }
 
-    public int updateLocalShipment(ShipmentModel shipment) {
+    public int updateLocalShipment(int ID, ShipmentModel shipment) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Shipment.COLUMN_ID, shipment.ID);
+        values.put(Shipment.COLUMN_ID_SHIPMENT, shipment.ID);
         values.put(Shipment.COLUMN_ADDRESS_FROM, shipment.address_from);
         values.put(Shipment.COLUMN_ADDRESS_TO, shipment.address_to);
 
         // updating row
-        return db.update(Shipment.TABLE_NAME, values, Shipment.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(shipment.ID)});
+        return db.update(Shipment.TABLE_NAME, values, Shipment.COLUMN_ID_SHIPMENT + " = ?",
+                new String[]{String.valueOf(ID)});
     }
 
     public void deleteShipment(ShipmentModel shipment) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Shipment.TABLE_NAME, Shipment.COLUMN_ID + " = ?",
+        db.delete(Shipment.TABLE_NAME, Shipment.COLUMN_ID_SHIPMENT + " = ?",
                 new String[]{String.valueOf(shipment.ID)});
         db.close();
     }
 
-    public void deleteAllShipments() {
+    public void deleteAllNewShipments() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(Shipment.TABLE_NAME, null, null);
+
+        db.delete(Shipment.TABLE_NAME, Shipment.COLUMN_STATE + " = ?",
+                new String[]{String.valueOf(ShipmentModel.State.NEW.getValue())});
         db.close();
     }
 
     private ShipmentModel getShipmentModelFromDB(Cursor cursor) {
-        return new ShipmentModel(
-                cursor.getInt(cursor.getColumnIndex(Shipment.COLUMN_ID)),
+        ShipmentModel shipment =  new ShipmentModel(
+                cursor.getInt(cursor.getColumnIndex(Shipment.COLUMN_ID_SHIPMENT)),
                 cursor.getString(cursor.getColumnIndex(Shipment.COLUMN_ADDRESS_FROM)),
                 cursor.getString(cursor.getColumnIndex(Shipment.COLUMN_ADDRESS_TO)),
                 cursor.getString(cursor.getColumnIndex(Shipment.COLUMN_LOAD_NOTE)),
@@ -216,12 +249,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndex(Shipment.COLUMN_PHOTOS_AFTER)),
                 cursor.getInt(cursor.getColumnIndex(Shipment.COLUMN_ERROR_CODE)),
                 cursor.getInt(cursor.getColumnIndex(Shipment.COLUMN_LOCAL)) == 1);
+        shipment.setDbId(cursor.getInt(cursor.getColumnIndex(Shipment.COLUMN_ID)));
+
+        return shipment;
     }
 
     private ContentValues setShipmentValues(ShipmentModel shipment) {
         ContentValues values = new ContentValues();
+        if (shipment.state == null) {
+            shipment.state = ShipmentModel.State.NEW;
+        }
 
-        values.put(Shipment.COLUMN_ID, shipment.ID);
+        values.put(Shipment.COLUMN_ID_SHIPMENT, shipment.ID);
         values.put(Shipment.COLUMN_ADDRESS_FROM, shipment.address_from);
         values.put(Shipment.COLUMN_ADDRESS_TO, shipment.address_to);
         values.put(Shipment.COLUMN_LOAD_NOTE, shipment.load_note);

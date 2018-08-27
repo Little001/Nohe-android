@@ -110,23 +110,17 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
     }
 
     private void setTextsAndPhotos() {
-        String[] photoPaths = TextUtils.split(shipment.photos_after, AppConfig.PHOTOS_DIVIDER);
-
         shipment_from_vw.setText(shipment.address_from);
         shipment_to_vw.setText(shipment.address_to);
         shipment_unload_note_vw.setText(shipment.unload_note);
         shipment_load_note_vw.setText(shipment.load_note);
         shipment_price_vw.setText(shipment.price.toString());
-
-        for(Integer i = 0; i < photoPaths.length; i++) {
-            this.photosController.addPhoto(photoConverter.loadImageFromStorage(photoPaths[i], i.toString()));
-        }
     }
 
     private ShipmentModel getShipment() {
         Bundle bundle = getIntent().getExtras();
 
-        return new ShipmentModel(bundle.getInt("id"),
+        ShipmentModel shipmentModel = new ShipmentModel(bundle.getInt("id"),
                 bundle.getString("address_from"),
                 bundle.getString("address_to"),
                 bundle.getString("load_note"),
@@ -137,6 +131,9 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
                 bundle.getString("photos_after"),
                 bundle.getInt("error_code"),
                 bundle.getInt("local") == 1);
+        shipmentModel.setDbId(bundle.getInt("db_id"));
+
+        return shipmentModel;
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -170,7 +167,9 @@ public class ShipmentInProgressActivity extends AppCompatActivity {
         shipment.state = ShipmentModel.State.DONE;
         for(Integer i = 0; i < bitmaps.size(); i++) {
             paths.add(photoConverter.saveImageToInternalStorage(bitmaps.get(i),
-                    ShipmentModel.State.DONE.toString() + i.toString()));
+                    shipment.getDbId().toString() +
+                            ShipmentModel.State.DONE.toString() +
+                            i.toString()));
         }
 
         shipment.photos_after = TextUtils.join(AppConfig.PHOTOS_DIVIDER, paths);

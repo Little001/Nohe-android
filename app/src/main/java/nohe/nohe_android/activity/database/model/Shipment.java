@@ -6,6 +6,7 @@ public class Shipment {
     public static final String TABLE_NAME = "shipments";
 
     public static final String COLUMN_ID = "id";
+    public static final String COLUMN_ID_SHIPMENT = "id_shipment";
     public static final String COLUMN_ADDRESS_FROM = "address_from";
     public static final String COLUMN_ADDRESS_TO = "address_to";
     public static final String COLUMN_LOAD_NOTE = "load_note";
@@ -18,6 +19,7 @@ public class Shipment {
     public static final String COLUMN_LOCAL = "local";
 
     private int id;
+    private int id_shipment;
     private String address_from;
     private String address_to;
     private String load_note;
@@ -33,7 +35,8 @@ public class Shipment {
     // Create table SQL query
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
-                    + COLUMN_ID + " INTEGER,"
+                    + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_ID_SHIPMENT + " INTEGER,"
                     + COLUMN_ADDRESS_FROM + " TEXT,"
                     + COLUMN_ADDRESS_TO + " TEXT,"
                     + COLUMN_LOAD_NOTE + " TEXT,"
@@ -50,7 +53,7 @@ public class Shipment {
     }
 
     public Shipment(ShipmentModel shipment) {
-        this.id = shipment.ID;
+        this.id_shipment = shipment.ID;
         this.address_from = shipment.address_from;
         this.address_to = shipment.address_to;
         this.load_note = shipment.load_note;
@@ -63,11 +66,11 @@ public class Shipment {
         this.local = shipment.local;
     }
 
-    public int getId() {
-        return id;
+    public int getIdShipment() {
+        return id_shipment;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setIdShipment(int id) {
+        this.id_shipment = id;
     }
 
     public String getAddressFrom() {

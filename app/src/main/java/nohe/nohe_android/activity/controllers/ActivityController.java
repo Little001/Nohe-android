@@ -59,6 +59,7 @@ public class ActivityController {
     private Bundle createShipmentBundle(ShipmentModel shipment) {
         Bundle b = new Bundle();
 
+        b.putInt("db_id", shipment.getDbId());
         b.putInt("id", shipment.ID);
         b.putString("address_from", shipment.address_from);
         b.putString("address_to", shipment.address_to);

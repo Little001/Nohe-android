@@ -109,12 +109,23 @@
                         android:padding="18dp"
                         android:singleLine="true" />
 
+                    <Button
+                        android:id="@+id/delete_shipment_btn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginTop="24dp"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:text="@string/delete_shipment_btn"
+                        android:textAlignment="gravity" />
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
         <Button
-            android:id="@+id/add_shipment_btn"
+            android:id="@+id/save_shipment_btn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

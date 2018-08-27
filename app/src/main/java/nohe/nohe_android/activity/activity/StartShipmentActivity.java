@@ -122,8 +122,7 @@ public class StartShipmentActivity extends AppCompatActivity {
 
     private ShipmentModel getShipment() {
         Bundle bundle = getIntent().getExtras();
-
-        return new ShipmentModel(bundle.getInt("id"),
+        ShipmentModel shipmentModel = new ShipmentModel(bundle.getInt("id"),
                 bundle.getString("address_from"),
                 bundle.getString("address_to"),
                 bundle.getString("load_note"),
@@ -134,6 +133,9 @@ public class StartShipmentActivity extends AppCompatActivity {
                 bundle.getString("photos_after"),
                 bundle.getInt("error_code"),
                 bundle.getInt("local") == 1);
+        shipmentModel.setDbId(bundle.getInt("db_id"));
+
+        return shipmentModel;
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -167,7 +169,9 @@ public class StartShipmentActivity extends AppCompatActivity {
         shipment.state = ShipmentModel.State.IN_PROGRESS;
         for(Integer i = 0; i < bitmaps.size(); i++) {
             paths.add(photoConverter.saveImageToInternalStorage(bitmaps.get(i),
-                    ShipmentModel.State.IN_PROGRESS.toString() + i.toString()));
+                    shipment.getDbId().toString() +
+                            ShipmentModel.State.IN_PROGRESS.toString() +
+                            i.toString()));
         }
 
         shipment.photos_before = TextUtils.join(AppConfig.PHOTOS_DIVIDER, paths);

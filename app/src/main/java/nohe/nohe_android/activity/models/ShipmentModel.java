@@ -17,6 +17,7 @@ public class ShipmentModel implements Serializable {
     public String photos_after;
     public Integer error_code;
     public boolean local;
+    private Integer db_id;
 
     public ShipmentModel(Integer id_shipment, String address_from, String address_to,
                          String load_note, String unload_note, Integer price, State state,
@@ -32,6 +33,13 @@ public class ShipmentModel implements Serializable {
         this.photos_after = photos_after;
         this.error_code = errorCode;
         this.local = local;
+    }
+
+    public void setDbId(int db_id) {
+        this.db_id = db_id;
+    }
+    public Integer getDbId() {
+        return this.db_id;
     }
 
     public ShipmentModel(JSONObject data) {

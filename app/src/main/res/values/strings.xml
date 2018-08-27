@@ -27,6 +27,9 @@
     <string name="shipment_list">Seznam právě probíhajících jízd</string>
     <string name="shipment_list_menu">Seznam jízd</string>
     <string name="take_photo_btn">Pořídit fotografii</string>
+    <string name="delete_shipment_btn">Smazat jízdu</string>
+    <string name="delete_dialog_title">Smazat jízdu</string>
+    <string name="delete_dialog_text">Opravdu chcete smazat jízdu?</string>
     <string name="note">Poznámka: </string>
     <string name="price">Cena: </string>
     <string name="start">Start</string>
@@ -44,7 +47,7 @@
     <string name="help7">Doručení zásilky</string>
     <string name="help8">Pro ukončení dané jízdy je nutné, zadat vygenerovaný kód pro ukončení jízdy a pořídit alespoň jednu fotografii přepravované zásilky.</string>
     <!-- Error codes -->
-    <string name="server_error_fatal">Neznámá chyba serveru, kontaktujte administratora</string>
+    <string name="server_error_fatal">Neznámá chyba serveru.</string>
     <string name="server_error_0">Neznámá chyba serveru, kontaktujte administratora</string>
     <string name="server_error_7">Nesprávné heslo</string>
     <string name="server_error_8">Uživatel nebyl nalezen</string>

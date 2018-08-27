@@ -42,6 +42,60 @@ public class ErrorController {
         return getStringFromResourcesByName("server_error_fatal");
     }
 
+    public int getErrorCodeFromResponse(VolleyError response) {
+        if (response instanceof NoConnectionError) {
+            return 32;
+        }
+        if (response.getMessage() == null) {
+            return 0;
+        }
+        if (response.networkResponse != null) {
+            if (response.networkResponse.statusCode == 401) {
+                return 22;
+            }
+        }
+        try {
+            JSONObject jObj = new JSONObject(response.getMessage());
+            String code = jObj.getString("errorCode");
+            return Integer.parseInt(code);
+        } catch (JSONException e) {
+            // JSON error
+            e.printStackTrace();
+            if (!AppConfig.IS_PRODUCTION) {
+                Toast.makeText(this.context, "Json error: in ErrorController " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        return 0;
+    }
+
+    public String getTextByErrorCode(Integer errorCode) {
+        String errorString = "server_error_";
+
+        if (isSupportedError(errorCode)) {
+            errorString += errorCode.toString();
+        } else {
+            return "";
+        }
+
+        return getStringFromResourcesByName(errorString);
+    }
+
+    private boolean isSupportedError(Integer errorCode) {
+        switch (errorCode) {
+            case 11:
+            case 12:
+            case 22:
+            case 30:
+            case 32:
+            case 35:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+
     private String alternativeMessage() {
         return "server_error_fatal";
     }

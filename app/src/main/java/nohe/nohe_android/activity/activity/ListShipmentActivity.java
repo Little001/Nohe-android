@@ -124,11 +124,9 @@ public class ListShipmentActivity extends AppCompatActivity {
         ShipmentService.getCurrentService(new GetCurrentShipment() {
             @Override
             public void onResponse(List<ShipmentModel> shipments) {
-                database.deleteAllShipments();
+                database.deleteAllNewShipments();
                 if (shipments != null) {
                     database.insertShipments(shipments);
-                } else {
-                    no_shipments.setVisibility(View.VISIBLE);
                 }
                 afterSynchronization();
             }
@@ -161,17 +159,21 @@ public class ListShipmentActivity extends AppCompatActivity {
     }
 
     private void finishShipment(final ShipmentModel shipment) {
-        final String[] photosBeforePaths = TextUtils.split(shipment.photos_before, AppConfig.PHOTOS_DIVIDER);
-        final String[] photosAfterPaths = TextUtils.split(shipment.photos_after, AppConfig.PHOTOS_DIVIDER);
+        final String[] photosBeforePaths = shipment.photos_before.split(AppConfig.PHOTOS_DIVIDER);
+        final String[] photosAfterPaths = shipment.photos_after.split(AppConfig.PHOTOS_DIVIDER);
         final ArrayList<Bitmap> beforeBitmaps = new ArrayList<Bitmap>();
         final ArrayList<Bitmap> afterBitmaps = new ArrayList<Bitmap>();
 
         for(Integer i = 0; i < photosBeforePaths.length; i++) {
-            beforeBitmaps.add(photoConverter.loadImageFromStorage(photosBeforePaths[i], i.toString()));
+            beforeBitmaps.add(photoConverter.loadImageFromStorage(photosBeforePaths[i], shipment.getDbId().toString() +
+                    ShipmentModel.State.IN_PROGRESS.toString() +
+                    i.toString()));
         }
 
         for(Integer i = 0; i < photosAfterPaths.length; i++) {
-            afterBitmaps.add(photoConverter.loadImageFromStorage(photosAfterPaths[i], i.toString()));
+            afterBitmaps.add(photoConverter.loadImageFromStorage(photosAfterPaths[i], shipment.getDbId().toString() +
+                    ShipmentModel.State.DONE.toString() +
+                    i.toString()));
         }
 
         ShipmentService.finishShipmentService(new FinishShipment() {
@@ -185,7 +187,7 @@ public class ListShipmentActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError message) {
                 counter++;
-                shipment.error_code = 5;
+                shipment.error_code = errorController.getErrorCodeFromResponse(message);
                 database.updateShipment(shipment);
                 getCurrentShipments();
             }
@@ -210,10 +212,16 @@ public class ListShipmentActivity extends AppCompatActivity {
     }
 
     private void showShipments() {
+        List<ShipmentModel> shipments = database.getAllShipments();
+        if (shipments.size() == 0) {
+            no_shipments.setVisibility(View.VISIBLE);
+        } else {
+            no_shipments.setVisibility(View.INVISIBLE);
+        }
         rv_shipment.setClickable(true);
 
         RecyclerView.Adapter adapter;
-        adapter = new RVAdapterShipment(database.getAllShipments(), this, activityController);
+        adapter = new RVAdapterShipment(shipments, this, activityController, errorController);
         LinearLayoutManager llm = new LinearLayoutManager(this);
 
         rv_shipment.setLayoutManager(llm);

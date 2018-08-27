@@ -27,6 +27,9 @@
     <string name="start_shipment_error">You must enter shipment id and code.</string>
     <string name="shipment_list_menu">Shipments</string>
     <string name="take_photo_btn">Take photo</string>
+    <string name="delete_shipment_btn">Delete shipment</string>
+    <string name="delete_dialog_title">Delete shipment</string>
+    <string name="delete_dialog_text">Are you sure?</string>
     <string name="remove_photo_btn">Remove photo</string>
     <string name="note">Note: </string>
     <string name="price">Price: </string>
@@ -50,7 +53,7 @@
     <string name="help8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
 
     <!-- Error codes -->
-    <string name="server_error_fatal">Unknown error, contact administrator</string>
+    <string name="server_error_fatal">Unknown error.</string>
     <string name="server_error_0">Unknown error, please contact administrator</string>
     <string name="server_error_7">Password is not correct</string>
     <string name="server_error_8">User not found</string>

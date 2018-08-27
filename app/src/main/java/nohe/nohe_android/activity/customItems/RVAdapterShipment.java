@@ -1,6 +1,7 @@
 package nohe.nohe_android.activity.customItems;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +11,18 @@ import android.widget.TextView;
 import java.util.List;
 import nohe.nohe_android.R;
 import nohe.nohe_android.activity.controllers.ActivityController;
+import nohe.nohe_android.activity.controllers.ErrorController;
 import nohe.nohe_android.activity.models.ShipmentModel;
 
 public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.ShipmentViewHolder> {
     Activity activity;
     ActivityController activityController;
+    ErrorController errorController;
 
     public static class ShipmentViewHolder extends RecyclerView.ViewHolder {
         TextView from_tv;
         TextView to_tv;
+        TextView shipment_error;
         View view;
         Button edit_shipment_btn;
 
@@ -26,6 +30,7 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
             super(itemView);
             from_tv = (TextView)itemView.findViewById(R.id.shipment_item_from);
             to_tv = (TextView)itemView.findViewById(R.id.shipment_item_to);
+            shipment_error = (TextView)itemView.findViewById(R.id.shipment_error);
             edit_shipment_btn = (Button)itemView.findViewById(R.id.edit_shipment_btn);
             view = itemView;
         }
@@ -33,10 +38,11 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
 
     List<ShipmentModel> shipments;
 
-    public RVAdapterShipment(List<ShipmentModel> shipments, Activity activity, ActivityController activityController){
+    public RVAdapterShipment(List<ShipmentModel> shipments, Activity activity, ActivityController activityController, ErrorController errorController){
         this.shipments = shipments;
         this.activity = activity;
         this.activityController = activityController;
+        this.errorController = errorController;
     }
 
     @Override
@@ -53,24 +59,34 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
 
     @Override
     public void onBindViewHolder(final ShipmentViewHolder auctionViewHolder, final int i) {
-        auctionViewHolder.from_tv.setText(shipments.get(i).address_from);
-        auctionViewHolder.to_tv.setText(shipments.get(i).address_to);
+        final ShipmentModel shipment = shipments.get(i);
+
+        auctionViewHolder.from_tv.setText(shipment.address_from);
+        auctionViewHolder.to_tv.setText(shipment.address_to);
+        auctionViewHolder.shipment_error.setText(errorController.getTextByErrorCode(shipment.error_code));
+
+        if (shipment.state == ShipmentModel.State.DONE) {
+            auctionViewHolder.view.setBackgroundColor(Color.parseColor("#e5ffe5"));
+        }
+
+        if (!shipment.local) {
+            auctionViewHolder.edit_shipment_btn.setVisibility(View.INVISIBLE);
+        }
 
         auctionViewHolder.edit_shipment_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                activityController.openAddShipmentActivity(shipments.get(i).ID);
+                activityController.openAddShipmentActivity(shipment.ID);
             }
         });
 
         auctionViewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (shipments.get(i).state == ShipmentModel.State.NEW) {
-                    activityController.openStartShipmentActivity(shipments.get(i));
-                } else {
-                    activityController.openInProgressShipmentActivity(shipments.get(i));
+                if (shipment.state == ShipmentModel.State.NEW) {
+                    activityController.openStartShipmentActivity(shipment);
+                } else if(shipment.state == ShipmentModel.State.IN_PROGRESS) {
+                    activityController.openInProgressShipmentActivity(shipment);
                 }
-
             }
         });
     }

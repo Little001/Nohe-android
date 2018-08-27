@@ -1,8 +1,10 @@
 package nohe.nohe_android.activity.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,7 +22,8 @@ import nohe.nohe_android.activity.services.LoginService;
 import nohe.nohe_android.activity.services.ProgressDialogService;
 
 public class AddShipmentActivity extends AppCompatActivity {
-    private Button add_shipment_btn;
+    private Button save_shipment_btn;
+    private Button delete_shipment_btn;
     private NavigationView navigationView;
     private ImageView opener_menu_btn;
     private EditText start_address_tb;
@@ -46,7 +49,8 @@ public class AddShipmentActivity extends AppCompatActivity {
         start_address_tb = (EditText) findViewById(R.id.start_address_tb);
         finish_address_tb = (EditText) findViewById(R.id.finish_address_tb);
         id_shipment_tb = (EditText) findViewById(R.id.id_shipment_tb);
-        add_shipment_btn = (Button) findViewById(R.id.add_shipment_btn);
+        save_shipment_btn = (Button) findViewById(R.id.save_shipment_btn);
+        delete_shipment_btn = (Button) findViewById(R.id.delete_shipment_btn);
         opener_menu_btn = (ImageView) findViewById(R.id.opener_menu_btn);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -64,7 +68,7 @@ public class AddShipmentActivity extends AppCompatActivity {
      * Set GUI event
      */
     private void setGuiEvents() {
-        add_shipment_btn.setOnClickListener(new View.OnClickListener() {
+        save_shipment_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String id_shipment = id_shipment_tb.getText().toString().trim();
                 String start_address = start_address_tb.getText().toString().trim();
@@ -79,11 +83,16 @@ public class AddShipmentActivity extends AppCompatActivity {
                 }
             }
         });
+        delete_shipment_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                deleteShipmentDialog();
+            }
+        });
     }
 
     private void setTexts() {
         if (isEditMode) {
-            ShipmentModel shipment = database.getShipment(idShipment);
+            ShipmentModel shipment = database.getShipmentByIdShipment(idShipment);
 
             id_shipment_tb.setText(shipment.ID.toString());
             start_address_tb.setText(shipment.address_from);
@@ -96,6 +105,40 @@ public class AddShipmentActivity extends AppCompatActivity {
         idShipment = bundle.getInt("id_shipment");
 
         isEditMode = idShipment != 0;
+    }
+
+    private void deleteShipmentDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(AddShipmentActivity.this);
+
+        alert.setTitle(errorController.getStringFromResourcesByName("delete_dialog_title"));
+        alert.setMessage(errorController.getStringFromResourcesByName("delete_dialog_text"));
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteShipment();
+                activityController.openListShipmentActivity();
+                dialog.dismiss();
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
+    }
+
+    private void deleteShipment() {
+        ShipmentModel shipment = new ShipmentModel(idShipment,
+                "", "", "", "", 0, ShipmentModel.State.NEW,
+                "", "", 0, true);
+
+        database.deleteShipment(shipment);
     }
 
     private void saveShipment(String id_shipment, String start_address, String finish_address) {
@@ -121,18 +164,18 @@ public class AddShipmentActivity extends AppCompatActivity {
     }
 
     private void updateShipment(ShipmentModel shipment) {
-        ShipmentModel existingShipment = database.getShipment(shipment.ID);
+        ShipmentModel existingShipment = database.getShipmentByIdShipment(shipment.ID);
         if (existingShipment != null) {
             if (existingShipment.ID.equals(idShipment)) {
-                database.updateLocalShipment(shipment);
+                database.updateLocalShipment(idShipment, shipment);
                 activityController.openListShipmentActivity();
             } else {
                 Toast.makeText(getApplicationContext(),
-                        errorController.getStringFromResourcesByName("insert_shipment_error"), Toast.LENGTH_LONG)
+                        errorController.getStringFromResourcesByName("insert_shipment_error"), Toast.LENGTH_SHORT)
                         .show();
             }
         } else {
-            database.updateLocalShipment(shipment);
+            database.updateLocalShipment(idShipment, shipment);
             activityController.openListShipmentActivity();
         }
     }

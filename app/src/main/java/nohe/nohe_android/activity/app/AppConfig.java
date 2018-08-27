@@ -16,6 +16,6 @@ public class AppConfig {
         public static UserModel user;
     }
 
-    public static String PHOTOS_DIVIDER = "|";
+    public static String PHOTOS_DIVIDER = "⚫";
     public static String CURRENT_LANGUAGE = "cs";
 }
