@@ -126,7 +126,7 @@ public class ListShipmentActivity extends AppCompatActivity {
             public void onResponse(List<ShipmentModel> shipments) {
                 database.deleteAllNewShipments();
                 if (shipments != null) {
-                    database.insertShipments(shipments);
+                    database.insertOrUpdateShipments(shipments);
                 }
                 afterSynchronization();
             }

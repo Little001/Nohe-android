@@ -41,16 +41,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
     
-    public void insertShipments(List<ShipmentModel> shipments) {
+    public void insertOrUpdateShipments(List<ShipmentModel> shipments) {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
         // `id` will be inserted automatically.
         // no need to add them
         for (ShipmentModel shipment : shipments) {
-            // insert row
-            db.insert(Shipment.TABLE_NAME, null, setShipmentValues(shipment));
+            if (updateLocalShipmentToNormal(shipment) == 0) {
+                db.insert(Shipment.TABLE_NAME, null, setShipmentValues(shipment));
+            }
         }
         db.close();
     }
@@ -219,6 +218,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // updating row
         return db.update(Shipment.TABLE_NAME, values, Shipment.COLUMN_ID_SHIPMENT + " = ?",
                 new String[]{String.valueOf(ID)});
+    }
+
+    public int updateLocalShipmentToNormal(ShipmentModel shipment) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Shipment.COLUMN_ADDRESS_FROM, shipment.address_from);
+        values.put(Shipment.COLUMN_ADDRESS_TO, shipment.address_to);
+        values.put(Shipment.COLUMN_PRICE, shipment.price);
+        values.put(Shipment.COLUMN_UNLOAD_NOTE, shipment.unload_note);
+        values.put(Shipment.COLUMN_LOAD_NOTE, shipment.load_note);
+        values.put(Shipment.COLUMN_LOCAL, 0);
+
+        // updating row
+        return db.update(Shipment.TABLE_NAME, values, Shipment.COLUMN_ID_SHIPMENT + " = ?",
+                new String[]{String.valueOf(shipment.ID)});
     }
 
     public void deleteShipment(ShipmentModel shipment) {
