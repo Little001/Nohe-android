@@ -9,18 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 import nohe.nohe_android.activity.database.model.Shipment;
 import nohe.nohe_android.activity.models.ShipmentModel;
+import nohe.nohe_android.activity.services.LoginService;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     // Database Name
     private static final String DATABASE_NAME = "shipments_db";
 
+    private LoginService loginService;
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        loginService = new LoginService(context.getApplicationContext());
     }
 
     // Creating Tables
@@ -136,13 +140,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<ShipmentModel> getAllShipments() {
         List<ShipmentModel> shipments = new ArrayList<>();
+        Integer driver = loginService.getUserId();
 
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + Shipment.TABLE_NAME + " ORDER BY " +
+        String selectQuery = "SELECT  * FROM " + Shipment.TABLE_NAME + " WHERE driver = ? ORDER BY " +
                 Shipment.COLUMN_ID + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, new String[] {driver.toString()});
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -160,11 +165,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<ShipmentModel> getFinishedShipments() {
         List<ShipmentModel> shipments = new ArrayList<>();
-
+        Integer driver = loginService.getUserId();
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT  * FROM " + Shipment.TABLE_NAME + " WHERE state = ?",
-                new String[] {String.valueOf(ShipmentModel.State.DONE.getValue())});
+        Cursor cursor = db.rawQuery("SELECT  * FROM " + Shipment.TABLE_NAME + " WHERE state = ? and driver = ?",
+                new String[] {String.valueOf(ShipmentModel.State.DONE.getValue()), driver.toString()});
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -245,9 +250,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteAllNewShipments() {
         SQLiteDatabase db = this.getWritableDatabase();
+        Integer driver = loginService.getUserId();
 
-        db.delete(Shipment.TABLE_NAME, Shipment.COLUMN_STATE + " = ?",
-                new String[]{String.valueOf(ShipmentModel.State.NEW.getValue())});
+        db.delete(Shipment.TABLE_NAME, Shipment.COLUMN_STATE + " = ? and driver = ?",
+                new String[]{String.valueOf(ShipmentModel.State.NEW.getValue()), driver.toString()});
         db.close();
     }
 
@@ -271,6 +277,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private ContentValues setShipmentValues(ShipmentModel shipment) {
         ContentValues values = new ContentValues();
+        Integer driver = loginService.getUserId();
+
         if (shipment.state == null) {
             shipment.state = ShipmentModel.State.NEW;
         }
@@ -286,6 +294,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Shipment.COLUMN_PHOTOS_AFTER, shipment.photos_after);
         values.put(Shipment.COLUMN_ERROR_CODE, shipment.error_code);
         values.put(Shipment.COLUMN_LOCAL, shipment.local ? 1 : 0);
+        values.put(Shipment.COLUMN_DRIVER, driver.toString());
 
         return values;
     }

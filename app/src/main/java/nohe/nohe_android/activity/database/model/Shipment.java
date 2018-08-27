@@ -17,6 +17,7 @@ public class Shipment {
     public static final String COLUMN_PHOTOS_AFTER = "photos_after";
     public static final String COLUMN_ERROR_CODE = "error_code";
     public static final String COLUMN_LOCAL = "local";
+    public static final String COLUMN_DRIVER = "driver";
 
     private int id;
     private int id_shipment;
@@ -30,6 +31,7 @@ public class Shipment {
     private String photos_after;
     private int error_code;
     private boolean local;
+    private int driver;
 
 
     // Create table SQL query
@@ -46,7 +48,8 @@ public class Shipment {
                     + COLUMN_PHOTOS_BEFORE + " TEXT,"
                     + COLUMN_PHOTOS_AFTER + " TEXT,"
                     + COLUMN_ERROR_CODE + " INTEGER,"
-                    + COLUMN_LOCAL + " INTEGER"
+                    + COLUMN_LOCAL + " INTEGER,"
+                    + COLUMN_DRIVER + " INTEGER"
                     + ")";
 
     public Shipment() {

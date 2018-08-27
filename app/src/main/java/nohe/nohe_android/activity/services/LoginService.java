@@ -16,6 +16,7 @@ public class LoginService {
     private static final String PREF_NAME = "login_pref";
     private static final String IS_LOGGED_IN = "isLoggedIn";
     private static final String TOKEN = "Token";
+    private static final String USER_ID = "user_id";
     private static final String USERNAME = "UserName";
     private static final String USER_FIRST_NAME = "UserName";
     private static final String USER_LAST_NAME = "UserSurname";
@@ -32,6 +33,7 @@ public class LoginService {
         editor.putBoolean(IS_LOGGED_IN, true);
         editor.putString(TOKEN, token);
         editor.putString(USERNAME, user.username);
+        editor.putInt(USER_ID, user.ID);
         editor.putString(USER_FIRST_NAME, user.name);
         editor.putString(USER_LAST_NAME, user.surname);
         editor.putInt(USER_ROLE, user.role);
@@ -42,6 +44,7 @@ public class LoginService {
     public void logout() {
         editor.putBoolean(IS_LOGGED_IN, false);
         editor.putString(TOKEN, "");
+        editor.putInt(USER_ID, 0);
         editor.putString(USERNAME, "");
         editor.putString(USER_FIRST_NAME, "");
         editor.putString(USER_LAST_NAME, "");
@@ -72,5 +75,9 @@ public class LoginService {
 
     public String getUserSurname() {
         return pref.getString(USER_LAST_NAME, "");
+    }
+
+    public int getUserId() {
+        return pref.getInt(USER_ID, 0);
     }
 }
