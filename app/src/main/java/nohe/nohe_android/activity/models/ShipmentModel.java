@@ -2,8 +2,8 @@ package nohe.nohe_android.activity.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ShipmentModel implements Serializable {
     public Integer ID;
@@ -33,6 +33,14 @@ public class ShipmentModel implements Serializable {
         this.photos_after = photos_after;
         this.error_code = errorCode;
         this.local = local;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShipmentModel that = (ShipmentModel) o;
+        return Objects.equals(ID, that.ID);
     }
 
     public void setDbId(int db_id) {

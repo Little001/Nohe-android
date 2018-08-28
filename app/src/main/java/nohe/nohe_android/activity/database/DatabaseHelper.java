@@ -248,12 +248,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteAllNewShipments() {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void deleteUselessShipments(List<ShipmentModel> shipments) {
         Integer driver = loginService.getUserId();
+        List<ShipmentModel> localShipments = getAllShipments();
 
-        db.delete(Shipment.TABLE_NAME, Shipment.COLUMN_STATE + " = ? and driver = ?",
-                new String[]{String.valueOf(ShipmentModel.State.NEW.getValue()), driver.toString()});
+        if (shipments == null) {
+            shipments = new ArrayList<>();
+        }
+        localShipments.removeAll(shipments);
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        for (ShipmentModel shipment: localShipments) {
+            db.delete(Shipment.TABLE_NAME, Shipment.COLUMN_ID_SHIPMENT + " = ? and driver = ?",
+                    new String[]{String.valueOf(shipment.ID), driver.toString()});
+        }
         db.close();
     }
 

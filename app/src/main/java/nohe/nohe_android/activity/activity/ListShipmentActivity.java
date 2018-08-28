@@ -124,7 +124,7 @@ public class ListShipmentActivity extends AppCompatActivity {
         ShipmentService.getCurrentService(new GetCurrentShipment() {
             @Override
             public void onResponse(List<ShipmentModel> shipments) {
-                database.deleteAllNewShipments();
+                database.deleteUselessShipments(shipments);
                 if (shipments != null) {
                     database.insertOrUpdateShipments(shipments);
                 }
