@@ -232,6 +232,7 @@
             android:background="@color/colorAccent"
             android:textColor="@drawable/button_text"
             android:text="@string/start_shipment_btn"
+            android:drawableStart="@android:drawable/ic_menu_set_as"
             android:textAlignment="gravity" />
     </RelativeLayout>
 
