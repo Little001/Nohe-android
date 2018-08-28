@@ -49,79 +49,89 @@
 
             <requestFocus />
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/shipment_item_detail_btn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="36dp"
-                    android:paddingRight="36dp">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/id_shipment"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-                    <EditText
-                        android:id="@+id/id_shipment_tb"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/id_shipment"
-                        android:inputType="number"
-                        android:padding="18dp"
-                        android:singleLine="true" />
+                        android:orientation="vertical"
+                        android:paddingLeft="36dp"
+                        android:paddingRight="36dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/start"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/id_shipment"
+                            android:textColor="@android:color/black"
+                            android:textSize="20sp" />
+                        <EditText
+                            android:id="@+id/id_shipment_tb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/id_shipment"
+                            android:inputType="number"
+                            android:padding="18dp"
+                            android:singleLine="true" />
 
-                    <EditText
-                        android:id="@+id/start_address_tb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/start"
-                        android:inputType="text"
-                        android:padding="18dp"
-                        android:singleLine="true" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/start"
+                            android:textColor="@android:color/black"
+                            android:textSize="20sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/finish"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-                    <EditText
-                        android:id="@+id/finish_address_tb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/finish"
-                        android:inputType="text"
-                        android:padding="18dp"
-                        android:singleLine="true" />
+                        <EditText
+                            android:id="@+id/start_address_tb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/start"
+                            android:inputType="text"
+                            android:padding="18dp"
+                            android:singleLine="true" />
 
-                    <Button
-                        android:id="@+id/delete_shipment_btn"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        android:layout_marginTop="24dp"
-                        android:gravity="center"
-                        android:padding="12dp"
-                        android:text="@string/delete_shipment_btn"
-                        android:textAlignment="gravity" />
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/finish"
+                            android:textColor="@android:color/black"
+                            android:textSize="20sp" />
+                        <EditText
+                            android:id="@+id/finish_address_tb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/finish"
+                            android:inputType="text"
+                            android:padding="18dp"
+                            android:singleLine="true" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+
+                <Button
+                    android:id="@+id/delete_shipment_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/cancel_circle"
+                    android:backgroundTint="@android:color/holo_red_dark"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
         </ScrollView>
 
         <Button
