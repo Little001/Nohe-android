@@ -8,9 +8,9 @@
     android:fitsSystemWindows="true">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/my_toolbar"
@@ -48,14 +48,14 @@
             <requestFocus />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:paddingLeft="36dp"
                     android:paddingRight="36dp">
 
@@ -81,8 +81,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:textColor="@android:color/black"
                             android:text="@string/note"
+                            android:textColor="@android:color/black"
                             android:textSize="16sp" />
 
                         <TextView
@@ -90,11 +90,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:layout_toEndOf="@+id/start_note"
                             android:layout_marginLeft="4dp"
-                            android:textSize="16sp"
+                            android:layout_marginStart="4dp"
+                            android:layout_toEndOf="@+id/start_note"
                             android:layout_toRightOf="@+id/start_note"
-                            android:layout_marginStart="4dp" />
+                            android:textSize="16sp" />
                     </RelativeLayout>
 
 
@@ -121,8 +121,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:textColor="@android:color/black"
                             android:text="@string/note"
+                            android:textColor="@android:color/black"
                             android:textSize="16sp" />
 
                         <TextView
@@ -130,26 +130,26 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:layout_toEndOf="@+id/finish_note"
                             android:layout_marginLeft="4dp"
-                            android:textSize="16sp"
+                            android:layout_marginStart="4dp"
+                            android:layout_toEndOf="@+id/finish_note"
                             android:layout_toRightOf="@+id/finish_note"
-                            android:layout_marginStart="4dp" />
+                            android:textSize="16sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp">
 
                         <TextView
                             android:id="@+id/price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:textColor="@android:color/black"
                             android:text="@string/price"
+                            android:textColor="@android:color/black"
                             android:textSize="20sp" />
 
                         <TextView
@@ -157,23 +157,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:layout_toEndOf="@+id/price"
                             android:layout_marginLeft="4dp"
-                            android:textSize="20sp"
+                            android:layout_marginStart="4dp"
+                            android:layout_toEndOf="@+id/price"
                             android:layout_toRightOf="@+id/price"
-                            android:layout_marginStart="4dp" />
+                            android:textSize="20sp" />
                     </RelativeLayout>
 
                     <Button
                         android:id="@+id/take_photo_btn"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="36dp"
                         android:layout_marginBottom="24dp"
+                        android:layout_marginTop="36dp"
+                        android:gravity="center"
                         android:padding="12dp"
+                        android:drawableStart="@drawable/add_photo_icon"
                         android:text="@string/take_photo_btn"
-                        android:textAlignment="gravity"
-                        android:gravity="center" />
+                        android:textAlignment="gravity" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -195,28 +196,28 @@
 
                             <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
                                 android:id="@+id/photo_show_pager"
-                                android:layout_height="match_parent"
                                 android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:background="@drawable/images"
-                                android:backgroundTint="@color/grey1"
-                                />
+                                android:backgroundTint="@color/grey1" />
                         </FrameLayout>
 
                     </android.support.constraint.ConstraintLayout>
 
                     <Button
                         android:id="@+id/btnRemovePhoto"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
                         android:layout_marginTop="6dp"
                         android:layout_marginRight="6dp"
                         android:gravity="center"
-                        android:background="@drawable/cancel_circle"
-                        android:backgroundTint="@android:color/holo_red_dark"
+                        android:background="@drawable/delete_icon"
+                        android:backgroundTint="@android:color/black"
                         android:textAlignment="gravity"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true" />
+
                 </RelativeLayout>
 
             </LinearLayout>
@@ -227,13 +228,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/colorAccent"
+            android:drawableStart="@drawable/start_fin_icon"
             android:gravity="center"
             android:padding="12dp"
-            android:background="@color/colorAccent"
-            android:textColor="@drawable/button_text"
             android:text="@string/start_shipment_btn"
-            android:drawableStart="@android:drawable/ic_menu_set_as"
-            android:textAlignment="gravity" />
+            android:textAlignment="gravity"
+            android:textColor="@drawable/button_text" />
     </RelativeLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->

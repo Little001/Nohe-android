@@ -15,7 +15,7 @@
     <string name="id_shipment">Číslo zásilky</string>
     <string name="code_tb">Kód</string>
     <string name="start_shipment_btn">Začít jízdu</string>
-    <string name="sync_shipment_btn">Synchronizovat</string>
+    <string name="sync_shipment_btn">SYNC</string>
     <string name="add_user_shipment_btn">Přidat jízdu</string>
     <string name="start_shipment_error">Musíte zadat číslo zásilky a kód.</string>
     <string name="start_shipment">Vyzvednutí zásilky</string>
@@ -27,7 +27,7 @@
     <string name="shipment_list">Probíhající jízdy</string>
     <string name="shipment_list_menu">Seznam jízd</string>
     <string name="take_photo_btn">Pořídit fotografii</string>
-    <string name="delete_shipment_btn">Smazat jízdu</string>
+    <string name="delete_shipment_btn">Smazat</string>
     <string name="delete_dialog_title">Smazat jízdu</string>
     <string name="delete_dialog_text">Opravdu chcete smazat jízdu?</string>
     <string name="note">Poznámka: </string>

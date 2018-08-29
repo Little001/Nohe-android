@@ -15,7 +15,7 @@
     <string name="id_shipment">Shipment ID</string>
     <string name="code_tb">Code</string>
     <string name="start_shipment_btn">Start shipment</string>
-    <string name="sync_shipment_btn">Synchronization</string>
+    <string name="sync_shipment_btn">SYNC</string>
     <string name="add_user_shipment_btn">Add own shipment</string>
     <string name="start_shipment">Shipment onloading</string>
     <string name="finish_shipment_btn">Finish shipment</string>
@@ -27,7 +27,7 @@
     <string name="start_shipment_error">You must enter shipment id and code.</string>
     <string name="shipment_list_menu">Shipments</string>
     <string name="take_photo_btn">Take photo</string>
-    <string name="delete_shipment_btn">Delete shipment</string>
+    <string name="delete_shipment_btn">Delete</string>
     <string name="delete_dialog_title">Delete shipment</string>
     <string name="delete_dialog_text">Are you sure?</string>
     <string name="remove_photo_btn">Remove photo</string>
