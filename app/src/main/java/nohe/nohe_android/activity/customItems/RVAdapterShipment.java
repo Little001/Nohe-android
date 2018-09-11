@@ -66,7 +66,13 @@ public class RVAdapterShipment extends RecyclerView.Adapter<RVAdapterShipment.Sh
         auctionViewHolder.shipment_error.setText(errorController.getTextByErrorCode(shipment.error_code));
 
         if (shipment.state == ShipmentModel.State.DONE) {
-            auctionViewHolder.view.setBackgroundColor(Color.parseColor("#e5ffe5"));
+            auctionViewHolder.view.setBackgroundColor(Color.parseColor("#d1ffd1"));
+        }
+        if (shipment.state == ShipmentModel.State.IN_PROGRESS) {
+            auctionViewHolder.view.setBackgroundColor(Color.parseColor("#ffd3b5"));
+        }
+        if (shipment.state == ShipmentModel.State.NEW) {
+            auctionViewHolder.view.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
 
         if (!shipment.local) {

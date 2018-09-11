@@ -24,6 +24,7 @@ public class PhotoConverter {
 
     public String saveImageToInternalStorage(Bitmap bitmapImage, String name){
         ContextWrapper cw = new ContextWrapper(this.context.getApplicationContext());
+        bitmapImage = getResizedBitmap(bitmapImage);
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
@@ -64,9 +65,7 @@ public class PhotoConverter {
 
         for (int i = 0; i < photoCollection.size(); i++) {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            Bitmap resizedBitmap = getResizedBitmap(photoCollection.get(i));
-
-            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            photoCollection.get(i).compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream .toByteArray();
             photos[i] = Base64.encodeToString(byteArray, Base64.NO_WRAP);
         }
@@ -75,7 +74,7 @@ public class PhotoConverter {
     }
 
     private Bitmap getResizedBitmap(Bitmap image) {
-        int maxSize = 1280;
+        int maxSize = 1024;
         int width = image.getWidth();
         int height = image.getHeight();
 

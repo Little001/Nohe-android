@@ -159,8 +159,8 @@ public class ListShipmentActivity extends AppCompatActivity {
     }
 
     private void finishShipment(final ShipmentModel shipment) {
-        final String[] photosBeforePaths = shipment.photos_before.split(AppConfig.PHOTOS_DIVIDER);
-        final String[] photosAfterPaths = shipment.photos_after.split(AppConfig.PHOTOS_DIVIDER);
+        String[] photosBeforePaths = shipment.photos_before.split(AppConfig.PHOTOS_DIVIDER);
+        String[] photosAfterPaths = shipment.photos_after.split(AppConfig.PHOTOS_DIVIDER);
         final ArrayList<Bitmap> beforeBitmaps = new ArrayList<Bitmap>();
         final ArrayList<Bitmap> afterBitmaps = new ArrayList<Bitmap>();
 
@@ -215,8 +215,12 @@ public class ListShipmentActivity extends AppCompatActivity {
         List<ShipmentModel> shipments = database.getAllShipments();
         if (shipments.size() == 0) {
             no_shipments.setVisibility(View.VISIBLE);
+            no_shipments.setTextSize(20);
+            no_shipments.setPadding(20, 20,20,20);
         } else {
             no_shipments.setVisibility(View.INVISIBLE);
+            no_shipments.setTextSize(0);
+            no_shipments.setPadding(0, 0,0,0);
         }
         rv_shipment.setClickable(true);
 
@@ -237,11 +241,17 @@ public class ListShipmentActivity extends AppCompatActivity {
         String[] photosAfterPaths = TextUtils.split(shipment.photos_after, AppConfig.PHOTOS_DIVIDER);
 
         for(Integer i = 0; i < photosBeforePaths.length; i++) {
-            File f = new File(photosBeforePaths[i], i.toString() + ".jpg");
+            File f = new File(photosBeforePaths[i],
+                    shipment.getDbId().toString() +
+                    ShipmentModel.State.IN_PROGRESS.toString() +
+                    i.toString() + ".jpg");
             boolean deleted = f.delete();
         }
         for(Integer i = 0; i < photosAfterPaths.length; i++) {
-            File f = new File(photosAfterPaths[i], i.toString() + ".jpg");
+            File f = new File(photosAfterPaths[i],
+                    shipment.getDbId().toString() +
+                            ShipmentModel.State.DONE.toString() +
+                            i.toString() + ".jpg");
             boolean deleted = f.delete();
         }
 

@@ -45,7 +45,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:paddingTop="70dp"
-            android:paddingBottom="50dp">
+            android:paddingBottom="70dp">
 
             <requestFocus />
 
