@@ -22,7 +22,7 @@
     <string name="add_shipment_btn">Save</string>
     <string name="finish_shipment_error">You must enter code.</string>
     <string name="finish_shipment">Shipment in progress</string>
-    <string name="add_shipment">Shipment created by user</string>
+    <string name="add_shipment">Created shipment</string>
     <string name="shipment_list">Shipments</string>
     <string name="shipment_list_finish">Finished shipments</string>
     <string name="shipment_list_in_progress">Shipments in progress</string>
@@ -46,14 +46,10 @@
     <string name="about2">Copyright © 2018 Nohe</string>
     <string name="about3">This application is a addition for web system nohe.cz</string>
     <string name="about4">Contact: info@nohe.cz</string>
-    <string name="help1">Základní použití</string>
-    <string name="help2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
-    <string name="help3">Seznam jízd</string>
-    <string name="help4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
-    <string name="help5">Vyzvednutí zásilky</string>
-    <string name="help6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
-    <string name="help7">Doručení zásilky</string>
-    <string name="help8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget risus vel erat placerat ultrices sed id massa. Phasellus ultrices posuere hendrerit. Vivamus eget eros at neque placerat rhoncus.</string>
+    <string name="help5">Pickup shipment</string>
+    <string name="help6">Lore impsum.</string>
+    <string name="help7">Shipment delivery</string>
+    <string name="help8">Lore impsum.</string>
 
     <!-- Error codes -->
     <string name="server_error_fatal">Unknown error.</string>
