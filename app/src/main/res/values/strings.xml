@@ -25,9 +25,9 @@
     <string name="finish_shipment">Probíhající jízda</string>
     <string name="add_shipment">Uživatelsky vytvořená jízda</string>
     <string name="shipment_list">Probíhající jízdy</string>
-    <string name="shipment_list_finish">Ukončené jízdy: </string>
-    <string name="shipment_list_in_progress">Probíhající jízdy: </string>
-    <string name="shipment_list_new">Nové jízdy: </string>
+    <string name="shipment_list_finish">Ukončené jízdy</string>
+    <string name="shipment_list_in_progress">Probíhající jízdy</string>
+    <string name="shipment_list_new">Nové jízdy</string>
     <string name="shipment_list_menu">Seznam jízd</string>
     <string name="take_photo_btn">Pořídit fotografii</string>
     <string name="delete_shipment_btn">Smazat</string>
