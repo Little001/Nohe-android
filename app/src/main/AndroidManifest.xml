@@ -20,7 +20,7 @@
         android:value=".activity.activity.ListShipmentActivity"/>
 
     <application
-        android:name=".activity.app.AppController"
+        android:name=".nohe_cz.app.AppController"
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:allowBackup="true"
@@ -29,22 +29,22 @@
         android:roundIcon="@drawable/launcher_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.activity.LoginActivity" android:screenOrientation="portrait">
+        <activity android:name=".nohe_cz.activity.LoginActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.activity.ListShipmentActivity" android:screenOrientation="portrait">
+        <activity android:name=".nohe_cz.activity.ListShipmentActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.activity.AddShipmentActivity" android:screenOrientation="portrait">
+        <activity android:name=".nohe_cz.activity.AddShipmentActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.activity.StartShipmentActivity" android:screenOrientation="portrait">
+        <activity android:name=".nohe_cz.activity.StartShipmentActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.activity.ShipmentInProgressActivity" android:screenOrientation="portrait">
+        <activity android:name=".nohe_cz.activity.ShipmentInProgressActivity" android:screenOrientation="portrait">
         </activity>
         <service
-            android:name=".activity.services.LocationService"
+            android:name=".nohe_cz.services.LocationService"
             android:enabled="true"
             android:exported="false" />
 

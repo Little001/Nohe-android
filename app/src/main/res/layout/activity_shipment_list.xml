@@ -43,7 +43,7 @@
             android:fitsSystemWindows="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:paddingBottom="50dp"
+            android:paddingBottom="70dp"
             android:paddingTop="60dp">
             <requestFocus />
 
@@ -51,24 +51,123 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:id="@+id/rv_shipment">
-
-                </android.support.v7.widget.RecyclerView>
-
-                <TextView
-                    android:id="@+id/no_shipments"
+                <!-- NEW SHIPMENTS -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="@string/no_shipments"
-                    android:textSize="0sp"
-                    android:padding="0dp"
-                    android:visibility="invisible" />
-
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/shipment_list_new"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
+                    <TextView
+                        android:id="@+id/new_shipments_count_tw"
+                        android:textColor="@android:color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/black" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:id="@+id/rv_shipment_new">
+                    </android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
+                <!-- SHIPMENTS IN PROGRESS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/shipment_list_in_progress"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
+                    <TextView
+                        android:id="@+id/in_progress_shipments_count_tw"
+                        android:textColor="@android:color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/black" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:id="@+id/rv_shipment_in_progress">
+                    </android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
+                <!-- FINISHED SHIPMENTS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/shipment_list_finish"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
+                    <TextView
+                        android:id="@+id/finish_shipments_count_tw"
+                        android:textColor="@android:color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@android:color/black" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:id="@+id/rv_shipment_finish">
+                    </android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
 

@@ -24,6 +24,9 @@
     <string name="finish_shipment">Shipment in progress</string>
     <string name="add_shipment">Shipment created by user</string>
     <string name="shipment_list">Shipments</string>
+    <string name="shipment_list_finish">Finished shipments: </string>
+    <string name="shipment_list_in_progress">Shipments in progress: </string>
+    <string name="shipment_list_new">New shipments: </string>
     <string name="start_shipment_error">You must enter shipment id and code.</string>
     <string name="shipment_list_menu">Shipments</string>
     <string name="take_photo_btn">Take photo</string>
