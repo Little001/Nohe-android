@@ -250,7 +250,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteUselessShipments(List<ShipmentModel> shipments) {
         Integer driver = loginService.getUserId();
-        List<ShipmentModel> localShipments = getAllShipments();
+        List<ShipmentModel> localShipments = new ArrayList<>();
+        List<ShipmentModel> allShipments = getAllShipments();
+
+        for (ShipmentModel shipment: allShipments) {
+            if (shipment.local && shipment.state != ShipmentModel.State.NEW) {
+                continue;
+            }
+            localShipments.add(shipment);
+        }
 
         if (shipments == null) {
             shipments = new ArrayList<>();

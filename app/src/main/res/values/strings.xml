@@ -31,6 +31,7 @@
     <string name="shipment_list_menu">Jízdy</string>
     <string name="take_photo_btn">Pořídit fotografii</string>
     <string name="delete_shipment_btn">Smazat</string>
+    <string name="back_from_new_shipment_btn">Zpět</string>
     <string name="delete_dialog_title">Smazat jízdu</string>
     <string name="delete_dialog_text">Opravdu chcete smazat jízdu?</string>
     <string name="note">Poznámka: </string>

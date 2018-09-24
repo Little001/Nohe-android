@@ -1,6 +1,7 @@
 package nohe.nohe_android.nohe_cz.activity;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -85,7 +86,11 @@ public class AddShipmentActivity extends AppCompatActivity {
         });
         delete_shipment_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                deleteShipmentDialog();
+                if (isEditMode) {
+                    deleteShipmentDialog();
+                    return;
+                }
+                activityController.openListShipmentActivity();
             }
         });
     }
@@ -93,10 +98,16 @@ public class AddShipmentActivity extends AppCompatActivity {
     private void setTexts() {
         if (isEditMode) {
             ShipmentModel shipment = database.getShipmentByIdShipment(idShipment);
-
             id_shipment_tb.setText(shipment.ID.toString());
             start_address_tb.setText(shipment.address_from);
             finish_address_tb.setText(shipment.address_to);
+            delete_shipment_btn.setText(getResources().getString(R.string.delete_shipment_btn));
+            Drawable icon = getResources().getDrawable( R.drawable.delete_icon );
+            delete_shipment_btn.setCompoundDrawablesWithIntrinsicBounds( icon, null, null, null);
+        } else {
+            delete_shipment_btn.setText(getResources().getString(R.string.back_from_new_shipment_btn));
+            Drawable icon = getResources().getDrawable( R.drawable.back_icon );
+            delete_shipment_btn.setCompoundDrawablesWithIntrinsicBounds( icon, null, null, null);
         }
     }
 
