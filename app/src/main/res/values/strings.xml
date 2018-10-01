@@ -42,14 +42,14 @@
     <string name="info">O aplikaci</string>
     <string name="no_shipments">Žádné probíhající jízdy</string>
     <string name="insert_shipment_error">Jízda s tímto číslem již existuje</string>
-    <string name="about1">Verze: 2.1.0</string>
+    <string name="about1">Verze: 1.7.0</string>
     <string name="about2">Copyright © 2018 Nohe</string>
-    <string name="about3">Tato aplikace slouží jako doplněk pro webový system nohe.cz</string>
+    <string name="about3">Tato aplikace slouží jako doplněk pro webový systém nohe.cz</string>
     <string name="about4">Kontakt: info@nohe.cz</string>
-    <string name="help5">Vyzvednutí zásilky</string>
-    <string name="help6">Před zahájením každé nové jizdy je nutné, zadat číslo zásilky, vygenerovaný kód pro odstartování jízdy a pořídit alespoň jednu fotografii vyzvedávané zásilky.</string>
-    <string name="help7">Doručení zásilky</string>
-    <string name="help8">Pro ukončení dané jízdy je nutné, zadat vygenerovaný kód pro ukončení jízdy a pořídit alespoň jednu fotografii přepravované zásilky.</string>
+    <string name="help5">Synchronizace zásilek</string>
+    <string name="help6">Pro získání jízd ze systému, je nutná synchronizace zásilek. Tato synchronizace zajistí, že jízdy, které má řidič přiřazené na sobě, se objeví v seznamu jízd této aplikace. Zároveň tato synchronizace odešle již ukončené jízdy i s fotkami. Pro neukončené jízdy (již probíhající) se synchronizace netýká.</string>
+    <string name="help7">Ukončení jízdy</string>
+    <string name="help8">Pro ukončení jízdy je nutné, jízdu odstartovat vyfocením zásilky při vyzvednutí a poté ukončit vyfocením zásilky při doručení.</string>
     <!-- Error codes -->
     <string name="server_error_fatal">Neznámá chyba serveru.</string>
     <string name="server_error_0">Neznámá chyba serveru, kontaktujte administratora</string>
