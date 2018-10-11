@@ -14,7 +14,7 @@ import nohe.nohe_android.nohe_cz.services.LoginService;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
 
     // Database Name
     private static final String DATABASE_NAME = "shipments_db";
