@@ -7,12 +7,17 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 import nohe.nohe_android.nohe_cz.app.AppConfig;
+import nohe.nohe_android.nohe_cz.services.LoginService;
 
 public class ErrorController {
     private AppCompatActivity context;
+    private ActivityController activityController;
+    private LoginService loginService;
 
-    public ErrorController(AppCompatActivity context) {
+    public ErrorController(AppCompatActivity context, ActivityController activityController, LoginService loginService) {
         this.context = context;
+        this.activityController = activityController;
+        this.loginService = loginService;
     }
 
     public String getErrorKeyByCode(VolleyError response) {
@@ -24,6 +29,8 @@ public class ErrorController {
         }
         if (response.networkResponse != null) {
             if (response.networkResponse.statusCode == 401) {
+                loginService.logout();
+                activityController.openLoginActivity();
                 return getStringFromResourcesByName("server_error_22");
             }
         }
@@ -51,12 +58,18 @@ public class ErrorController {
         }
         if (response.networkResponse != null) {
             if (response.networkResponse.statusCode == 401) {
+                loginService.logout();
+                activityController.openLoginActivity();
                 return 22;
             }
         }
         try {
             JSONObject jObj = new JSONObject(response.getMessage());
             String code = jObj.getString("errorCode");
+            if (code.equals("22")) {
+                loginService.logout();
+                activityController.openLoginActivity();
+            }
             return Integer.parseInt(code);
         } catch (JSONException e) {
             // JSON error

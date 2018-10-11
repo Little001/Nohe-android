@@ -69,7 +69,7 @@ public class ListShipmentActivity extends AppCompatActivity {
         photoConverter = new PhotoConverter(this);
         loginService = new LoginService(getApplicationContext());
         activityController = new ActivityController(this);
-        errorController =  new ErrorController(this);
+        errorController =  new ErrorController(this, activityController, loginService);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         rv_shipment_new = (RecyclerView) findViewById(R.id.rv_shipment_new);
         rv_shipment_in_progress = (RecyclerView) findViewById(R.id.rv_shipment_in_progress);

@@ -58,7 +58,7 @@ public class AddShipmentActivity extends AppCompatActivity {
         loginService = new LoginService(getApplicationContext());
         progressDialog = new ProgressDialogService(this);
         activityController = new ActivityController(this);
-        errorController =  new ErrorController(this);
+        errorController =  new ErrorController(this, activityController, loginService);
         menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController, opener_menu_btn);
 
         setGuiEvents();

@@ -81,7 +81,7 @@ public class StartShipmentActivity extends AppCompatActivity {
 
         photosController = new PhotosController(this, pagerService, photoCollection, takePhotoBtn, startShipmentBtn, btnRemovePhoto);
         activityController = new ActivityController(this);
-        errorController =  new ErrorController(this);
+        errorController =  new ErrorController(this, activityController, loginService);
         menuController = new MenuController(this, navigationView, mDrawerLayout, progressDialog, loginService, activityController, errorController, opener_menu_btn);
 
         setGuiEvents();
