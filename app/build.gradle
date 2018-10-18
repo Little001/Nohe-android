@@ -5,8 +5,8 @@ android {
     defaultConfig {
         applicationId "nohe.nohe_android.nohe_cz"
         minSdkVersion 21
-        versionCode 9
-        versionName "1.9"
+        versionCode 10
+        versionName "1.91"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
