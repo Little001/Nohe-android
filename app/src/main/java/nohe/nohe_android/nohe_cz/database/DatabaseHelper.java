@@ -14,7 +14,7 @@ import nohe.nohe_android.nohe_cz.services.LoginService;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     // Database Name
     private static final String DATABASE_NAME = "shipments_db";
@@ -227,6 +227,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int updateLocalShipmentToNormal(ShipmentModel shipment) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Integer driver = loginService.getUserId();
 
         ContentValues values = new ContentValues();
         values.put(Shipment.COLUMN_ADDRESS_FROM, shipment.address_from);
@@ -235,6 +236,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Shipment.COLUMN_UNLOAD_NOTE, shipment.unload_note);
         values.put(Shipment.COLUMN_LOAD_NOTE, shipment.load_note);
         values.put(Shipment.COLUMN_LOCAL, 0);
+        values.put(Shipment.COLUMN_DRIVER, driver.toString());
 
         // updating row
         return db.update(Shipment.TABLE_NAME, values, Shipment.COLUMN_ID_SHIPMENT + " = ?",
