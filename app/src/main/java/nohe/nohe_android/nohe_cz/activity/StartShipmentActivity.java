@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import nohe.nohe_android.R;
@@ -41,6 +42,7 @@ public class StartShipmentActivity extends AppCompatActivity {
     private TextView shipment_unload_note_vw;
     private TextView shipment_load_note_vw;
     private TextView shipment_price_vw;
+    private RelativeLayout price_wrapper;
     private PhotosController photosController;
     private ActivityController activityController;
     private ErrorController errorController;
@@ -67,6 +69,7 @@ public class StartShipmentActivity extends AppCompatActivity {
         shipment_unload_note_vw = (TextView) findViewById(R.id.shipment_unload_note_vw);
         shipment_load_note_vw = (TextView) findViewById(R.id.shipment_load_note_vw);
         shipment_price_vw = (TextView) findViewById(R.id.shipment_price_vw);
+        price_wrapper = (RelativeLayout) findViewById(R.id.price_wrapper);
 
         startShipmentBtn = (Button) findViewById(R.id.start_shipment_btn);
         takePhotoBtn = (Button) findViewById(R.id.take_photo_btn);
@@ -117,7 +120,11 @@ public class StartShipmentActivity extends AppCompatActivity {
         shipment_to_vw.setText(shipment.address_to);
         shipment_unload_note_vw.setText(shipment.unload_note);
         shipment_load_note_vw.setText(shipment.load_note);
-        shipment_price_vw.setText(shipment.price.toString());
+        if (shipment.price == 0) {
+            price_wrapper.setVisibility(View.GONE);
+        } else {
+            shipment_price_vw.setText(shipment.price.toString());
+        }
     }
 
     private ShipmentModel getShipment() {
