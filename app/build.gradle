@@ -4,9 +4,9 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "nohe.nohe_android.nohe_cz"
-        minSdkVersion 26
-        versionCode 13
-        versionName "2.00"
+        minSdkVersion 23
+        versionCode 14
+        versionName "2.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
