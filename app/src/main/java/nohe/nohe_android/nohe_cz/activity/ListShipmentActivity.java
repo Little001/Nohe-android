@@ -16,9 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.VolleyError;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +33,7 @@ import nohe.nohe_android.nohe_cz.database.DatabaseHelper;
 import nohe.nohe_android.nohe_cz.interfaces.FinishShipment;
 import nohe.nohe_android.nohe_cz.interfaces.GetCurrentShipment;
 import nohe.nohe_android.nohe_cz.models.ShipmentModel;
+import nohe.nohe_android.nohe_cz.services.DataFile;
 import nohe.nohe_android.nohe_cz.services.LocationService;
 import nohe.nohe_android.nohe_cz.services.LoginService;
 import nohe.nohe_android.nohe_cz.services.ProgressDialogService;
@@ -171,6 +172,12 @@ public class ListShipmentActivity extends AppCompatActivity {
         }
     }
 
+    private byte[] getFileDataFromDrawable(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
     private void finishShipment(final ShipmentModel shipment) {
         String[] photosBeforePaths = shipment.photos_before.split(AppConfig.PHOTOS_DIVIDER);
         String[] photosAfterPaths = shipment.photos_after.split(AppConfig.PHOTOS_DIVIDER);
@@ -206,12 +213,24 @@ public class ListShipmentActivity extends AppCompatActivity {
             }
 
             @Override
+            public Map<String, DataFile> getByteData() {
+                Map<String, DataFile> params = new HashMap<>();
+                long imageName = System.currentTimeMillis();
+                for (int i = 0; i < beforeBitmaps.size(); i++) {
+                    params.put("before" + AppConfig.PHOTOS_DIVIDER_FOR_SERVER + i,
+                            new DataFile(imageName + i + ".png", getFileDataFromDrawable(beforeBitmaps.get(i))));
+                }
+                for (int i = 0; i < afterBitmaps.size(); i++) {
+                    params.put("after" + AppConfig.PHOTOS_DIVIDER_FOR_SERVER + i,
+                            new DataFile(imageName + i + ".png", getFileDataFromDrawable(afterBitmaps.get(i))));
+                }
+                return params;
+            }
+
+            @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
                 params.put("id_shipment", shipment.ID.toString());
-                params.put("photos_before",  Arrays.deepToString(photoConverter.getPhotosInBase64(beforeBitmaps)));
-                params.put("photos_after",  Arrays.deepToString(photoConverter.getPhotosInBase64(afterBitmaps)));
-
                 return params;
             }
 
@@ -276,14 +295,14 @@ public class ListShipmentActivity extends AppCompatActivity {
             File f = new File(photosBeforePaths[i],
                     shipment.getDbId().toString() +
                     ShipmentModel.State.IN_PROGRESS.toString() +
-                    i.toString() + ".jpg");
+                    i.toString() + ".png");
             boolean deleted = f.delete();
         }
         for(Integer i = 0; i < photosAfterPaths.length; i++) {
             File f = new File(photosAfterPaths[i],
                     shipment.getDbId().toString() +
                             ShipmentModel.State.DONE.toString() +
-                            i.toString() + ".jpg");
+                            i.toString() + ".png");
             boolean deleted = f.delete();
         }
 

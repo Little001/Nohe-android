@@ -17,5 +17,6 @@ public class AppConfig {
     }
 
     public static String PHOTOS_DIVIDER = "⚫";
+    public static String PHOTOS_DIVIDER_FOR_SERVER = "|";
     public static String CURRENT_LANGUAGE = "cs";
 }

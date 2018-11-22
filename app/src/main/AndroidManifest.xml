@@ -21,8 +21,6 @@
 
     <application
         android:name=".nohe_cz.app.AppController"
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@drawable/launcher_logo"
         android:label="@string/app_name"

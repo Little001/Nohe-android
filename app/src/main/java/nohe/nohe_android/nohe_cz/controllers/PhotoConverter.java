@@ -5,15 +5,11 @@ import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class PhotoConverter {
     private AppCompatActivity context;
@@ -28,13 +24,13 @@ public class PhotoConverter {
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath = new File(directory,name + ".jpg");
+        File mypath = new File(directory,name + ".png");
 
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -50,7 +46,7 @@ public class PhotoConverter {
     public Bitmap loadImageFromStorage(String path, String name)
     {
         try {
-            File f = new File(path, name + ".jpg");
+            File f = new File(path, name + ".png");
             return BitmapFactory.decodeStream(new FileInputStream(f));
         }
         catch (FileNotFoundException e)
@@ -58,19 +54,6 @@ public class PhotoConverter {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public String[] getPhotosInBase64(ArrayList<Bitmap> photoCollection) {
-        String[] photos = new String[photoCollection.size()];
-
-        for (int i = 0; i < photoCollection.size(); i++) {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            photoCollection.get(i).compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream .toByteArray();
-            photos[i] = Base64.encodeToString(byteArray, Base64.NO_WRAP);
-        }
-
-        return photos;
     }
 
     private Bitmap getResizedBitmap(Bitmap image) {

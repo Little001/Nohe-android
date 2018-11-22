@@ -43,7 +43,7 @@
     <string name="info">About application</string>
     <string name="no_shipments">No active shipments</string>
     <string name="insert_shipment_error">Shipment with this ID exists</string>
-    <string name="about1">Version: 1.9.3</string>
+    <string name="about1">Version: 2.0.0</string>
     <string name="about2">Copyright © 2018 Nohe</string>
     <string name="about3">This application is a addition for web system nohe.cz</string>
     <string name="about4">Contact: info@nohe.cz</string>
@@ -69,4 +69,6 @@
     <string name="server_error_32">No internet connection</string>
     <string name="server_error_35">This shipment is not assigned to this driver</string>
     <string name="server_error_37">Your account is blocked for 5 minutes</string>
+    <string name="server_error_38">Please Upload image of type .jpg,.png.</string>
+    <string name="server_error_39">Please Upload a file upto 1 mb.</string>
 </resources>

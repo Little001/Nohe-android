@@ -25,38 +25,26 @@ import nohe.nohe_android.nohe_cz.models.ShipmentModel;
 
 public class ShipmentService {
     public static void finishShipmentService(final FinishShipment listener) {
-        StringRequest jsonObjectRequest = new StringRequest
-                (Request.Method.POST, AppConfig.Urls.FINISH_SHIPMENTS, new Response.Listener<String>() {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest
+                (Request.Method.POST, AppConfig.Urls.FINISH_SHIPMENTS,
+                new Response.Listener<NetworkResponse>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(NetworkResponse response) {
                         listener.onResponse();
                     }
-                }, new Response.ErrorListener() {
+                },
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         listener.onError(error);
                     }
                 }) {
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                try {
-                    String jsonString = new String(response.data,
-                            HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                    return Response.success(jsonString,
-                            HttpHeaderParser.parseCacheHeaders(response));
-                } catch (UnsupportedEncodingException e) {
-                    return Response.error(new ParseError(e));
-                }
-            }
-            @Override
-            protected VolleyError parseNetworkError(VolleyError volleyError) {
-                if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
-                    return error;
-                }
 
-                return volleyError;
+            @Override
+            protected Map<String, DataFile> getByteData() {
+                return listener.getByteData();
             }
+
             @Override
             protected Map<String, String> getParams() {
                 return listener.getParams();
@@ -66,13 +54,23 @@ public class ShipmentService {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return listener.getHeaders();
             }
+
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                    return error;
+                }
+
+                return volleyError;
+            }
         };
 
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+        volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest);
+        AppController.getInstance().addToRequestQueue(volleyMultipartRequest);
     }
 
 
