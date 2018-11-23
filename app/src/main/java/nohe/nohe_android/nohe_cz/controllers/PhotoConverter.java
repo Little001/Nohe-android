@@ -24,13 +24,13 @@ public class PhotoConverter {
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath = new File(directory,name + ".png");
+        File mypath = new File(directory,name + ".jpg");
 
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 80, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -46,7 +46,7 @@ public class PhotoConverter {
     public Bitmap loadImageFromStorage(String path, String name)
     {
         try {
-            File f = new File(path, name + ".png");
+            File f = new File(path, name + ".jpg");
             return BitmapFactory.decodeStream(new FileInputStream(f));
         }
         catch (FileNotFoundException e)
@@ -57,7 +57,7 @@ public class PhotoConverter {
     }
 
     private Bitmap getResizedBitmap(Bitmap image) {
-        int maxSize = 1024;
+        int maxSize = 800;
         int width = image.getWidth();
         int height = image.getHeight();
 

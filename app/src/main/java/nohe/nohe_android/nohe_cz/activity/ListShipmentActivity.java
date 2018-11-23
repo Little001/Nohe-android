@@ -174,7 +174,7 @@ public class ListShipmentActivity extends AppCompatActivity {
 
     private byte[] getFileDataFromDrawable(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
 
@@ -218,11 +218,11 @@ public class ListShipmentActivity extends AppCompatActivity {
                 long imageName = System.currentTimeMillis();
                 for (int i = 0; i < beforeBitmaps.size(); i++) {
                     params.put("before" + AppConfig.PHOTOS_DIVIDER_FOR_SERVER + i,
-                            new DataFile(imageName + i + ".png", getFileDataFromDrawable(beforeBitmaps.get(i))));
+                            new DataFile(imageName + i + ".jpg", getFileDataFromDrawable(beforeBitmaps.get(i))));
                 }
                 for (int i = 0; i < afterBitmaps.size(); i++) {
                     params.put("after" + AppConfig.PHOTOS_DIVIDER_FOR_SERVER + i,
-                            new DataFile(imageName + i + ".png", getFileDataFromDrawable(afterBitmaps.get(i))));
+                            new DataFile(imageName + i + ".jpg", getFileDataFromDrawable(afterBitmaps.get(i))));
                 }
                 return params;
             }
@@ -295,14 +295,14 @@ public class ListShipmentActivity extends AppCompatActivity {
             File f = new File(photosBeforePaths[i],
                     shipment.getDbId().toString() +
                     ShipmentModel.State.IN_PROGRESS.toString() +
-                    i.toString() + ".png");
+                    i.toString() + ".jpg");
             boolean deleted = f.delete();
         }
         for(Integer i = 0; i < photosAfterPaths.length; i++) {
             File f = new File(photosAfterPaths[i],
                     shipment.getDbId().toString() +
                             ShipmentModel.State.DONE.toString() +
-                            i.toString() + ".png");
+                            i.toString() + ".jpg");
             boolean deleted = f.delete();
         }
 
