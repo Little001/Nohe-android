@@ -102,7 +102,7 @@ public class LocationService extends Service {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> header = new HashMap<String, String>();
-                    header.put("Token", loginService.getToken());
+                    header.put("Authorization", "Bearer " + loginService.getToken());
                     return header;
                 }
 

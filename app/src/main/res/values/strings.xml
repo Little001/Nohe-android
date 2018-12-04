@@ -42,7 +42,7 @@
     <string name="info">O aplikaci</string>
     <string name="no_shipments">Žádné probíhající jízdy</string>
     <string name="insert_shipment_error">Jízda s tímto číslem již existuje</string>
-    <string name="about1">Verze: 2.0.2</string>
+    <string name="about1">Verze: 2.1.0</string>
     <string name="about2">Copyright © 2018 Nohe</string>
     <string name="about3">Tato aplikace slouží jako doplněk pro webový systém nohe.cz</string>
     <string name="about4">Kontakt: info@nohe.cz</string>
@@ -60,7 +60,7 @@
     <string name="server_error_13">Je potřeba minimálně jedna fotografie</string>
     <string name="server_error_14">Tato jízda již probíhá</string>
     <string name="server_error_15">Můžete ukončit pouze novou jizdu která není ukončená</string>
-    <string name="server_error_22">Vaše přihlášení vypršelo. Je nutné se znovu přihlásit</string>
+    <string name="server_error_22">Vaše přihlášení vypršelo.</string>
     <string name="server_error_24">Nesprávné heslo</string>
     <string name="server_error_30">Tato jízda neexistuje</string>
     <string name="server_error_31">Tomuto řidiči není přidělena žádná jízda</string>

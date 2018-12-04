@@ -58,7 +58,7 @@ public class ShipmentService {
             @Override
             protected VolleyError parseNetworkError(VolleyError volleyError) {
                 if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                    VolleyError error = new VolleyError(volleyError.networkResponse);
                     return error;
                 }
 
@@ -106,38 +106,37 @@ public class ShipmentService {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         listener.onError(error);
-                    }
-                }) {
-                        @Override
-                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                            try {
-                                String jsonString = new String(response.data,
-                                        HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                                return Response.success(jsonString,
-                                        HttpHeaderParser.parseCacheHeaders(response));
-                            } catch (UnsupportedEncodingException e) {
-                                return Response.error(new ParseError(e));
-                            }
-                        }
-                        @Override
-                        protected VolleyError parseNetworkError(VolleyError volleyError) {
-                            if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
-                                VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
-                                return error;
-                            }
+                    }}) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String jsonString = new String(response.data,
+                            HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                    return Response.success(jsonString,
+                            HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    return Response.error(new ParseError(e));
+                }
+            }
+            @Override
+            protected VolleyError parseNetworkError(VolleyError volleyError) {
+                if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
+                    VolleyError error = new VolleyError(volleyError.networkResponse);
+                    return error;
+                }
 
-                            return volleyError;
-                        }
-                        @Override
-                        protected Map<String, String> getParams() {
-                            return null;
-                        }
+                return volleyError;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                return null;
+            }
 
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            return listener.getHeaders();
-                        }
-                    };
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return listener.getHeaders();
+            }
+        };
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,

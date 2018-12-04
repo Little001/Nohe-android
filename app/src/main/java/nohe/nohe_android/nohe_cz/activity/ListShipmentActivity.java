@@ -153,7 +153,7 @@ public class ListShipmentActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
+                header.put("Authorization", "Bearer " + loginService.getToken());
                 return header;
             }
         });
@@ -237,7 +237,7 @@ public class ListShipmentActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
+                header.put("Authorization", "Bearer " + loginService.getToken());
                 return header;
             }
         });

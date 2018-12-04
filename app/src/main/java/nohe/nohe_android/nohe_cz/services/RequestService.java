@@ -44,7 +44,7 @@ public class RequestService {
             @Override
             protected VolleyError parseNetworkError(VolleyError volleyError) {
                 if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
-                    VolleyError error = new VolleyError(new String(volleyError.networkResponse.data));
+                    VolleyError error = new VolleyError(volleyError.networkResponse);
                     return error;
                 }
 

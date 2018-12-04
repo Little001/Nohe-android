@@ -127,34 +127,8 @@ public class MenuController {
     private void logout() {
         progressDialog.showDialog(this.context.getString(R.string.loading));
         stopGpsService();
-        RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.LOGOUT, new VolleyStringResponseListener() {
-            @Override
-            public void onError(VolleyError message) {
-                Toast.makeText(context.getApplicationContext(),
-                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
-                loginService.logout();
-                progressDialog.hideDialog();
-                activityController.openLoginActivity();
-            }
-
-            @Override
-            public void onResponse(String response) {
-                loginService.logout();
-                progressDialog.hideDialog();
-                activityController.openLoginActivity();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> header = new HashMap<String, String>();
-                header.put("Token", loginService.getToken());
-                return header;
-            }
-
-            @Override
-            public Map<String, String> getParams() {
-                return null;
-            }
-        });
+        loginService.logout();
+        progressDialog.hideDialog();
+        activityController.openLoginActivity();
     }
 }

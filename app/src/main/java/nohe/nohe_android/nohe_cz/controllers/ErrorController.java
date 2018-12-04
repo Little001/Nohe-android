@@ -53,15 +53,15 @@ public class ErrorController {
         if (response instanceof NoConnectionError) {
             return 32;
         }
-        if (response.getMessage() == null) {
-            return 0;
-        }
         if (response.networkResponse != null) {
             if (response.networkResponse.statusCode == 401) {
                 loginService.logout();
                 activityController.openLoginActivity();
                 return 22;
             }
+        }
+        if (response.getMessage() == null) {
+            return 0;
         }
         try {
             JSONObject jObj = new JSONObject(response.getMessage());

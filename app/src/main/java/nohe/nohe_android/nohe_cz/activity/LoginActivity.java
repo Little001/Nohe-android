@@ -122,13 +122,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    String token = jObj.getString("Token");
+                    String token = jObj.getString("access_token");
 
                     // Check for error node in json
                     if (!token.equals("")) {
-                        UserModel user = new UserModel(jObj.getJSONObject("User"));
+                        UserModel user = new UserModel(jObj);
                         if (user.role == 3) {
-                            AppConfig.UserData.user = new UserModel(jObj.getJSONObject("User"));
+                            AppConfig.UserData.user = new UserModel(jObj);
 
                             // Create login session
                             loginService.login(token, AppConfig.UserData.user);
@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap();
                 params.put("Username", username);
                 params.put("Password", password);
+                params.put("grant_type", "password");
 
                 return params;
             }
