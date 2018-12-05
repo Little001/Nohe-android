@@ -20,12 +20,36 @@ public class ErrorController {
         this.loginService = loginService;
     }
 
-    public String getErrorKeyByCode(VolleyError response) {
+    public String getErrorKeyByCodeForLogin(VolleyError response, String message) {
         if (response instanceof NoConnectionError) {
             return getStringFromResourcesByName("server_error_32");
         }
-        if (response.getMessage() == null) {
-            return "Json error: in ErrorController no message:" + response.toString();
+        if (response.networkResponse != null) {
+            if (response.networkResponse.statusCode == 401) {
+                loginService.logout();
+                activityController.openLoginActivity();
+                return getStringFromResourcesByName("server_error_22");
+            }
+        }
+        try {
+            JSONObject errorObj = new JSONObject(message);
+            JSONObject jObj = new JSONObject(errorObj.get("error_description").toString());
+            String code = jObj.getString("errorCode");
+            return getStringFromResourcesByName("server_error_" + code);
+        } catch (JSONException e) {
+            // JSON error
+            e.printStackTrace();
+            if (!AppConfig.IS_PRODUCTION) {
+                Toast.makeText(this.context, "Json error: in ErrorController " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        return getStringFromResourcesByName("server_error_fatal");
+    }
+
+    public String getErrorKeyByCode(VolleyError response) {
+        if (response instanceof NoConnectionError) {
+            return getStringFromResourcesByName("server_error_32");
         }
         if (response.networkResponse != null) {
             if (response.networkResponse.statusCode == 401) {

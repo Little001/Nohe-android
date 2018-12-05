@@ -15,6 +15,7 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import nohe.nohe_android.R;
@@ -111,8 +112,14 @@ public class LoginActivity extends AppCompatActivity {
         RequestService.makeJsonObjectRequest(Request.Method.POST, AppConfig.Urls.LOGIN, new VolleyStringResponseListener() {
             @Override
             public void onError(VolleyError message) {
-                Toast.makeText(getApplicationContext(),
-                        errorController.getErrorKeyByCode(message), Toast.LENGTH_LONG).show();
+                try {
+                    Toast.makeText(getApplicationContext(),
+                            errorController.getErrorKeyByCodeForLogin(
+                                    message,
+                                    new String(message.networkResponse.data,"UTF-8")), Toast.LENGTH_LONG).show();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 progressDialog.hideDialog();
             }
 
