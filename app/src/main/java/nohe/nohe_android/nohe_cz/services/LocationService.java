@@ -88,6 +88,12 @@ public class LocationService extends Service {
                         Toast.makeText(getApplicationContext(),
                                 response.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                    if (response.networkResponse != null) {
+                        if (response.networkResponse.statusCode == 401) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Vaše přihlášení vypršelo.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
 
                 @Override
@@ -97,6 +103,7 @@ public class LocationService extends Service {
                                 "location data sent to server", Toast.LENGTH_SHORT).show();
                     }
                     Log.i(TAG, "location data sent to server");
+                    loginService.refreshToken();
                 }
 
                 @Override

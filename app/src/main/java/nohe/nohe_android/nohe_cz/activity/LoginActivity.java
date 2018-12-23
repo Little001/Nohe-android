@@ -130,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     JSONObject jObj = new JSONObject(response);
                     String token = jObj.getString("access_token");
+                    String refresh_token = jObj.getString("refresh_token");
 
                     // Check for error node in json
                     if (!token.equals("")) {
@@ -138,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                             AppConfig.UserData.user = new UserModel(jObj);
 
                             // Create login session
-                            loginService.login(token, AppConfig.UserData.user);
+                            loginService.login(token, refresh_token, AppConfig.UserData.user);
                             activityController.openListShipmentActivity();
                         } else {
                             Toast.makeText(getApplicationContext(),
