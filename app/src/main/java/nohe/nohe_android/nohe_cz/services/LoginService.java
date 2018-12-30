@@ -111,15 +111,10 @@ public class LoginService {
 
                     // Check for error node in json
                     if (!token.equals("")) {
-                        UserModel user = new UserModel(jObj);
-                        if (user.role == 3) {
-                            AppConfig.UserData.user = new UserModel(jObj);
+                        AppConfig.UserData.user = new UserModel(jObj);
 
-                            // Create login session
-                            login(token, refresh_token, AppConfig.UserData.user);
-                        } else {
-                            logout();
-                        }
+                        // Create login session
+                        login(token, refresh_token, AppConfig.UserData.user);
 
                     } else {
                         logout();

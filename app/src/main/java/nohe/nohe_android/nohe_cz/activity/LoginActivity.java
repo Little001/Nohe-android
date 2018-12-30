@@ -134,20 +134,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Check for error node in json
                     if (!token.equals("")) {
-                        UserModel user = new UserModel(jObj);
-                        if (user.role == 3) {
-                            AppConfig.UserData.user = new UserModel(jObj);
+                        AppConfig.UserData.user = new UserModel(jObj);
 
-                            // Create login session
-                            loginService.login(token, refresh_token, AppConfig.UserData.user);
-                            activityController.openListShipmentActivity();
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    errorController.getStringFromResourcesByName("no_driver_error"), Toast.LENGTH_LONG).show();
-                            loginService.logout();
-                            activityController.openLoginActivity();
-                        }
-
+                        // Create login session
+                        loginService.login(token, refresh_token, AppConfig.UserData.user);
+                        activityController.openListShipmentActivity();
                     } else {
                         // Error in login. Get the error message
                         Toast.makeText(getApplicationContext(),
