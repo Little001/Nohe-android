@@ -103,7 +103,7 @@ public class LocationService extends Service {
                                 "location data sent to server", Toast.LENGTH_SHORT).show();
                     }
                     Log.i(TAG, "location data sent to server");
-                    loginService.refreshToken();
+                    // loginService.refreshToken();
                 }
 
                 @Override

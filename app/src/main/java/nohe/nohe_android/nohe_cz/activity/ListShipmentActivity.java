@@ -113,7 +113,7 @@ public class ListShipmentActivity extends AppCompatActivity {
     }
 
     private void synchronization() {
-        loginService.refreshToken();
+        // loginService.refreshToken();
         progressDialog.showDialog(getString(R.string.loading));
         finishShipments();
     }
