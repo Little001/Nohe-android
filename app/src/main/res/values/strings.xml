@@ -42,7 +42,7 @@
     <string name="info">O aplikaci</string>
     <string name="no_shipments">Žádné probíhající jízdy</string>
     <string name="insert_shipment_error">Jízda s tímto číslem již existuje</string>
-    <string name="about1">Verze: 2.1.5</string>
+    <string name="about1">Verze: 2.1.6</string>
     <string name="about2">Copyright © 2018 Nohe</string>
     <string name="about3">Tato aplikace slouží jako doplněk pro webový systém nohe.cz</string>
     <string name="about4">Kontakt: info@nohe.cz</string>

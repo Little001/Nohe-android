@@ -43,7 +43,7 @@
     <string name="info">About application</string>
     <string name="no_shipments">No active shipments</string>
     <string name="insert_shipment_error">Shipment with this ID exists</string>
-    <string name="about1">Version: 2.1.5</string>
+    <string name="about1">Version: 2.1.6</string>
     <string name="about2">Copyright © 2018 Nohe</string>
     <string name="about3">This application is a addition for web system nohe.cz</string>
     <string name="about4">Contact: info@nohe.cz</string>

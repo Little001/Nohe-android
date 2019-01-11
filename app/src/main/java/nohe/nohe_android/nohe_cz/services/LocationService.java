@@ -21,8 +21,8 @@ import nohe.nohe_android.nohe_cz.interfaces.VolleyStringResponseListener;
 public class LocationService extends Service {
     private static final String TAG = "GPS tracker";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 60000;
-    private static final float LOCATION_DISTANCE = 0;
+    private static final int LOCATION_INTERVAL = 30000;
+    private static final float LOCATION_DISTANCE = 0f;
     LoginService loginService;
 
     public class LocationListener implements android.location.LocationListener {
