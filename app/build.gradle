@@ -5,8 +5,8 @@ android {
     defaultConfig {
         applicationId "nohe.nohe_android.nohe_cz"
         minSdkVersion 23
-        versionCode 22
-        versionName "2.1.6"
+        versionCode 23
+        versionName "2.1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
